@@ -1,0 +1,3 @@
+fda_dsb_homepage:
+    path:     /
+    defaults: { _controller: FdaDsbBundle:Default:index }
