@@ -1,0 +1,33 @@
+{% extends 'FdaDsbBundle::layout.html.twig' %}
+
+{% block content %}
+    {% if error %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-danger">
+                    {{ error.messageKey|trans(error.messageData, 'security') }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row" style="margin-top: 50px;">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">{{'security.login.label'|trans}}</div>
+                <div class="panel-body">
+                    {% for login in loginPossibilities %}
+                        <form action="{{ path('nehlsen_choice_auth_login_check') }}" method="post">
+                            <input type="hidden" name="_username" value="{{ login }}" />
+                            <button type="submit" class="btn btn-default btn-block">
+                                {{('user.'~login~'.name')|trans}}
+                            </button>
+                        </form>
+                        {% if not loop.last %}<br>{% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

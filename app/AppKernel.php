@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             
+            new Nehlsen\ChoiceAuthBundle\NehlsenChoiceAuthBundle(),
             new Fda\DsbBundle\FdaDsbBundle(),
         );
 

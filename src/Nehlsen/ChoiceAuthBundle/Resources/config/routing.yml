@@ -1,0 +1,11 @@
+nehlsen_choice_auth_login:
+  path:     /login
+  defaults: { _controller: NehlsenChoiceAuthBundle:Security:login }
+
+nehlsen_choice_auth_login_check:
+  path:     /login_check
+  defaults: { _controller: NehlsenChoiceAuthBundle:Security:check }
+
+nehlsen_choice_auth_logout:
+  path:     /logout
+  defaults: { _controller: NehlsenChoiceAuthBundle:Security:logout }

@@ -1,0 +1,17 @@
+services:
+  choice_auth.security.authentication.provider:
+    class: Nehlsen\ChoiceAuthBundle\Security\Authentication\Provider\ChoiceAuthProvider
+    arguments:
+        - "" # User Provider
+        - "" # Provider Key
+    public: false
+
+  choice_auth.security.authentication.listener:
+    class: Nehlsen\ChoiceAuthBundle\Security\Firewall\ChoiceAuthListener
+#    arguments: ["@security.token_storage", "@security.authentication.manager"]
+    public: false
+    abstract: true
+    parent: security.authentication.listener.abstract
+
+  choice_auth.user_provider:
+    class: Nehlsen\ChoiceAuthBundle\Security\User\ChoiceAuthUserProvider

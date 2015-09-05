@@ -1,0 +1,12 @@
+security:
+  login.label: 'Wer bist du?'
+
+user:
+  spectator:
+    name: 'Zuschauer'
+  big_screen:
+    name: 'Public Viewing'
+  referee:
+    name: 'Schiri'
+  admin:
+    name: 'Admin'
