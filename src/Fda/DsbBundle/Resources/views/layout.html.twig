@@ -5,6 +5,16 @@
 {% block container %}
     <div class="container">
         <div class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>
+                        <a href="{{ path('nehlsen_choice_auth_logout') }}" class="btn btn-warning pull-right">
+                            {{ 'security.logout.label'|trans }}
+                        </a>
+                        FDA-DSB
+                    </h1>
+                </div>
+            </div>
             {% block content %}
             {% endblock content %}
         </div>

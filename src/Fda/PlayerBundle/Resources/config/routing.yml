@@ -1,0 +1,30 @@
+player:
+    path:     /
+    defaults: { _controller: "FdaPlayerBundle:Player:index" }
+
+player_show:
+    path:     /{id}/show
+    defaults: { _controller: "FdaPlayerBundle:Player:show" }
+
+player_new:
+    path:     /new
+    defaults: { _controller: "FdaPlayerBundle:Player:new" }
+
+player_create:
+    path:     /create
+    defaults: { _controller: "FdaPlayerBundle:Player:create" }
+    methods:  POST
+
+player_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FdaPlayerBundle:Player:edit" }
+
+player_update:
+    path:     /{id}/update
+    defaults: { _controller: "FdaPlayerBundle:Player:update" }
+    methods:  [POST, PUT]
+
+player_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FdaPlayerBundle:Player:delete" }
+    methods:  [POST, DELETE]
