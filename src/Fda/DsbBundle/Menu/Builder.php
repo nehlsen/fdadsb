@@ -23,6 +23,11 @@ class Builder extends ContainerAware
             'route' => 'board',
         ));
 
+        $tournaments = $menu->addChild('tournament.menu', array(
+            'icon'  => 'user',
+            'route' => 'tournament',
+        ));
+
 
 //        // Create a dropdown with a caret
 //        $dropdown = $menu->addChild('Forms', array(
@@ -45,12 +50,12 @@ class Builder extends ContainerAware
         ));
 
         if ($this->isLoggedIn()) {
-            $login = $menu->addChild('logout', array(
+            $login = $menu->addChild('security.logout.btn', array(
                 'icon'  => 'user',
                 'route' => 'nehlsen_choice_auth_logout',
             ));
         } else {
-            $login = $menu->addChild('login', array(
+            $login = $menu->addChild('security.login.btn', array(
                 'icon'  => 'user',
                 'route' => 'nehlsen_choice_auth_login',
             ));

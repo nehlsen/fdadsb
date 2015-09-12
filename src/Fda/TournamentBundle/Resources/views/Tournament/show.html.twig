@@ -1,0 +1,40 @@
+{% extends 'FdaPlayerBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>Tournament</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Gamemode</th>
+                <td>{{ entity.gameMode }}</td>
+            </tr>
+            <tr>
+                <th>Gamecount</th>
+                <td>{{ entity.gameCount }}</td>
+            </tr>
+            <tr>
+                <th>Legmode</th>
+                <td>{{ entity.legMode }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('tournament') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('tournament_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

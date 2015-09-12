@@ -1,0 +1,30 @@
+tournament:
+    path:     /
+    defaults: { _controller: "FdaTournamentBundle:Tournament:index" }
+
+tournament_show:
+    path:     /{id}/show
+    defaults: { _controller: "FdaTournamentBundle:Tournament:show" }
+
+tournament_new:
+    path:     /new
+    defaults: { _controller: "FdaTournamentBundle:Tournament:new" }
+
+tournament_create:
+    path:     /create
+    defaults: { _controller: "FdaTournamentBundle:Tournament:create" }
+    methods:  POST
+
+tournament_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FdaTournamentBundle:Tournament:edit" }
+
+tournament_update:
+    path:     /{id}/update
+    defaults: { _controller: "FdaTournamentBundle:Tournament:update" }
+    methods:  [POST, PUT]
+
+tournament_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FdaTournamentBundle:Tournament:delete" }
+    methods:  [POST, DELETE]

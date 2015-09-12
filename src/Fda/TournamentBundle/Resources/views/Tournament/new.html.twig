@@ -1,0 +1,15 @@
+{% extends 'FdaPlayerBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>Tournament creation</h1>
+
+    {{ form(form) }}
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('tournament') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

@@ -1,0 +1,16 @@
+tournament:
+  menu: 'Turniere'
+  game_mode:
+    choose: 'Spiel'
+    first_to.label: 'First to...'
+    ahead.label: 'Vorsprung von...'
+  game_count:
+    choose: 'Anzahl'
+  leg_mode:
+    choose: 'Leg'
+    mode301.label: '301'
+    mode301do.label: '301 + double out'
+    mode501.label: '501'
+    mode501do.label: '501 + double out'
+  board.choose: 'Gespielt wird auf'
+  player.choose: 'Mitspieler'
