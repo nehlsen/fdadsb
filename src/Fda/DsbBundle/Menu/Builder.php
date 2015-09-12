@@ -13,10 +13,14 @@ class Builder extends ContainerAware
             'navbar' => true,
         ));
 
-        // Add a regular child with an icon, icon- is prepended automatically
         $players = $menu->addChild('player.menu', array(
             'icon'  => 'user',
             'route' => 'player',
+        ));
+
+        $boards = $menu->addChild('board.menu', array(
+            'icon'  => 'user',
+            'route' => 'board',
         ));
 
 

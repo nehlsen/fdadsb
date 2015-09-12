@@ -5,3 +5,7 @@ fda_dsb_homepage:
 FdaPlayerBundle_player:
   resource: "@FdaPlayerBundle/Resources/config/routing.yml"
   prefix:   /player
+
+FdaBoardBundle_board:
+  resource: "@FdaBoardBundle/Resources/config/routing.yml"
+  prefix:   /board

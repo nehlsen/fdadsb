@@ -1,0 +1,30 @@
+board:
+    path:     /
+    defaults: { _controller: "FdaBoardBundle:Board:index" }
+
+board_show:
+    path:     /{id}/show
+    defaults: { _controller: "FdaBoardBundle:Board:show" }
+
+board_new:
+    path:     /new
+    defaults: { _controller: "FdaBoardBundle:Board:new" }
+
+board_create:
+    path:     /create
+    defaults: { _controller: "FdaBoardBundle:Board:create" }
+    methods:  POST
+
+board_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FdaBoardBundle:Board:edit" }
+
+board_update:
+    path:     /{id}/update
+    defaults: { _controller: "FdaBoardBundle:Board:update" }
+    methods:  [POST, PUT]
+
+board_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FdaBoardBundle:Board:delete" }
+    methods:  [POST, DELETE]
