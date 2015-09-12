@@ -55,4 +55,15 @@ class Game
      * @var Leg[]
      */
     protected $legs;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    protected $created;
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+    }
 }

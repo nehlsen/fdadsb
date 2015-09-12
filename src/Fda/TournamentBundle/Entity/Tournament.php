@@ -66,9 +66,22 @@ class Tournament
      */
     protected $games;
 
+    /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    protected $isClosed = false;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    protected $created;
+
     public function __construct()
     {
         $this->loadDefaults();
+        $this->created = new \DateTime();
     }
 
     protected function loadDefaults()

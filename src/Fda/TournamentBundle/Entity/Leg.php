@@ -29,4 +29,15 @@ class Leg
      * @var Turn[]
      */
     protected $turns;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    protected $created;
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+    }
 }

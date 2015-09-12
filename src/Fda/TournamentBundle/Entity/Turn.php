@@ -94,4 +94,15 @@ class Turn
      * @var int
      */
     protected $totalScore;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    protected $created;
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+    }
 }
