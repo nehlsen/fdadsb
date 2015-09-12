@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             
             new Nehlsen\ChoiceAuthBundle\NehlsenChoiceAuthBundle(),
             new Fda\DsbBundle\FdaDsbBundle(),

@@ -3,18 +3,18 @@
 {% block title %}FDA-DSB{% endblock title %}
 
 {% block container %}
+    {% embed '@MopaBootstrap/Navbar/navbar.html.twig' with { fixedTop: true, staticTop: false, inverse: true } %}
+        {% block brand %}
+            <a class="navbar-brand" href="#">FDA-DSB</a>
+        {% endblock %}
+
+        {% block menu %}
+            {{ mopa_bootstrap_menu('FdaDsbBundle:Builder:mainMenu') }}
+            {{ mopa_bootstrap_menu('FdaDsbBundle:Builder:loginMenu') }}
+        {% endblock %}
+    {% endembed %}
     <div class="container">
         <div class="content">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>
-                        <a href="{{ path('nehlsen_choice_auth_logout') }}" class="btn btn-warning pull-right">
-                            {{ 'security.logout.label'|trans }}
-                        </a>
-                        FDA-DSB
-                    </h1>
-                </div>
-            </div>
             {% block content %}
             {% endblock content %}
         </div>
@@ -24,7 +24,8 @@
 {% block head_style %}
     {# Override this block to add your own files! #}
     {% stylesheets
-    '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle-fa4.less'
+        '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle-fa4.less'
+        '@FdaDsbBundle/Resources/public/less/layout.less'
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
     {% endstylesheets %}
