@@ -21,7 +21,7 @@ class Game
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fda\TournamentBundle\Entity\Tournament")
+     * @ORM\ManyToOne(targetEntity="Fda\TournamentBundle\Entity\Tournament", inversedBy="games")
      * @var Tournament
      */
     protected $tournament;

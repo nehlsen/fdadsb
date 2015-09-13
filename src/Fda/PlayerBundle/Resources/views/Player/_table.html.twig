@@ -1,0 +1,33 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>{{ 'player.singular'|trans }}</th>
+        <th>{{ 'player.tournament.participate.count'|trans }}</th>
+        {% if is_granted('ROLE_ADMIN') %}
+        <th></th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for player in players %}
+        <tr>
+            <td>
+                <a href="{{ path('player_show', { 'id': player.id }) }}">
+                    <img src="{{ vich_uploader_asset(player, 'imageFile') }}" alt="[{{ player.name }}]" class="player" />
+                    {{ player.name }}
+                </a>
+            </td>
+            <td>
+                {{ player.tournaments|length }}
+            </td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a href="{{ path('player_edit', { 'id': player.id }) }}" title="{{ 'player.edit'|trans }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

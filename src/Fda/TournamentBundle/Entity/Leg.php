@@ -19,7 +19,7 @@ class Leg
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fda\TournamentBundle\Entity\Game")
+     * @ORM\ManyToOne(targetEntity="Fda\TournamentBundle\Entity\Game", inversedBy="legs")
      * @var Game
      */
     protected $game;

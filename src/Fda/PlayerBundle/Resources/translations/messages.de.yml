@@ -1,3 +1,7 @@
 player:
   menu: 'Spieler'
   plural: 'Spieler'
+  singular: 'Spieler'
+  new: 'Neuer Spieler'
+  edit: 'Spieler bearbeiten'
+  tournament.participate.count: 'Turniere'

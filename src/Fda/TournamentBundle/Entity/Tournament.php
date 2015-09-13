@@ -55,7 +55,7 @@ class Tournament
     protected $boards;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Fda\PlayerBundle\Entity\Player")
+     * @ORM\ManyToMany(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="tournaments")
      * @var Player[]
      */
     protected $players;
