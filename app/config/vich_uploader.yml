@@ -1,0 +1,10 @@
+vich_uploader:
+  db_driver: orm
+
+  mappings:
+    player_image:
+      uri_prefix:         /image/player
+      upload_destination: %kernel.root_dir%/../web/image/player
+    board_image:
+      uri_prefix:         /image/board
+      upload_destination: %kernel.root_dir%/../web/image/board

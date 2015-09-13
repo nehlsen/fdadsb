@@ -3,9 +3,13 @@
 namespace Fda\PlayerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity
+ * @Vich\Uploadable
  */
 class Player
 {
@@ -24,8 +28,29 @@ class Player
      */
     protected $name;
 
-    // TODO player picture
-    protected $picture;
+    /**
+     * @Vich\UploadableField(
+     *      mapping="player_image",
+     *      fileNameProperty="imageName"
+     * )
+     *
+     * @var File
+     */
+    protected $imageFile;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string
+     */
+    protected $imageName;
+
+    /**
+     * @ORM\Column(type="datetime")
+     *
+     * @var \DateTime
+     */
+    protected $updated;
 
     /**
      * @return int
@@ -49,5 +74,41 @@ class Player
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @param File|UploadedFile $image
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        if ($image) {
+            $this->updated = new \DateTime('now');
+        }
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param string $imageName
+     */
+    public function setImageName($imageName)
+    {
+        $this->imageName = $imageName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageName()
+    {
+        return $this->imageName;
     }
 }

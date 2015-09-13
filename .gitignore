@@ -10,5 +10,6 @@
 /vendor/
 /web/bundles/
 /web/fonts/
+/web/image/
 composer.phar
 .idea

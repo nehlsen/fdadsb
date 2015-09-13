@@ -15,7 +15,10 @@
         {% for player in players %}
             <tr>
                 <td><a href="{{ path('player_show', { 'id': player.id }) }}">{{ player.id }}</a></td>
-                <td>{{ player.name }}</td>
+                <td>
+                    <img src="{{ vich_uploader_asset(player, 'imageFile') }}" alt="[{{ player.name }}]" />
+                    {{ player.name }}
+                </td>
                 <td>
                 <ul>
                     <li>

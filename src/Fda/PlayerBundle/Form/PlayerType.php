@@ -15,7 +15,12 @@ class PlayerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', 'text', array(
+                'label' => 'player.name',
+            ))
+            ->add('imageFile', 'file', array(
+                'label' => 'player.image',
+            ))
         ;
     }
     
