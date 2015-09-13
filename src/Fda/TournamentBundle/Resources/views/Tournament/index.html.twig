@@ -1,6 +1,8 @@
 {% extends 'FdaPlayerBundle::layout.html.twig' %}
 
 {% block content -%}
+    {% include 'FdaTournamentBundle:Tournament:_box.html.twig' %}
+
     <h1>Tournament list</h1>
 
     <table class="records_list">
@@ -14,19 +16,19 @@
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
+        {% for tournament in tournaments %}
             <tr>
-                <td><a href="{{ path('tournament_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.gameMode }}</td>
-                <td>{{ entity.gameCount }}</td>
-                <td>{{ entity.legMode }}</td>
+                <td><a href="{{ path('tournament_show', { 'id': tournament.id }) }}">{{ tournament.id }}</a></td>
+                <td>{{ tournament.gameMode }}</td>
+                <td>{{ tournament.gameCount }}</td>
+                <td>{{ tournament.legMode }}</td>
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('tournament_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('tournament_show', { 'id': tournament.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('tournament_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('tournament_edit', { 'id': tournament.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>
@@ -42,4 +44,4 @@
             </a>
         </li>
     </ul>
-    {% endblock %}
+{% endblock %}

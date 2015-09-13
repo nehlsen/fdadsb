@@ -1,0 +1,33 @@
+{% if tournament is not null %}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="{{ path('tournament_show',{id:tournament.id}) }}">
+            {{ 'tournament.active.label'|trans }}
+        </a>
+    </div>
+    <table class="table">
+        <tr>
+            <th>{{ 'board.plural'|trans }}</th>
+            <td>{{ tournament.boards|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'player.plural'|trans }}</th>
+            <td>{{ tournament.players|length }}</td>
+        </tr>
+        <tr>
+            <th>{{ 'tournament.created'|trans }}</th>
+            <td>{{ tournament.created|date }}</td>
+        </tr>
+    </table>
+</div>
+{% else %}
+    <div class="well">
+        {{ 'tournament.active.none'|trans }}
+        {% if is_granted('ROLE_ADMIN') %}
+            <hr>
+            <a href="{{ path('tournament_new') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i> {{ 'tournament.new'|trans }}
+            </a>
+        {% endif %}
+    </div>
+{% endif %}

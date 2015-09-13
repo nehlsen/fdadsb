@@ -8,6 +8,10 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('FdaDsbBundle:Default:index.html.twig', array());
+        $tournament = $this->get('fda.tournament.engine')->getTournament();
+
+        return $this->render('FdaDsbBundle:Default:index.html.twig', array(
+            'tournament' => $tournament,
+        ));
     }
 }

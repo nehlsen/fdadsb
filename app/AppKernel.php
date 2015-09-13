@@ -19,6 +19,9 @@ class AppKernel extends Kernel
             
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new JMS\AopBundle\JMSAopBundle(),
+            new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             
             new Nehlsen\ChoiceAuthBundle\NehlsenChoiceAuthBundle(),
             new Fda\DsbBundle\FdaDsbBundle(),

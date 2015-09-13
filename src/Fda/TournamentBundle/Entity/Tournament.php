@@ -217,4 +217,28 @@ class Tournament
     {
         return $this->games;
     }
+
+    /**
+     * @return bool
+     */
+    public function isClosed()
+    {
+        return $this->isClosed;
+    }
+
+    /**
+     * @param bool $isClosed
+     */
+    public function setClosed($isClosed)
+    {
+        $this->isClosed = $isClosed;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
 }

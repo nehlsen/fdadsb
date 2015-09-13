@@ -1,5 +1,9 @@
 tournament:
   menu: 'Turniere'
+  active:
+    label: 'Aktives Turnier'
+    none: 'Kein aktives Turnier'
+  new: 'Neues Turnier'
   game_mode:
     choose: 'Spiel'
     first_to.label: 'First to...'
@@ -14,3 +18,4 @@ tournament:
     mode501do.label: '501 + double out'
   board.choose: 'Gespielt wird auf'
   player.choose: 'Mitspieler'
+  created: 'Erstell am/um'

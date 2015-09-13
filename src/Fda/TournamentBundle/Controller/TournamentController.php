@@ -4,50 +4,50 @@ namespace Fda\TournamentBundle\Controller;
 
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Form\TournamentType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Tournament controller.
- *
  */
 class TournamentController extends Controller
 {
-
     /**
      * Lists all Tournament entities.
-     *
+     * @Secure(roles="ROLE_USER")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $tournaments = $em->getRepository('FdaTournamentBundle:Tournament')->findAll();
 
-        $entities = $em->getRepository('FdaTournamentBundle:Tournament')->findAll();
+        $tournament = $this->get('fda.tournament.engine')->getTournament();
 
         return $this->render('FdaTournamentBundle:Tournament:index.html.twig', array(
-            'entities' => $entities,
+            'tournaments' => $tournaments,
+            'tournament'  => $tournament,
         ));
     }
     /**
      * Creates a new Tournament entity.
-     *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function createAction(Request $request)
     {
-        $entity = new Tournament();
-        $form = $this->createCreateForm($entity);
+        $tournament = new Tournament();
+        $form = $this->createCreateForm($tournament);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            $tournamentEngine = $this->get('fda.tournament.engine');
+            $tournamentEngine->createTournament($tournament);
 
-            return $this->redirect($this->generateUrl('tournament_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tournament_show', array('id' => $tournament->getId())));
         }
 
         return $this->render('FdaTournamentBundle:Tournament:new.html.twig', array(
-            'entity' => $entity,
+            'entity' => $tournament,
             'form'   => $form->createView(),
         ));
     }
@@ -73,60 +73,60 @@ class TournamentController extends Controller
 
     /**
      * Displays a form to create a new Tournament entity.
-     *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction()
     {
-        $entity = new Tournament();
-        $form   = $this->createCreateForm($entity);
+        $tournament = new Tournament();
+        $form   = $this->createCreateForm($tournament);
 
         return $this->render('FdaTournamentBundle:Tournament:new.html.twig', array(
-            'entity' => $entity,
+            'entity' => $tournament,
             'form'   => $form->createView(),
         ));
     }
 
     /**
      * Finds and displays a Tournament entity.
-     *
+     * @Secure(roles="ROLE_USER")
      */
     public function showAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
+        $tournament = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
 
-        if (!$entity) {
+        if (!$tournament) {
             throw $this->createNotFoundException('Unable to find Tournament entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('FdaTournamentBundle:Tournament:show.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $tournament,
             'delete_form' => $deleteForm->createView(),
         ));
     }
 
     /**
      * Displays a form to edit an existing Tournament entity.
-     *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
+        $tournament = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
 
-        if (!$entity) {
+        if (!$tournament) {
             throw $this->createNotFoundException('Unable to find Tournament entity.');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($tournament);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('FdaTournamentBundle:Tournament:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $tournament,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -152,20 +152,20 @@ class TournamentController extends Controller
     }
     /**
      * Edits an existing Tournament entity.
-     *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
+        $tournament = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
 
-        if (!$entity) {
+        if (!$tournament) {
             throw $this->createNotFoundException('Unable to find Tournament entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($tournament);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -175,14 +175,14 @@ class TournamentController extends Controller
         }
 
         return $this->render('FdaTournamentBundle:Tournament:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $tournament,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
     }
     /**
      * Deletes a Tournament entity.
-     *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -191,13 +191,13 @@ class TournamentController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
+            $tournament = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
 
-            if (!$entity) {
+            if (!$tournament) {
                 throw $this->createNotFoundException('Unable to find Tournament entity.');
             }
 
-            $em->remove($entity);
+            $em->remove($tournament);
             $em->flush();
         }
 
