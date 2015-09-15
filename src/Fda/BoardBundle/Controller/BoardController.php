@@ -20,12 +20,10 @@ class BoardController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('FdaBoardBundle:Board')->findAll();
+        $boards = $this->getRepository()->findAll();
 
         return $this->render('FdaBoardBundle:Board:index.html.twig', array(
-            'entities' => $entities,
+            'boards' => $boards,
         ));
     }
     /**
@@ -34,20 +32,20 @@ class BoardController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity = new Board();
-        $form = $this->createCreateForm($entity);
+        $board = new Board();
+        $form = $this->createCreateForm($board);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $em->persist($board);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('board_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('board_show', array('id' => $board->getId())));
         }
 
         return $this->render('FdaBoardBundle:Board:new.html.twig', array(
-            'entity' => $entity,
+            'entity' => $board,
             'form'   => $form->createView(),
         ));
     }
@@ -77,11 +75,11 @@ class BoardController extends Controller
      */
     public function newAction()
     {
-        $entity = new Board();
-        $form   = $this->createCreateForm($entity);
+        $board = new Board();
+        $form = $this->createCreateForm($board);
 
         return $this->render('FdaBoardBundle:Board:new.html.twig', array(
-            'entity' => $entity,
+            'entity' => $board,
             'form'   => $form->createView(),
         ));
     }
@@ -92,18 +90,12 @@ class BoardController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('FdaBoardBundle:Board')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Board entity.');
-        }
+        $board = $this->getBoard($id);
 
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('FdaBoardBundle:Board:show.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $board,
             'delete_form' => $deleteForm->createView(),
         ));
     }
@@ -114,19 +106,13 @@ class BoardController extends Controller
      */
     public function editAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
+        $board = $this->getBoard($id);
 
-        $entity = $em->getRepository('FdaBoardBundle:Board')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Board entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($board);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('FdaBoardBundle:Board:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $board,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -156,26 +142,21 @@ class BoardController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('FdaBoardBundle:Board')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Board entity.');
-        }
+        $board = $this->getBoard($id);
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($board);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $em = $this->getDoctrine()->getManager();
             $em->flush();
 
             return $this->redirect($this->generateUrl('board_edit', array('id' => $id)));
         }
 
         return $this->render('FdaBoardBundle:Board:edit.html.twig', array(
-            'entity'      => $entity,
+            'entity'      => $board,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
@@ -190,14 +171,10 @@ class BoardController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $board = $this->getBoard($id);
+
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FdaBoardBundle:Board')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Board entity.');
-            }
-
-            $em->remove($entity);
+            $em->remove($board);
             $em->flush();
         }
 
@@ -219,5 +196,29 @@ class BoardController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected function getRepository()
+    {
+        $em = $this->getDoctrine()->getManager();
+        return $em->getRepository('FdaBoardBundle:Board');
+    }
+
+    /**
+     * @param int $id board-ID
+     * @return Board
+     */
+    protected function getBoard($id)
+    {
+        $board = $this->getRepository()->find($id);
+
+        if (!$board) {
+            throw $this->createNotFoundException('Unable to find Board entity.');
+        }
+
+        return $board;
     }
 }

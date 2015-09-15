@@ -16,10 +16,10 @@ class BoardType extends AbstractType
     {
         $builder
             ->add('name', 'text', array(
-                'label' => 'player.name',
+                'label' => 'board.name',
             ))
             ->add('imageFile', 'file', array(
-                'label' => 'player.image',
+                'label' => 'board.image',
             ))
         ;
     }

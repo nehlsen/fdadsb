@@ -1,0 +1,29 @@
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>{{ 'board.singular'|trans }}</th>
+        {% if is_granted('ROLE_ADMIN') %}
+            <th></th>
+        {% endif %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for board in boards %}
+        <tr>
+            <td>
+                <a href="{{ path('board_show', { 'id': board.id }) }}">
+                    <img src="{{ vich_uploader_asset(board, 'imageFile') }}" alt="[{{ board.name }}]" class="board" />
+                    {{ board.name }}
+                </a>
+            </td>
+            {% if is_granted('ROLE_ADMIN') %}
+                <td>
+                    <a href="{{ path('board_edit', { 'id': board.id }) }}" title="{{ 'board.edit'|trans }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                </td>
+            {% endif %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

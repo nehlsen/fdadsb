@@ -1,3 +1,8 @@
 board:
   menu: 'Dartscheiben'
+  singular: 'Dartscheibe'
   plural: 'Dartscheiben'
+  new: 'Dartscheibe hinzufügen'
+  edit: 'bearbeiten'
+  name: 'Name'
+  image: 'Bild'
