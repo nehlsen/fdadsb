@@ -15,6 +15,11 @@ class TournamentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $tournamentModeChoices = array();
+        foreach (Tournament::getTournamentModes() as $mode) {
+            $tournamentModeChoices[$mode] = 'tournament.tournament_mode.'.$mode.'.label';
+        }
+
         $gameModeChoices = array();
         foreach (Tournament::getGameModes() as $mode) {
             $gameModeChoices[$mode] = 'tournament.game_mode.'.$mode.'.label';
@@ -26,6 +31,14 @@ class TournamentType extends AbstractType
         }
 
         $builder
+            ->add('tournamentMode', 'choice', array(
+                'label'    => 'tournament.tournament_mode.choose',
+                'expanded' => true,
+                'choices'  => $tournamentModeChoices,
+            ))
+            ->add('tournamentCount', 'integer', array(
+                'label'    => 'tournament.tournament_count.choose',
+            ))
             ->add('gameMode', 'choice', array(
                 'label'    => 'tournament.game_mode.choose',
                 'expanded' => true,

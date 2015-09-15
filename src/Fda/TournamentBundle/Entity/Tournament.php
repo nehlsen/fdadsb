@@ -11,6 +11,10 @@ use Fda\PlayerBundle\Entity\Player;
  */
 class Tournament
 {
+    // how to advance in and win a tournament
+    const TOURNAMENT_LADDER     = 'ladder';
+    const TOURNAMENT_ALL_VS_ALL = 'all_vs_all';
+
     // how to win a game
     const GAME_FIRST_TO = 'first_to'; // first who wins 3 legs wins games
     const GAME_AHEAD    = 'ahead';    // first to have 3 more legs than contestant
@@ -29,6 +33,18 @@ class Tournament
      * @var int
      */
     protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    protected $tournamentMode;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $tournamentCount;
 
     /**
      * @ORM\Column(type="string")
@@ -86,6 +102,8 @@ class Tournament
 
     protected function loadDefaults()
     {
+        $this->setTournamentMode(self::TOURNAMENT_LADDER);
+        $this->setTournamentCount(2);
         $this->setGameMode(self::GAME_FIRST_TO);
         $this->setGameCount(5);
         $this->setLegMode(self::LEG_501_DOUBLE_OUT);
@@ -97,6 +115,53 @@ class Tournament
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTournamentMode()
+    {
+        return $this->tournamentMode;
+    }
+
+    /**
+     * @param string $tournamentMode
+     */
+    public function setTournamentMode($tournamentMode)
+    {
+        if (!in_array($tournamentMode, $this->getTournamentModes())) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->tournamentMode = $tournamentMode;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getTournamentModes()
+    {
+        return array(
+            self::TOURNAMENT_ALL_VS_ALL,
+            self::TOURNAMENT_LADDER,
+        );
+    }
+
+    /**
+     * @return int
+     */
+    public function getTournamentCount()
+    {
+        return $this->tournamentCount;
+    }
+
+    /**
+     * @param int $tournamentCount
+     */
+    public function setTournamentCount($tournamentCount)
+    {
+        $this->tournamentCount = $tournamentCount;
     }
 
     /**
