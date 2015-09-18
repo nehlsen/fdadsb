@@ -1,0 +1,25 @@
+ledger_start:
+    path:     /ledger
+    defaults: { _controller: "FdaRefereeBundle:Ledger:start" }
+
+ledger_choose_owner:
+    path:     /ledger/owner
+    defaults: { _controller: "FdaRefereeBundle:Ledger:chooseOwner" }
+    requirements:
+      _method: GET
+ledger_set_owner:
+    path:     /ledger/owner
+    defaults: { _controller: "FdaRefereeBundle:Ledger:setOwner" }
+    requirements:
+      _method: POST
+
+ledger_choose_board:
+    path:     /ledger/board
+    defaults: { _controller: "FdaRefereeBundle:Ledger:chooseBoard" }
+    requirements:
+      _method: GET
+ledger_set_board:
+    path:     /ledger/board
+    defaults: { _controller: "FdaRefereeBundle:Ledger:setBoard" }
+    requirements:
+      _method: POST

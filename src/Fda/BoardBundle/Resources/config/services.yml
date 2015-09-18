@@ -1,4 +1,5 @@
 services:
-#    fda_board.example:
-#        class: Fda\BoardBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+  fda.board.manager:
+    class: Fda\BoardBundle\Manager\BoardManager
+    calls:
+      - [setEntityManager,[@doctrine.orm.default_entity_manager]]

@@ -1,0 +1,9 @@
+{% extends 'FdaRefereeBundle::layout.html.twig' %}
+
+{% block content -%}
+    owner: {{ owner.name }}
+    <a href="{{ path('ledger_choose_owner') }}">change me</a>
+    <br>
+    board: {{ board.name }}
+    <a href="{{ path('ledger_choose_board') }}">change my place</a>
+{% endblock %}

@@ -29,6 +29,7 @@ class AppKernel extends Kernel
             new Fda\PlayerBundle\FdaPlayerBundle(),
             new Fda\BoardBundle\FdaBoardBundle(),
             new Fda\TournamentBundle\FdaTournamentBundle(),
+            new Fda\RefereeBundle\FdaRefereeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

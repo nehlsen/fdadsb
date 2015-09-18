@@ -1,0 +1,12 @@
+{% extends 'FdaRefereeBundle::layout.html.twig' %}
+
+{% block content -%}
+    {% for board in boards %}
+        <form action="{{ path('ledger_set_board') }}" method="post">
+            <input type="hidden" name="id" value="{{ board.id }}">
+            <button type="submit">
+                {{ board.name }}
+            </button>
+        </form>
+    {% endfor %}
+{% endblock %}

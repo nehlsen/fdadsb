@@ -1,4 +1,10 @@
 services:
-#    fda_player.example:
-#        class: Fda\PlayerBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+  fda.player.manager:
+    class: Fda\PlayerBundle\Manager\PlayerManager
+    calls:
+      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+
+  fda.player.form.type.player_choice:
+    class: Fda\PlayerBundle\Form\Type\PlayerChoice
+    tags:
+      - { name: form.type, alias: player_choice }

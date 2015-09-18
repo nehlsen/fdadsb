@@ -1,0 +1,14 @@
+services:
+  fda.ledger:
+    class: Fda\RefereeBundle\Ledger\Ledger
+    calls:
+      - [setSession,[@session]]
+      - [setPlayerManager,[@fda.player.manager]]
+      - [setBoardManager,[@fda.board.manager]]
+
+  fda.referee.twig.extension:
+    class: Fda\RefereeBundle\Twig\RefereeExtension
+    calls:
+      - [setLedger,[@fda.ledger]]
+    tags:
+      - { name: twig.extension }

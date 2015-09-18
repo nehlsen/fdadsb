@@ -45,6 +45,7 @@ class ChoiceAuthProvider implements AuthenticationProviderInterface
      */
     public function supports(TokenInterface $token)
     {
-        return $token instanceof ChoiceAuthToken && $this->providerKey === $token->getProviderKey();
+//        return $token instanceof ChoiceAuthToken && $this->providerKey === $token->getProviderKey();
+        return $token instanceof ChoiceAuthToken;
     }
 }

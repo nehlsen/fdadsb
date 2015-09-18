@@ -13,3 +13,7 @@ FdaBoardBundle_board:
 FdaTournamentBundle_tournament:
   resource: "@FdaTournamentBundle/Resources/config/routing.yml"
   prefix:   /tournament
+
+FdaRefereeBundle:
+  resource: "@FdaRefereeBundle/Resources/config/routing.yml"
+  prefix:   /referee
