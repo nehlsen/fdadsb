@@ -33,19 +33,19 @@ class Game
     protected $board;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="gamesReferred")
      * @var Player
      */
     protected $referee;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="gamesAsPlayer1")
      * @var Player
      */
     protected $player1;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="gamesAsPlayer2")
      * @var Player
      */
     protected $player2;

@@ -31,7 +31,7 @@ class Turn
     protected $leg;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player")
+     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="turnsCompleted")
      * @var Player
      */
     protected $player;

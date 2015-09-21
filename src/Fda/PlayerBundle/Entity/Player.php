@@ -3,7 +3,9 @@
 namespace Fda\PlayerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Tournament;
+use Fda\TournamentBundle\Entity\Turn;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -58,6 +60,30 @@ class Player
      * @var Tournament[]
      */
     protected $tournaments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Game", mappedBy="referee")
+     * @var Game[]
+     */
+    protected $gamesReferred;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Game", mappedBy="player1")
+     * @var Game[]
+     */
+    protected $gamesAsPlayer1;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Game", mappedBy="player2")
+     * @var Game[]
+     */
+    protected $gamesAsPlayer2;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Turn", mappedBy="player")
+     * @var Turn[]
+     */
+    protected $turnsCompleted;
 
     /**
      * @return int
