@@ -4,6 +4,7 @@ namespace Fda\TournamentBundle\Engine;
 
 use Doctrine\ORM\EntityManager;
 use Fda\TournamentBundle\Entity\Tournament;
+use Fda\TournamentBundle\Entity\Turn;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
 class Engine extends ContainerAware implements EngineInterface
@@ -61,6 +62,20 @@ class Engine extends ContainerAware implements EngineInterface
 
         $this->entityManager->persist($tournament);
         $this->entityManager->flush();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function registerShot($gameId, $score, $multiplier = Turn::MULTIPLIER_SINGLE)
+    {
+        $gameGears = $this->getGears()->getGameGears($gameId);
+        if ($gameGears->getGame()->isClosed()) {
+            throw new \Exception('game closed!');
+        }
+
+        $gameGears->getLegGears()->registerShot($score, $multiplier);
+        return !$gameGears->getGame()->isClosed();
     }
 
     /**

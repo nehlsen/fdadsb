@@ -55,7 +55,19 @@ class TournamentGearsAllVsAll extends AbstractTournamentGears
         // filter out all games which are already done or at least running
         // filter out all games where referee takes part (referee can not evaluate himself)
 
-        return $this->getAllGames();
+        $upcomingGames = array();
+        foreach ($this->getAllGames() as $game) {
+//            if (!$game->isRunning()) {
+//                continue;
+//            }
+            if ($game->isClosed()) {
+                continue;
+            }
+
+            $upcomingGames[] = $game;
+        }
+
+        return $upcomingGames;
     }
 
     /**
@@ -102,5 +114,15 @@ class TournamentGearsAllVsAll extends AbstractTournamentGears
         }
 
         return $games;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function onGameComplete(Game $game)
+    {
+        // check for tournament winner
+        // TODO: Implement onGameComplete() method.
+//        throw new \Exception('onGameComplete: check if we have a tournament winner');
     }
 }

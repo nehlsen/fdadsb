@@ -126,7 +126,7 @@ class SimpleLegGears extends AbstractLegGears
                 $lastTurn->setVoid();
             } else {
                 // finished !!!
-                $this->leg->setClosed();
+                $this->leg->setWinner($lastTurn->getPlayer());
                 $this->gameGears->onLegComplete($this->leg);
             }
         } elseif ($score > $maxScore) {

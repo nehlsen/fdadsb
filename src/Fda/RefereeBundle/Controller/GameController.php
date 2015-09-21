@@ -15,10 +15,16 @@ class GameController extends Controller
      * @param int $gameId
      *
      * @return Response
+     *
+     * @throws \Exception if game is already closed
      */
     public function playAction($gameId)
     {
         $gameGears = $this->get('fda.tournament.engine')->getGears()->getGameGears($gameId);
+        if ($gameGears->getGame()->isClosed()) {
+            throw new \Exception('game closed!');
+        }
+
         $legGears = $gameGears->getLegGears();
         $turn = $legGears->currentTurn();
 //        $turn->getPlayer(); // who is playing now
@@ -46,9 +52,6 @@ class GameController extends Controller
      */
     public function registerShotAction(Request $request, $gameId)
     {
-        $gameGears = $this->get('fda.tournament.engine')->getGears()->getGameGears($gameId);
-        $legGears = $gameGears->getLegGears();
-
         $score = $request->get('score', 0);
         $multiplier = $request->get('multiplier', 1);
         switch ($multiplier) {
@@ -64,13 +67,14 @@ class GameController extends Controller
                 break;
         }
 
-        $remaining = $legGears->registerShot($score, $multiplier);
+        $tournamentEngine = $this->get('fda.tournament.engine');
+        $continueGame = $tournamentEngine->registerShot($gameId, $score, $multiplier);
         $this->getDoctrine()->getManager()->flush();
 
-        if ($remaining == 0) {
-            // TODO does this require special handling?
+        if ($continueGame) {
+            return $this->redirectToRoute('game_play', array('gameId' => $gameId));
+        } else {
+            return $this->redirectToRoute('ledger_start');
         }
-
-        return $this->redirectToRoute('game_play', array('gameId' => $gameId));
     }
 }

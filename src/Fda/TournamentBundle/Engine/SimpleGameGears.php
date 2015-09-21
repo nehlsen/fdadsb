@@ -5,6 +5,7 @@ namespace Fda\TournamentBundle\Engine;
 use Doctrine\ORM\EntityManager;
 use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Leg;
+use Fda\TournamentBundle\Entity\Tournament;
 
 // supports game mode 'first-to' and 'ahead'
 class SimpleGameGears extends AbstractGameGears
@@ -68,7 +69,35 @@ class SimpleGameGears extends AbstractGameGears
     public function onLegComplete(Leg $leg)
     {
         // check if this completes the game
-        //  or maybe changes anything else?
-        // TODO: Implement onLegComplete() method.
+
+        $this->game->updateWonLegs();
+        $winner = $this->getWinner();
+        if (null !== $winner) {
+            $this->game->setWinner($winner);
+            $this->tournamentGears->onGameComplete($this->game);
+        }
+
+        $this->entityManager->persist($this->game);
+    }
+
+    protected function getWinner()
+    {
+        if ($this->getTournament()->getGameMode() == Tournament::GAME_AHEAD) {
+            $player1count = $this->game->getLegsWonPlayer1() - $this->game->getLegsWonPlayer2();
+            $player2count = $this->game->getLegsWonPlayer2() - $this->game->getLegsWonPlayer1();
+        } elseif ($this->getTournament()->getGameMode() == Tournament::GAME_FIRST_TO) {
+            $player1count = $this->game->getLegsWonPlayer1();
+            $player2count = $this->game->getLegsWonPlayer2();
+        } else {
+            throw new \Exception();
+        }
+
+        if ($player1count == $this->getTournament()->getGameCount()) {
+            return $this->game->getPlayer1();
+        } elseif ($player2count == $this->getTournament()->getGameCount()) {
+            return $this->game->getPlayer2();
+        }
+
+        return null;
     }
 }

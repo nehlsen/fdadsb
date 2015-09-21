@@ -42,4 +42,9 @@ interface TournamentGearsInterface
      * @return GameGearsInterface
      */
     public function getGameGears($gameId);
+
+    /**
+     * @param Game $game
+     */
+    public function onGameComplete(Game $game);
 }

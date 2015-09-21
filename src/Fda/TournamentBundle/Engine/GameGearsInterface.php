@@ -8,6 +8,11 @@ use Fda\TournamentBundle\Entity\Leg;
 interface GameGearsInterface
 {
     /**
+     * @param TournamentGearsInterface $tournamentGears
+     */
+    public function setTournamentGears(TournamentGearsInterface $tournamentGears);
+
+    /**
      * @param int|Game $game_or_id
      */
     public function setGame($game_or_id);

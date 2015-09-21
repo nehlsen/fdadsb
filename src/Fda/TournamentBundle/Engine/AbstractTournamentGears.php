@@ -10,6 +10,7 @@ abstract class AbstractTournamentGears extends EngineAware implements Tournament
     public function getGameGears($gameId)
     {
         $gameGears = $this->engine->getGameGears();
+        $gameGears->setTournamentGears($this);
         $gameGears->setGame($gameId);
         return $gameGears;
     }
