@@ -2,6 +2,7 @@
 
 namespace Fda\TournamentBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Fda\BoardBundle\Entity\Board;
 use Fda\PlayerBundle\Entity\Player;
@@ -134,7 +135,7 @@ class Game
     }
 
     /**
-     * @return Leg[]
+     * @return Collection|Leg[]
      */
     public function getLegs()
     {

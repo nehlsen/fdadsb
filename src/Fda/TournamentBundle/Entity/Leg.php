@@ -41,6 +41,36 @@ class Leg
     protected $turns;
 
     /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $player1score = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $player1shots = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $player2score = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $player2shots = 0;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @var bool
+     */
+    protected $closed = false;
+
+    /**
      * @ORM\Column(type="datetime")
      * @var \DateTime
      */
@@ -50,6 +80,8 @@ class Leg
     {
         $this->game = $game;
         $this->created = new \DateTime();
+
+        $game->addLeg($this);
     }
 
     /**
@@ -102,20 +134,93 @@ class Leg
         return $turns;
     }
 
+//    /**
+//     * @param Player $player
+//     *
+//     * @return int
+//     */
+//    public function getTotalScoreOf(Player $player)
+//    {
+//        $total = 0;
+// check for turn:isVoid!
+//        foreach ($this->getTurnsOf($player) as $turn) {
+//            $total += $turn->getTotalScore();
+//        }
+//
+//        return $total;
+//    }
+
     /**
-     * @param Player $player
-     *
      * @return int
      */
-    public function getTotalScoreOf(Player $player)
+    public function getPlayer1score()
     {
-        $total = 0;
+        return $this->player1score;
+    }
 
-        foreach ($this->getTurnsOf($player) as $turn) {
-            $total += $turn->getTotalScore();
+    /**
+     * @return int
+     */
+    public function getPlayer1shots()
+    {
+        return $this->player1shots;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlayer2score()
+    {
+        return $this->player2score;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPlayer2shots()
+    {
+        return $this->player2shots;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isClosed()
+    {
+        return $this->closed;
+    }
+
+    /**
+     * @param boolean $closed
+     */
+    public function setClosed($closed = true)
+    {
+        $this->closed = $closed;
+    }
+
+    /**
+     * does what is says... no parameters, nothing to return...
+     */
+    public function updateScoresAndShots()
+    {
+        $this->player1score = 0;
+        $this->player1shots = 0;
+        $this->player2score = 0;
+        $this->player2shots = 0;
+
+        foreach ($this->getTurns() as $turn) {
+            if ($turn->isVoid()) {
+                continue;
+            }
+
+            if ($turn->getPlayer() == $this->getGame()->getPlayer1()) {
+                $this->player1score += $turn->getTotalScore();
+                $this->player1shots += 3;
+            } else {
+                $this->player2score += $turn->getTotalScore();
+                $this->player2shots += 3;
+            }
         }
-
-        return $total;
     }
 
     /**

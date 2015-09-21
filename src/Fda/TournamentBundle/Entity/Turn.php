@@ -114,6 +114,8 @@ class Turn
         $this->leg = $leg;
         $this->player = $player;
         $this->created = new \DateTime();
+
+        $leg->addTurn($this);
     }
 
     /**
@@ -133,6 +135,8 @@ class Turn
                 $dmp .= '/';
             }
         }
+
+        $dmp .= '['.($this->isVoid() ? 'VOID' : 'OK').']';
 
         return $dmp;
     }
@@ -211,6 +215,20 @@ class Turn
     }
 
     /**
+     * @return Arrow|null
+     */
+    public function getLastArrow()
+    {
+        foreach ([3,2,1] as $number) {
+            if ($this->hasArrow($number)) {
+                return $this->getArrow($number);
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @param int|Arrow   $number_or_arrow
      * @param int|null    $score
      * @param string|null $multiplier
@@ -239,7 +257,14 @@ class Turn
                 break;
         }
 
-        $this->totalScore = $this->arrow1total + $this->arrow2total + $this->arrow3total;
+        if ($this->isVoid()) {
+            $this->totalScore = 0;
+        } else {
+            $this->totalScore =
+                ($this->arrow1total > 0 ? $this->arrow1total : 0) +
+                ($this->arrow2total > 0 ? $this->arrow2total : 0) +
+                ($this->arrow3total > 0 ? $this->arrow3total : 0);
+        }
 
         return $arrow;
     }
@@ -276,6 +301,14 @@ class Turn
     public function isVoid()
     {
         return $this->isVoid;
+    }
+
+    /**
+     * @param bool|true $isVoid
+     */
+    public function setVoid($isVoid = true)
+    {
+        $this->isVoid = $isVoid;
     }
 
     /******************************************************************************************************************/
