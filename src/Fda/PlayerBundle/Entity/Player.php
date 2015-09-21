@@ -165,4 +165,47 @@ class Player
     {
         return $this->tournaments;
     }
+
+    /**
+     * @return Game[]
+     */
+    public function getGamesReferred()
+    {
+        return $this->gamesReferred;
+    }
+
+    /**
+     * @return Game[]
+     */
+    public function getGames()
+    {
+        return array_merge(
+            $this->gamesAsPlayer1->toArray(),
+            $this->gamesAsPlayer2->toArray()
+        );
+    }
+
+    /**
+     * @return Turn[]
+     */
+    public function getTurns()
+    {
+        return $this->turnsCompleted;
+    }
+
+    /**
+     * @return Leg[]
+     */
+    public function getWonLegs()
+    {
+        return $this->wonLegs;
+    }
+
+    /**
+     * @return Game[]
+     */
+    public function getWonGames()
+    {
+        return $this->wonGames;
+    }
 }
