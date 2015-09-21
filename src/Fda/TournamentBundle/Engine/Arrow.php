@@ -51,6 +51,30 @@ class Arrow
     }
 
     /**
+     * @return bool
+     */
+    public function isSingle()
+    {
+        return $this->multiplier == Turn::MULTIPLIER_SINGLE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDouble()
+    {
+        return $this->multiplier == Turn::MULTIPLIER_DOUBLE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTriple()
+    {
+        return $this->multiplier == Turn::MULTIPLIER_TRIPLE;
+    }
+
+    /**
      * @return int
      */
     public function getTotal()

@@ -48,16 +48,27 @@ class SimpleGameGears extends AbstractGameGears
      */
     public function getCurrentLeg()
     {
-        $legs = $this->game->getLegs();
+        $currentLeg = null;
 
-        // TODO determine current leg
-        if (count($legs) > 0) {
-            return $legs[0];
-        } else {
-            $leg = new Leg($this->game);
-            $this->game->addLeg($leg);
+        $lastLeg = $this->game->getLegs()->last();
+        if ($lastLeg instanceof Leg && !$lastLeg->isClosed()) {
+            $currentLeg = $lastLeg;
         }
 
-        return $leg;
+        if (null === $currentLeg) {
+            $currentLeg = new Leg($this->game);
+        }
+
+        return $currentLeg;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function onLegComplete(Leg $leg)
+    {
+        // check if this completes the game
+        //  or maybe changes anything else?
+        // TODO: Implement onLegComplete() method.
     }
 }

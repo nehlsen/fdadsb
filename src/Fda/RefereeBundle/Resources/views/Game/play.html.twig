@@ -86,7 +86,7 @@
 
     <div>
         {% for leg in game.legs %}
-            <h3>LEG#{{ leg.id }}</h3>
+            <h3>LEG#{{ leg.id }} (player1score:{{ leg.player1score }}, player2score:{{ leg.player2score }})</h3>
             <ol>
             {% for turn in leg.turns %}
                 <li>{{ turn }}</li>

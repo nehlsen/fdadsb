@@ -26,4 +26,9 @@ interface GameGearsInterface
      * @return Leg
      */
     public function getCurrentLeg();
+
+    /**
+     * @param Leg $leg
+     */
+    public function onLegComplete(Leg $leg);
 }
