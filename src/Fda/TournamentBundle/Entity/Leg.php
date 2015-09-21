@@ -65,10 +65,10 @@ class Leg
     protected $player2shots = 0;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @var bool
+     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="wonLegs")
+     * @var Player
      */
-    protected $closed = false;
+    protected $winner;
 
     /**
      * @ORM\Column(type="datetime")
@@ -183,19 +183,27 @@ class Leg
     }
 
     /**
+     * @return Player
+     */
+    public function getWinner()
+    {
+        return $this->winner;
+    }
+
+    /**
+     * @param Player $winner
+     */
+    public function setWinner(Player $winner)
+    {
+        $this->winner = $winner;
+    }
+
+    /**
      * @return boolean
      */
     public function isClosed()
     {
-        return $this->closed;
-    }
-
-    /**
-     * @param boolean $closed
-     */
-    public function setClosed($closed = true)
-    {
-        $this->closed = $closed;
+        return null !== $this->winner;
     }
 
     /**

@@ -62,6 +62,24 @@ class Game
     protected $legs;
 
     /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $legsWonPlayer1 = 0;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    protected $legsWonPlayer2 = 0;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="wonGames")
+     * @var Player
+     */
+    protected $winner;
+
+    /**
      * @ORM\Column(type="datetime")
      * @var \DateTime
      */
@@ -148,5 +166,69 @@ class Game
     public function addLeg(Leg $leg)
     {
         $this->legs[] = $leg;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLegsWonPlayer1()
+    {
+        return $this->legsWonPlayer1;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLegsWonPlayer2()
+    {
+        return $this->legsWonPlayer2;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getWinner()
+    {
+        return $this->winner;
+    }
+
+    /**
+     * @param Player $winner
+     */
+    public function setWinner(Player $winner)
+    {
+        $this->winner = $winner;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isClosed()
+    {
+        return null !== $this->winner;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    public function updateWonLegs()
+    {
+        $this->legsWonPlayer1 = 0;
+        $this->legsWonPlayer2 = 0;
+
+        foreach ($this->getLegs() as $leg) {
+            if ($leg->getWinner() == $this->getPlayer1()) {
+                $this->legsWonPlayer1 += 1;
+            } elseif ($leg->getWinner() == $this->getPlayer1()) {
+                $this->legsWonPlayer2 += 1;
+            } else {
+                throw new \Exception();
+            }
+        }
     }
 }

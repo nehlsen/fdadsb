@@ -4,6 +4,7 @@ namespace Fda\PlayerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Fda\TournamentBundle\Entity\Game;
+use Fda\TournamentBundle\Entity\Leg;
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Entity\Turn;
 use Symfony\Component\HttpFoundation\File\File;
@@ -84,6 +85,18 @@ class Player
      * @var Turn[]
      */
     protected $turnsCompleted;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Leg", mappedBy="winner")
+     * @var Leg[]
+     */
+    protected $wonLegs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Game", mappedBy="winner")
+     * @var Game[]
+     */
+    protected $wonGames;
 
     /**
      * @return int
