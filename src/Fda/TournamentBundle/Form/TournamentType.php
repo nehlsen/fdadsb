@@ -31,6 +31,9 @@ class TournamentType extends AbstractType
         }
 
         $builder
+            ->add('name', 'text', array(
+                'label'    => 'tournament.name',
+            ))
             ->add('tournamentMode', 'choice', array(
                 'label'    => 'tournament.tournament_mode.choose',
                 'expanded' => true,

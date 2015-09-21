@@ -38,6 +38,12 @@ class Tournament
      * @ORM\Column(type="string")
      * @var string
      */
+    protected $name;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
     protected $tournamentMode;
 
     /**
@@ -119,6 +125,22 @@ class Tournament
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**

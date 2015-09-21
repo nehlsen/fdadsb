@@ -9,6 +9,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>name</th>
                 <th>Gamemode</th>
                 <th>Gamecount</th>
                 <th>Legmode</th>
@@ -19,6 +20,7 @@
         {% for tournament in tournaments %}
             <tr>
                 <td><a href="{{ path('tournament_show', { 'id': tournament.id }) }}">{{ tournament.id }}</a></td>
+                <td>{{ tournament.name }}</td>
                 <td>{{ tournament.gameMode }}</td>
                 <td>{{ tournament.gameCount }}</td>
                 <td>{{ tournament.legMode }}</td>
