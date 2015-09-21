@@ -8,3 +8,10 @@ services:
     class: Fda\PlayerBundle\Form\Type\PlayerChoice
     tags:
       - { name: form.type, alias: player_choice }
+
+  fda.player.twig.extension:
+    class: Fda\PlayerBundle\Twig\PlayerExtension
+    calls:
+      - [setPlayerManager,[@fda.player.manager]]
+    tags:
+      - { name: twig.extension }
