@@ -77,7 +77,11 @@ class Tournament
     protected $players;
 
     /**
-     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Game", mappedBy="tournament")
+     * @ORM\OneToMany(
+     *  targetEntity="Fda\TournamentBundle\Entity\Game",
+     *  mappedBy="tournament",
+     *  cascade={"persist"}
+     * )
      * @var Game[]
      */
     protected $games;

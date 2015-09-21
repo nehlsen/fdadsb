@@ -51,7 +51,11 @@ class Game
     protected $player2;
 
     /**
-     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Leg", mappedBy="game")
+     * @ORM\OneToMany(
+     *  targetEntity="Fda\TournamentBundle\Entity\Leg",
+     *  mappedBy="game",
+     *  cascade={"persist"}
+     * )
      * @var Leg[]
      */
     protected $legs;
@@ -65,5 +69,83 @@ class Game
     public function __construct()
     {
         $this->created = new \DateTime();
+    }
+
+    public static function prepare(Player $player1, Player $player2, Tournament $tournament = null)
+    {
+        if ($player1->getId() == $player2->getId()) {
+            throw new \InvalidArgumentException('a player can not play against himself');
+        }
+
+        $game = new self();
+        $game->player1 = $player1;
+        $game->player2 = $player2;
+        $game->tournament = $tournament;
+
+        return $game;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return Tournament
+     */
+    public function getTournament()
+    {
+        return $this->tournament;
+    }
+
+    /**
+     * @return Board
+     */
+    public function getBoard()
+    {
+        return $this->board;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getReferee()
+    {
+        return $this->referee;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getPlayer1()
+    {
+        return $this->player1;
+    }
+
+    /**
+     * @return Player
+     */
+    public function getPlayer2()
+    {
+        return $this->player2;
+    }
+
+    /**
+     * @return Leg[]
+     */
+    public function getLegs()
+    {
+        return $this->legs;
+    }
+
+    /**
+     * @param Leg $leg
+     */
+    public function addLeg(Leg $leg)
+    {
+        $this->legs[] = $leg;
     }
 }
