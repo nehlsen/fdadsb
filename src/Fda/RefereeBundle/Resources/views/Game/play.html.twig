@@ -1,0 +1,97 @@
+{% extends 'FdaRefereeBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>Game:play</h1>
+    <div class="row">
+        <div class="col-xs-5 text-center {{ turn.player.id == game.player1.id ? 'bg-primary' : '' }}">
+            {{ player_label(game.player1) }}
+        </div>
+        <div class="col-xs-2 text-center">
+            vs
+        </div>
+        <div class="col-xs-5 text-center {{ turn.player.id == game.player2.id ? 'bg-primary' : '' }}">
+            {{ player_label(game.player2) }}
+        </div>
+    </div>
+
+    <h2>
+        remaining: {{ leg_gears.remainingShots }}
+    </h2>
+
+    <form action="{{ path('game_register_shot',{gameId:game.id}) }}" method="post">
+        <div class="row">
+            {% set multiplier = [1,'single'] %}
+            {% block multiplier_btn %}
+            <div class="col-xs-3">
+                <label class="btn btn-default btn-block">
+                    <input type="radio" name="multiplier" value="{{ multiplier[0] }}" id="multiplier_{{ multiplier[1] }}" autocomplete="off" {{ multiplier[0]==1?'checked':'' }}>
+                    {{ multiplier[1] }}
+                </label>
+            </div>
+            {% endblock multiplier_btn %}
+
+            {% set score = 25 %}
+            {% block score_btn %}
+            <div class="col-xs-3">
+                <button type="submit" name="score" value="{{ score }}" class="btn btn-default btn-block">
+                    {{ score }}
+                </button>
+            </div>
+            {% endblock score_btn %}
+
+            {% for score in [20,19] %}
+                {{ block('score_btn') }}
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% set multiplier = [2,'double'] %}
+            {{ block('multiplier_btn') }}
+
+            {% for score in [18,17,16] %}
+                {{ block('score_btn') }}
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% set multiplier = [3,'triple'] %}
+            {{ block('multiplier_btn') }}
+
+            {% for score in [15,14,13] %}
+                {{ block('score_btn') }}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-xs-3"></div>
+            {% for score in [12,11,10] %}
+                {{ block('score_btn') }}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-xs-3"></div>
+            {% for score in [9,8,7] %}
+                {{ block('score_btn') }}
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-xs-3"></div>
+            {% for score in [6,5,4] %}
+                {{ block('score_btn') }}
+            {% endfor %}
+        </div>
+        <div class="row">
+            {% for score in [0,3,2,1] %}
+                {{ block('score_btn') }}
+            {% endfor %}
+        </div>
+    </form>
+
+    <div>
+        {% for leg in game.legs %}
+            <h3>LEG#{{ leg.id }}</h3>
+            <ol>
+            {% for turn in leg.turns %}
+                <li>{{ turn }}</li>
+            {% endfor %}
+            </ol>
+        {% endfor %}
+    </div>
+{% endblock %}

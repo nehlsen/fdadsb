@@ -6,4 +6,29 @@
     <br>
     board: {{ board.name }}
     <a href="{{ path('ledger_choose_board') }}">change my place</a>
+
+    <br><br>
+    upcomingGames: #{{ tournament_engine().gears.upcomingGames|length }}
+    <table>
+        <thead>
+        <tr>
+            <th>player 1</th>
+            <th>player 2</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for game in tournament_engine().gears.upcomingGames %}
+            <tr>
+                <td>{{ player_label(game.player1) }}</td>
+                <td>{{ player_label(game.player2) }}</td>
+                <td>
+                    <a href="{{ path('game_play',{gameId:game.id}) }}">
+                        GO
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

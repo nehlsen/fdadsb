@@ -23,3 +23,17 @@ ledger_set_board:
     defaults: { _controller: "FdaRefereeBundle:Ledger:setBoard" }
     requirements:
       _method: POST
+
+###############################################################################
+
+game_play:
+    path:     /game/{gameId}
+    defaults: { _controller: "FdaRefereeBundle:Game:play" }
+    requirements:
+      _method: GET
+
+game_register_shot:
+    path:     /game/{gameId}
+    defaults: { _controller: "FdaRefereeBundle:Game:registerShot" }
+    requirements:
+      _method: POST

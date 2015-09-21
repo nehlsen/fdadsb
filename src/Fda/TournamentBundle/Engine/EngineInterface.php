@@ -28,4 +28,19 @@ interface EngineInterface
      * @throws \Exception if we already have an active tournament
      */
     public function createTournament(Tournament $tournament);
+
+    /**
+     * @return TournamentGearsInterface
+     */
+    public function getGears();
+
+    /**
+     * @return GameGearsInterface
+     */
+    public function getGameGears();
+
+    /**
+     * @return LegGearsInterface
+     */
+    public function getLegGears();
 }
