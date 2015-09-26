@@ -2,23 +2,16 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <a href="{{ path('tournament_show',{id:tournament.id}) }}">
+            <i class="fa fa-play"></i>
             {{ 'tournament.active.label'|trans }}
+            {% if not tournament.name is empty %}
+                : {{ tournament.name }}
+            {% endif %}
         </a>
     </div>
-    <table class="table">
-        <tr>
-            <th>{{ 'board.plural'|trans }}</th>
-            <td>{{ tournament.boards|length }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'player.plural'|trans }}</th>
-            <td>{{ tournament.players|length }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'tournament.created'|trans }}</th>
-            <td>{{ tournament.created|date }}</td>
-        </tr>
-    </table>
+    <div class="panel-body">
+        {% include 'FdaTournamentBundle:Tournament:_properties.html.twig' %}
+    </div>
 </div>
 {% else %}
     <div class="well">

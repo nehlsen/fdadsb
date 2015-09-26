@@ -302,11 +302,81 @@ class Tournament
     }
 
     /**
+     * All known games, this may extend in a running tournament
+     *
      * @return Game[]
      */
     public function getGames()
     {
         return $this->games;
+    }
+
+    /**
+     * get closed games
+     *
+     * @return Game[]
+     */
+    public function getClosedGames()
+    {
+        $games = array();
+
+        foreach($this->getGames() as $game) {
+            if (!$game->isClosed()) {
+                continue;
+            }
+
+            $games[] = $game;
+        }
+
+        return $games;
+    }
+
+    /**
+     * get begun but not yet closed games
+     *
+     * @return Game[]
+     */
+    public function getRunningGames()
+    {
+        $games = array();
+
+        foreach($this->getGames() as $game) {
+            if ($game->isClosed()) {
+                continue;
+            }
+            if (!$game->isStarted()) {
+                continue;
+            }
+
+            $games[] = $game;
+        }
+
+        return $games;
+    }
+
+    /**
+     * get not closed games
+     *
+     * @param bool $excludeRunning whether to exclude begun games
+     *
+     * @return Game[]
+     */
+    public function getOpenGames($excludeRunning = true)
+    {
+        $games = array();
+
+        foreach($this->getGames() as $game) {
+            if ($game->isClosed()) {
+                continue;
+            }
+            if ($excludeRunning && $game->isStarted()) {
+                continue;
+            }
+
+            $games[] = $game;
+        }
+
+        return $games;
     }
 
     /**

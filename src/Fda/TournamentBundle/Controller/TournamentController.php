@@ -19,9 +19,7 @@ class TournamentController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $tournaments = $em->getRepository('FdaTournamentBundle:Tournament')->findAll();
-
+        $tournaments = $this->getRepository()->findAll();
         $tournament = $this->get('fda.tournament.engine')->getTournament();
 
         return $this->render('FdaTournamentBundle:Tournament:index.html.twig', array(
@@ -92,19 +90,10 @@ class TournamentController extends Controller
      */
     public function showAction($id)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $tournament = $em->getRepository('FdaTournamentBundle:Tournament')->find($id);
-
-        if (!$tournament) {
-            throw $this->createNotFoundException('Unable to find Tournament entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
+        $tournament = $this->getTournament($id);
 
         return $this->render('FdaTournamentBundle:Tournament:show.html.twig', array(
-            'entity'      => $tournament,
-            'delete_form' => $deleteForm->createView(),
+            'tournament'  => $tournament,
         ));
     }
 
@@ -219,5 +208,29 @@ class TournamentController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
+    }
+
+    /**
+     * @return \Doctrine\Common\Persistence\ObjectRepository
+     */
+    protected function getRepository()
+    {
+        $em = $this->getDoctrine()->getManager();
+        return $em->getRepository('FdaTournamentBundle:Tournament');
+    }
+
+    /**
+     * @param int $id Tournament-ID
+     * @return Tournament
+     */
+    protected function getTournament($id)
+    {
+        $tournament = $this->getRepository()->find($id);
+
+        if (!$tournament) {
+            throw $this->createNotFoundException('Unable to find Tournament entity.');
+        }
+
+        return $tournament;
     }
 }

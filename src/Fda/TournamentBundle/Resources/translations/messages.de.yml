@@ -4,13 +4,27 @@ tournament:
     label: 'Aktives Turnier'
     none: 'Kein aktives Turnier'
   new: 'Neues Turnier'
+  mode:
+    label: 'Tournier Modus'
+    ladder.description: 'Final Runden %count%'
+    all_vs_all.description: 'Alle gegen Alle'
   game_mode:
+    label: 'Spiel Modus'
     choose: 'Spiel'
-    first_to.label: 'First to...'
-    ahead.label: 'Vorsprung von...'
+    first_to:
+      label: 'First to...'
+      description: 'First to %count% Legs'
+    ahead:
+      label: 'Vorsprung von...'
+      description: 'Vorsprung von %count% Legs'
+  game:
+    running.label: '%count% Laufende Spiele'
+    closed.label: '%count% Beendete Spiele'
+    open.label: '%count% noch nicht begonnene Spiele'
   game_count:
     choose: 'Anzahl'
   leg_mode:
+    label: 'Leg Modus'
     choose: 'Leg'
     mode301.label: '301'
     mode301do.label: '301 + double out'
@@ -21,4 +35,6 @@ tournament:
     closed.label: 'Gewonnen von: %winner%'
   board.choose: 'Gespielt wird auf'
   player.choose: 'Mitspieler'
+  closed.label: 'Beendet'
+  open.label: 'Läuft'
   created: 'Erstell am/um'

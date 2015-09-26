@@ -1,0 +1,19 @@
+<table class="table">
+    <tbody>
+    {% for game in games %}
+        <tr>
+            <td>
+                {% if game.winner == game.player1 %}
+                    {{ player_link(game.player1) }}
+                    <i class="fa fa-trophy"></i>
+                {% else %}
+                    {{ player_link(game.player1) }}
+                {% endif %}
+            </td>
+            <td>
+                {{ player_link(game.player2) }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

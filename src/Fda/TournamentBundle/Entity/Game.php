@@ -185,6 +185,14 @@ class Game
     }
 
     /**
+     * @return bool
+     */
+    public function isStarted()
+    {
+        return count($this->getLegs()) > 0;
+    }
+
+    /**
      * @return Player
      */
     public function getWinner()

@@ -1,40 +1,55 @@
 {% extends 'FdaPlayerBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>Tournament</h1>
+    <h1>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('tournament_edit', { 'id': tournament.id }) }}" class="pull-right">
+                <i class="fa fa-edit"></i>
+                {{'tournament.edit'|trans}}
+            </a>
+        {% endif %}
+        <i class="fa fa-beer"></i>
+        {{ tournament.name }}
+        <small>
+            {% if tournament.isClosed %}
+                {{'tournament.closed.label'|trans}}
+            {% else %}
+                {{'tournament.open.label'|trans}}
+            {% endif %}
+        </small>
+    </h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Gamemode</th>
-                <td>{{ entity.gameMode }}</td>
-            </tr>
-            <tr>
-                <th>Gamecount</th>
-                <td>{{ entity.gameCount }}</td>
-            </tr>
-            <tr>
-                <th>Legmode</th>
-                <td>{{ entity.legMode }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {% include 'FdaTournamentBundle:Tournament:_properties.html.twig' %}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('tournament') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('tournament_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-play"></i>
+                    {{'tournament.game.running.label'|trans({'%count%':tournament.runningGames|length})}}
+                </div>
+                {% include 'FdaTournamentBundle:Game:_table.html.twig' with {games:tournament.runningGames} %}
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-stop"></i>
+                    {{'tournament.game.closed.label'|trans({'%count%':tournament.closedGames|length})}}
+                </div>
+                {% include 'FdaTournamentBundle:Game:_table.html.twig' with {games:tournament.closedGames} %}
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-pause"></i>
+                    {{'tournament.game.open.label'|trans({'%count%':tournament.openGames|length})}}
+                </div>
+                {% include 'FdaTournamentBundle:Game:_table.html.twig' with {games:tournament.openGames} %}
+            </div>
+        </div>
+    </div>
+
+    alle spiele {{ tournament.games|length }}
 {% endblock %}
