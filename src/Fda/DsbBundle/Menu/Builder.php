@@ -14,17 +14,17 @@ class Builder extends ContainerAware
         ));
 
         $players = $menu->addChild('player.menu', array(
-            'icon'  => 'user',
+            'icon'  => 'users',
             'route' => 'player',
         ));
 
         $boards = $menu->addChild('board.menu', array(
-            'icon'  => 'user',
+            'icon'  => 'bullseye',
             'route' => 'board',
         ));
 
         $tournaments = $menu->addChild('tournament.menu', array(
-            'icon'  => 'user',
+            'icon'  => 'beer',
             'route' => 'tournament',
         ));
 
