@@ -26,6 +26,21 @@ class Arrow
         $this->multiplier = $multiplier;
     }
 
+    public function __toString()
+    {
+        $label = '';
+
+        if ($this->isDouble()) {
+            $label .= 'D';
+        } elseif ($this->isTriple()) {
+            $label .= 'T';
+        }
+
+        $label .= $this->getScore();
+
+        return $label;
+    }
+
     /**
      * @return mixed
      */

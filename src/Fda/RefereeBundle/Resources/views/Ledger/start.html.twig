@@ -1,16 +1,37 @@
 {% extends 'FdaRefereeBundle::layout.html.twig' %}
 
 {% block content -%}
+    <div class="row">
+        <div class="col-xs-6 text-center">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ player_label(owner) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 text-center">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ board_label(board) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     owner: {{ owner.name }}
     <a href="{{ path('ledger_choose_owner') }}">change me</a>
     <br>
     board: {{ board.name }}
     <a href="{{ path('ledger_choose_board') }}">change my place</a>
 
-    <br><br>
-    upcomingGames: #{{ tournament_engine().gears.upcomingGames|length }}
-    <table>
+    <table class="table table-bordered">
         <thead>
+        <tr>
+            <th colspan="3">
+                upcomingGames: #{{ tournament_engine().gears.upcomingGames|length }}
+            </th>
+        </tr>
         <tr>
             <th>player 1</th>
             <th>player 2</th>

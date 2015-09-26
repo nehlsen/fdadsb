@@ -224,7 +224,7 @@ class Game
         foreach ($this->getLegs() as $leg) {
             if ($leg->getWinner() == $this->getPlayer1()) {
                 $this->legsWonPlayer1 += 1;
-            } elseif ($leg->getWinner() == $this->getPlayer1()) {
+            } elseif ($leg->getWinner() == $this->getPlayer2()) {
                 $this->legsWonPlayer2 += 1;
             } else {
                 throw new \Exception();

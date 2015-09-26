@@ -2,6 +2,7 @@
 
 namespace Fda\TournamentBundle\Engine;
 
+use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Leg;
 use Fda\TournamentBundle\Entity\Tournament;
 
@@ -22,11 +23,29 @@ abstract class AbstractLegGears extends EngineAware implements LegGearsInterface
     }
 
     /**
-     * @param Leg $leg
+     * {@InheritDoc}
      */
     public function setLeg(Leg $leg)
     {
         $this->leg = $leg;
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    public function getLeg()
+    {
+        return $this->leg;
+    }
+
+    /**
+     * abbreviation for this:leg:getGame()
+     *
+     * @return Game
+     */
+    protected function getGame()
+    {
+        return $this->leg->getGame();
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Fda\TournamentBundle\Engine;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
+use Fda\PlayerBundle\Entity\Player;
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Entity\Turn;
 
@@ -41,10 +42,10 @@ class SimpleLegGears extends AbstractLegGears
             return $lastTurn;
         }
 
-        $player = $this->gameGears->getGame()->getPlayer1();
+        $player = $this->getGame()->getPlayer1();
         if (false !== $lastTurn) {
             if ($lastTurn->getPlayer()->getId() == $player->getId()) {
-                $player = $this->gameGears->getGame()->getPlayer2();
+                $player = $this->getGame()->getPlayer2();
             }
         }
 
@@ -103,6 +104,51 @@ class SimpleLegGears extends AbstractLegGears
     }
 
     /**
+     * {@InheritDoc}
+     */
+    public function getRequiredScore()
+    {
+        $this->initRequirements();
+        return $this->requiredScore;
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    public function getScoreOf(Player $player)
+    {
+        if ($this->getGame()->getPlayer1() == $player) {
+            return $this->leg->getPlayer1score();
+        } elseif ($this->getGame()->getPlayer2() == $player) {
+            return $this->leg->getPlayer2score();
+        } else {
+            throw new \InvalidArgumentException();
+        }
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    public function getRemainingScoreOf(Player $player)
+    {
+        return $this->getRequiredScore() - $this->getScoreOf($player);
+    }
+
+    /**
+     * {@InheritDoc}
+     */
+    public function getFinishingMovesOf(Player $player)
+    {
+        $provider = new CountDownFinishingMoveProvider(
+            $this->getRemainingScoreOf($player),
+            $this->isDoubleOutRequired()
+        );
+
+        return $provider->getFinishingMoves();
+    }
+
+
+    /**
      * check if the turn is a bust and close the leg if won
      *
      * @param Turn $lastTurn
@@ -114,7 +160,7 @@ class SimpleLegGears extends AbstractLegGears
         $maxScore = $this->getRequiredScore();
         $doubleOutRequired = $this->isDoubleOutRequired();
 
-        if ($lastTurn->getPlayer() == $this->gameGears->getGame()->getPlayer1()) {
+        if ($lastTurn->getPlayer() == $this->getGame()->getPlayer1()) {
             $score = $this->leg->getPlayer1score();
         } else {
             $score = $this->leg->getPlayer2score();
@@ -133,17 +179,6 @@ class SimpleLegGears extends AbstractLegGears
             // last turn is a bust!
             $lastTurn->setVoid();
         }
-    }
-
-    /**
-     * the score required to win the leg
-     *
-     * @return int
-     */
-    protected function getRequiredScore()
-    {
-        $this->initRequirements();
-        return $this->requiredScore;
     }
 
     /**

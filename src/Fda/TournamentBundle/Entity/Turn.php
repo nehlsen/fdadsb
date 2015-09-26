@@ -296,6 +296,25 @@ class Turn
     }
 
     /**
+     * @return double
+     */
+    public function getAverageScore()
+    {
+        $arrowCount = 0;
+        if ($this->hasArrow(1)) {
+            $arrowCount = 1;
+        }
+        if ($this->hasArrow(2)) {
+            $arrowCount = 2;
+        }
+        if ($this->hasArrow(3)) {
+            $arrowCount = 3;
+        }
+
+        return 0 == $arrowCount ? 0.0 : $this->totalScore / ($arrowCount*1.0);
+    }
+
+    /**
      * @return bool
      */
     public function isVoid()

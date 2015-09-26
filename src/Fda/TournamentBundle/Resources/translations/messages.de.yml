@@ -16,6 +16,9 @@ tournament:
     mode301do.label: '301 + double out'
     mode501.label: '501'
     mode501do.label: '501 + double out'
+  leg:
+    counter: 'Leg %index%'
+    closed.label: 'Gewonnen von: %winner%'
   board.choose: 'Gespielt wird auf'
   player.choose: 'Mitspieler'
   created: 'Erstell am/um'

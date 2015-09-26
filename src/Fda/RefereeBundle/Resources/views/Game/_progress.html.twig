@@ -1,0 +1,35 @@
+<table class="table table-bordered table-striped">
+    {% for leg in game.legs|reverse %}
+        <tr>
+            <th colspan="5">
+                {{ 'tournament.leg.counter'|trans({'%index%':(loop.length-loop.index0)}) -}}
+                {%- if leg.isClosed -%}
+                    , {{ 'tournament.leg.closed.label'|trans({'%winner%':leg.winner.name}) }}
+                {% endif %}
+                ({{ leg.player1score }}/{{ leg.player2score }})
+            </th>
+        </tr>
+        {% for turn in leg.turns|reverse %}
+            <tr class="{{ loop.first and loop.parent.loop.first ? 'info' : '' }} {{ turn.isVoid ? 'text-muted' : '' }}">
+                <td>
+                    {{ loop.length-loop.index0 }}.
+                    {{ player_label(turn.player) }}
+                </td>
+                {% for number in [1,2,3] %}
+                    <td class="text-right">
+                        {% if turn.hasArrow(number) %}
+                            <small class="pull-left">{{ turn.arrow(number) }}</small>
+                            {{ turn.arrow(number).total }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                {% endfor %}
+                <td class="text-right">
+                    <small class="pull-left">&oslash;{{ turn.averageScore|number_format(1) }}</small>
+                    <strong>{{ turn.totalScore }}</strong>
+                </td>
+            </tr>
+        {% endfor %}
+    {% endfor %}
+</table>
