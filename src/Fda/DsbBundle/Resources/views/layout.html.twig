@@ -24,28 +24,27 @@
 {% endblock container %}
 
 {% block head_style %}
-    {# Override this block to add your own files! #}
-    {% stylesheets
-        '@MopaBootstrapBundle/Resources/public/less/mopabootstrapbundle-fa4.less'
-        '@FdaDsbBundle/Resources/public/less/layout.less'
-    %}
-    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% stylesheets '@FdaDsbBundle/Resources/public/less/layout.less' %}
+        <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
     {% endstylesheets %}
-    {# To use this without less use the base_css.html.twig template as your base
-     # Be sure you understand whats going on: have a look into
-     # https://github.com/phiamo/MopaBootstrapBundle/blob/master/Resources/doc/css-vs-less.md
-     #}
 {% endblock head_style %}
 
+{% block head_script %}
+    {% javascripts 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js' %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock head_script %}
+
 {% block foot_script_assetic %}
-    {# Please add the javascripts you need in your project
+    {{ parent() }}
+
     {% javascripts
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
-    '@MopaBootstrapBundle/Resources/public/bootstrap/js/*.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
-    '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
+        '@MopaBootstrapBundle/Resources/public/bootstrap/js/*.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
     %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    #}
+
 {% endblock foot_script_assetic %}
