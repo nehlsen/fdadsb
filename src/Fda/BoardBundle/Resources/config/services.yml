@@ -3,3 +3,10 @@ services:
     class: Fda\BoardBundle\Manager\BoardManager
     calls:
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+
+  fda.board.twig.extension:
+    class: Fda\BoardBundle\Twig\BoardExtension
+    calls:
+      - [setBoardManager,[@fda.board.manager]]
+    tags:
+      - { name: twig.extension }
