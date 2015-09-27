@@ -3,6 +3,8 @@
 namespace Fda\BoardBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Fda\TournamentBundle\Entity\Game;
+use Fda\TournamentBundle\Entity\Tournament;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -51,6 +53,18 @@ class Board
      * @var \DateTime
      */
     protected $updated;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Fda\TournamentBundle\Entity\Tournament",mappedBy="boards")
+     * @var Tournament[]
+     */
+    protected $tournaments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Game", mappedBy="board")
+     * @var Game[]
+     */
+    protected $games;
 
     /**
      * @return int
@@ -110,5 +124,21 @@ class Board
     public function getImageName()
     {
         return $this->imageName;
+    }
+
+    /**
+     * @return Tournament[]
+     */
+    public function getTournaments()
+    {
+        return $this->tournaments;
+    }
+
+    /**
+     * @return Game[]
+     */
+    public function getGames()
+    {
+        return $this->games;
     }
 }

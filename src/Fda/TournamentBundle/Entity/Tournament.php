@@ -71,7 +71,7 @@ class Tournament
     protected $legMode;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Fda\BoardBundle\Entity\Board")
+     * @ORM\ManyToMany(targetEntity="Fda\BoardBundle\Entity\Board", inversedBy="tournaments")
      * @var Board[]
      */
     protected $boards;

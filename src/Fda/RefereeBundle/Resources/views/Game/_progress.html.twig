@@ -10,7 +10,9 @@
             </th>
         </tr>
         {% for turn in leg.turns|reverse %}
-            <tr class="{{ loop.first and loop.parent.loop.first ? 'info' : '' }} {{ turn.isVoid ? 'text-muted' : '' }}">
+            {% set isActiveTurn = loop.first and loop.parent.loop.first %}
+            {% set isActiveTurn = leg.isClosed ? false : isActiveTurn %}
+            <tr class="{{ isActiveTurn ? 'info' : '' }} {{ turn.isVoid ? 'text-muted' : '' }}">
                 <td>
                     {{ loop.length-loop.index0 }}.
                     {{ player_label(turn.player) }}

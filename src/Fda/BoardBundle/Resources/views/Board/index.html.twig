@@ -1,11 +1,16 @@
 {% extends 'FdaBoardBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>{{ 'board.plural'|trans }}</h1>
+    <h1>
+        <i class="fa fa-bullseye"></i>
+        {{ 'board.plural'|trans }}
+    </h1>
 
     {% include 'FdaBoardBundle:Board:_table.html.twig' %}
 
-    <a href="{{ path('board_new') }}" class="btn btn-primary">
-        <i class="fa fa-plus"></i> {{ 'board.new'|trans }}
-    </a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('board_new') }}" class="btn btn-primary">
+            <i class="fa fa-plus"></i> {{ 'board.new'|trans }}
+        </a>
+    {% endif %}
 {% endblock %}

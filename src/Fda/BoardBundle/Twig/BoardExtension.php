@@ -44,7 +44,7 @@ class BoardExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function playerLink(\Twig_Environment $environment, $board_or_id, array $options = array())
+    public function boardLink(\Twig_Environment $environment, $board_or_id, array $options = array())
     {
         $board = $this->board($board_or_id);
 

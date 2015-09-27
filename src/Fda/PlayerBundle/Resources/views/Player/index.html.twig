@@ -1,11 +1,16 @@
 {% extends 'FdaPlayerBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>{{ 'player.plural'|trans }}</h1>
+    <h1>
+        <i class="fa fa-users"></i>
+        {{ 'player.plural'|trans }}
+    </h1>
 
     {% include 'FdaPlayerBundle:Player:_table.html.twig' %}
 
-    <a href="{{ path('player_new') }}" class="btn btn-primary">
-        <i class="fa fa-plus"></i> {{ 'player.new'|trans }}
-    </a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('player_new') }}" class="btn btn-primary">
+            <i class="fa fa-plus"></i> {{ 'player.new'|trans }}
+        </a>
+    {% endif %}
 {% endblock %}

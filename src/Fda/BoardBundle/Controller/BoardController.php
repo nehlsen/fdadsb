@@ -92,11 +92,8 @@ class BoardController extends Controller
     {
         $board = $this->getBoard($id);
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('FdaBoardBundle:Board:show.html.twig', array(
-            'entity'      => $board,
-            'delete_form' => $deleteForm->createView(),
+            'board' => $board,
         ));
     }
 

@@ -1,7 +1,15 @@
 {% extends 'FdaPlayerBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>{{ player_label(player) }}</h1>
+    <h1>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('player_edit', { 'id': player.id }) }}">
+                <i class="fa fa-edit"></i>
+                {{'player.edit'|trans}}
+            </a>
+        {% endif %}
+        {{ player_label(player) }}
+    </h1>
 
     <table class="table">
         <tr>
@@ -29,31 +37,4 @@
             <td>{{ player.turns|length }}</td>
         </tr>
     </table>
-
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ player.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ player.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('player') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('player_edit', { 'id': player.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
 {% endblock %}

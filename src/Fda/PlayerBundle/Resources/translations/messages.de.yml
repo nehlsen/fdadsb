@@ -5,3 +5,11 @@ player:
   new: 'Neuer Spieler'
   edit: 'Spieler bearbeiten'
   tournament.participate.count: 'Turniere'
+  game:
+    referred.count: 'Schiedsrichter Einsätze'
+    played.count: 'Gespielte Spiele'
+    won.count: 'Gewonnene Spiele'
+  leg:
+    won.count: 'Gewonnene Legs'
+  turn:
+    count: 'Gespielte Züge'

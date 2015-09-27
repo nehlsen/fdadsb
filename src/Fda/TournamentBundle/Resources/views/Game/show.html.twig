@@ -9,26 +9,40 @@
         {{ player_label(game.player2) }}
     </h1>
 
+    <div class="row">
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>{{'game.referee.label'|trans}}</dt>
+                {#<dd>{{ player_link(game.referee) }}</dd>#}
 
-    game show
-    <br>
+                <dt>{{'game.board.label'|trans}}</dt>
+                {#<dd>{{ board_link(game.board) }}</dd>#}
+            </dl>
 
-    {% if game.isClosed %}
-        CLOSED
-    {% elseif game.isStarted %}
-        STARTED
-    {% else %}
-        NOT STARTED
-    {% endif %}
-    <br>
+            <br><br>
+            <hr>
+            game show
+            <br>
 
-    tournament <br>
-    board <br>
-    referee <br>
-    player1 <br>
-    player2 <br>
-    legs played, won 1, won 2 <br>
-    winner? <br>
+            {% if game.isClosed %}
+                CLOSED
+            {% elseif game.isStarted %}
+                STARTED
+            {% else %}
+                NOT STARTED
+            {% endif %}
+            <br>
 
-    {% include 'FdaRefereeBundle:Game:_progress.html.twig' %}
+            tournament <br>
+            board <br>
+            referee <br>
+            player1 <br>
+            player2 <br>
+            legs played, won 1, won 2 <br>
+            winner? <br>
+        </div>
+        <div class="col-md-6">
+            {% include 'FdaRefereeBundle:Game:_progress.html.twig' %}
+        </div>
+    </div>
 {% endblock %}
