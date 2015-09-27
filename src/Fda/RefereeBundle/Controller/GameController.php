@@ -2,6 +2,7 @@
 
 namespace Fda\RefereeBundle\Controller;
 
+use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Turn;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,25 +22,25 @@ class GameController extends Controller
     public function playAction($gameId)
     {
         $gameGears = $this->get('fda.tournament.engine')->getGears()->getGameGears($gameId);
-        if ($gameGears->getGame()->isClosed()) {
+        $game = $gameGears->getGame();
+        if ($game->isClosed()) {
             throw new \Exception('game closed!');
+        }
+
+        if ($game->getLegs()->isEmpty()) {
+            // fresh game! set referee and board!
+            $this->setGameBoardAndReferee($game);
         }
 
         $legGears = $gameGears->getLegGears();
         $turn = $legGears->currentTurn();
-//        $turn->getPlayer(); // who is playing now
-
-//        $legGears->registerArrow(10, Turn::MULTIPLIER_TRIPLE); // triple ten
-//        $legGears->registerArrow(0);                           // missed the board
-//        $legGears->registerArrow(7);                           // (single) seven
 
         $this->getDoctrine()->getManager()->flush();
 
         return $this->render('FdaRefereeBundle:Game:play.html.twig', array(
-            'game'  => $gameGears->getGame(),
-//            'ggears' => $gameGears,
+            'game'      => $game,
             'leg_gears' => $legGears,
-            'turn' => $turn,
+            'turn'      => $turn,
         ));
     }
 
@@ -69,6 +70,12 @@ class GameController extends Controller
 
         $tournamentEngine = $this->get('fda.tournament.engine');
         $continueGame = $tournamentEngine->registerShot($gameId, $score, $multiplier);
+        if (!$continueGame) {
+            // make sure the correct referee is set in the end
+            $game = $tournamentEngine->getGears()->getGameGears($gameId)->getGame();
+            $this->setGameBoardAndReferee($game);
+        }
+
         $this->getDoctrine()->getManager()->flush();
 
         if ($continueGame) {
@@ -76,5 +83,12 @@ class GameController extends Controller
         } else {
             return $this->redirectToRoute('ledger_start');
         }
+    }
+
+    protected function setGameBoardAndReferee(Game $game)
+    {
+        $ledger = $this->get('fda.ledger');
+        $game->setBoard($ledger->getBoard());
+        $game->setReferee($ledger->getOwner());
     }
 }

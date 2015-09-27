@@ -129,11 +129,27 @@ class Game
     }
 
     /**
+     * @param Board $board
+     */
+    public function setBoard($board)
+    {
+        $this->board = $board;
+    }
+
+    /**
      * @return Player
      */
     public function getReferee()
     {
         return $this->referee;
+    }
+
+    /**
+     * @param Player $referee
+     */
+    public function setReferee($referee)
+    {
+        $this->referee = $referee;
     }
 
     /**

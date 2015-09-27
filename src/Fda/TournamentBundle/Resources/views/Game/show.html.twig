@@ -13,11 +13,30 @@
         <div class="col-md-6">
             <dl class="dl-horizontal">
                 <dt>{{'game.referee.label'|trans}}</dt>
-                {#<dd>{{ player_link(game.referee) }}</dd>#}
+                <dd>{{ game.referee ? player_link(game.referee) : '-' }}</dd>
 
                 <dt>{{'game.board.label'|trans}}</dt>
-                {#<dd>{{ board_link(game.board) }}</dd>#}
+                <dd>{{ game.board ? board_link(game.board) : '-' }}</dd>
             </dl>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>total</th>
+                    <th>{{ player_label(game.player1) }}</th>
+                    <th>{{ player_label(game.player2) }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>{{'leg.plural'|trans}}</th>
+                        <td>{{ game.legs|length }}</td>
+                        <td>{{ game.legsWonPlayer1 }}</td>
+                        <td>{{ game.legsWonPlayer2 }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
             <br><br>
             <hr>
