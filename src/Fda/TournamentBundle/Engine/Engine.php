@@ -12,6 +12,9 @@ class Engine extends ContainerAware implements EngineInterface
     /** @var EntityManager */
     protected $entityManager;
 
+    /** @var Tournament */
+    protected $tournament;
+
     /** @var TournamentGearsInterface */
     protected $tournamentGears;
 
@@ -43,12 +46,21 @@ class Engine extends ContainerAware implements EngineInterface
      */
     public function getTournament()
     {
+        if (null !== $this->tournament) {
+            return $this->tournament;
+        }
+
         $repository = $this->entityManager->getRepository('FdaTournamentBundle:Tournament');
         $tournament = $repository->findOneBy(array(
             'isClosed' => false,
         ));
 
         return $tournament;
+    }
+
+    public function setTournament(Tournament $tournament)
+    {
+        $this->tournament = $tournament;
     }
 
     /**

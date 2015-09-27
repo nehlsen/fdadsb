@@ -28,3 +28,7 @@ tournament_delete:
     path:     /{id}/delete
     defaults: { _controller: "FdaTournamentBundle:Tournament:delete" }
     methods:  [POST, DELETE]
+
+game_show:
+    path:     /game/{gameId}/show
+    defaults: { _controller: "FdaTournamentBundle:Game:show" }

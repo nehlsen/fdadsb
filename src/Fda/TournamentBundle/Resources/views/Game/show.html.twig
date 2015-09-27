@@ -1,0 +1,34 @@
+{% extends 'FdaPlayerBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>
+        {{ tournament_link(game.tournament) }}
+        :
+        {{ player_label(game.player1) }}
+        vs
+        {{ player_label(game.player2) }}
+    </h1>
+
+
+    game show
+    <br>
+
+    {% if game.isClosed %}
+        CLOSED
+    {% elseif game.isStarted %}
+        STARTED
+    {% else %}
+        NOT STARTED
+    {% endif %}
+    <br>
+
+    tournament <br>
+    board <br>
+    referee <br>
+    player1 <br>
+    player2 <br>
+    legs played, won 1, won 2 <br>
+    winner? <br>
+
+    {% include 'FdaRefereeBundle:Game:_progress.html.twig' %}
+{% endblock %}

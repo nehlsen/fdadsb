@@ -8,8 +8,7 @@
                 {{'tournament.edit'|trans}}
             </a>
         {% endif %}
-        <i class="fa fa-beer"></i>
-        {{ tournament.name }}
+        {{ tournament_label(tournament) }}
         <small>
             {% if tournament.isClosed %}
                 {{'tournament.closed.label'|trans}}

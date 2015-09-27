@@ -3,6 +3,11 @@
     {% for game in games %}
         <tr>
             <td>
+                <a href="{{ path('game_show',{gameId:game.id}) }}">
+                    <i class="fa fa-eye"></i>
+                </a>
+            </td>
+            <td>
                 {% if game.winner == game.player1 %}
                     {{ player_link(game.player1) }}
                     <i class="fa fa-trophy"></i>
