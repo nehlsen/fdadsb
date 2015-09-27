@@ -1,4 +1,9 @@
 services:
+  fda.tournament.manager:
+    class: Fda\TournamentBundle\Manager\TournamentManager
+    calls:
+      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+
   fda.tournament.engine:
     class: Fda\TournamentBundle\Engine\Engine
     arguments:
@@ -31,6 +36,7 @@ services:
     class: Fda\TournamentBundle\Twig\TournamentExtension
     calls:
       - [setTournamentEngine,[@fda.tournament.engine]]
+      - [setTournamentManager,[@fda.tournament.manager]]
     tags:
       - { name: twig.extension }
 
