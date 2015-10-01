@@ -8,15 +8,18 @@
                 </a>
             </td>
             <td>
+                {{ player_link(game.player1) }}
                 {% if game.winner == game.player1 %}
-                    {{ player_link(game.player1) }}
                     <i class="fa fa-trophy"></i>
-                {% else %}
-                    {{ player_link(game.player1) }}
                 {% endif %}
             </td>
+            <td>{{ game.legsWonPlayer1 }}</td>
+            <td>{{ game.legsWonPlayer2 }}</td>
             <td>
                 {{ player_link(game.player2) }}
+                {% if game.winner == game.player2 %}
+                    <i class="fa fa-trophy"></i>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

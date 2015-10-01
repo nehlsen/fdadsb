@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Fda\BoardBundle\Entity\Board;
 use Fda\PlayerBundle\Entity\Player;
+use Fda\TournamentBundle\Manager\GameStats;
+use Fda\TournamentBundle\Manager\GameStatsFactory;
 
 /**
  * @ORM\Entity
@@ -84,6 +86,9 @@ class Game
      * @var \DateTime
      */
     protected $created;
+
+    /** @var GameStats */
+    protected $stats;
 
     public function __construct()
     {
@@ -201,6 +206,37 @@ class Game
     }
 
     /**
+     * @param Player $player
+     * @return int
+     */
+    public function getLegsWonOf(Player $player)
+    {
+        if ($player == $this->getPlayer1()) {
+            return $this->getLegsWonPlayer1();
+        } elseif ($player == $this->getPlayer2()) {
+            return $this->getLegsWonPlayer2();
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * @param Player $player
+     *
+     * @return Turn[]
+     */
+    public function getTurnsOf(Player $player)
+    {
+        $turns = array();
+
+        foreach ($this->getLegs() as $leg) {
+            $turns = array_merge($turns, $leg->getTurnsOf($player)->toArray());
+        }
+
+        return $turns;
+    }
+
+    /**
      * @return bool
      */
     public function isStarted()
@@ -254,5 +290,17 @@ class Game
                 throw new \Exception();
             }
         }
+    }
+
+    /**
+     * some more game statistics, another class to not overly bloat the modal ;)
+     */
+    public function getStats()
+    {
+        if (null === $this->stats) {
+            $this->stats = GameStatsFactory::create($this);
+        }
+
+        return $this->stats;
     }
 }

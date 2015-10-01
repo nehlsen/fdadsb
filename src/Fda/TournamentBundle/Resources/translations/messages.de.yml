@@ -38,3 +38,27 @@ tournament:
   closed.label: 'Beendet'
   open.label: 'Läuft'
   created: 'Erstell am/um'
+
+game:
+  closed.label: 'Beendet'
+  running.label: 'Läuft'
+  open.label: 'Nicht begonnen'
+  winner.label: 'Gewinner'
+  referee.label: 'Schiedsrichter'
+  board.label: 'Austragungsort'
+  stats.total.label: 'Gesamt'
+
+leg.plural: 'Legs'
+
+turn:
+  plural: 'Züge'
+  best: 'Bester Zug'
+  average: 'Durschnittlicher Zug'
+
+shot:
+  plural: 'Schüsse'
+  single.plural: 'Singles'
+  double.plural: 'Doubles'
+  triple.plural: 'Triples'
+  best: 'Bester Schuss'
+  average: 'Durschnittlicher Schuss'

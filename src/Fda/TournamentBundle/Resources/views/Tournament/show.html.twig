@@ -18,8 +18,26 @@
         </small>
     </h1>
 
-    {% include 'FdaTournamentBundle:Tournament:_properties.html.twig' %}
-
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    XXX
+                </div>
+                <div class="panel-body">
+                    {% include 'FdaTournamentBundle:Tournament:_properties.html.twig' %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    XXX
+                </div>
+                {% include 'FdaTournamentBundle:Tournament:_scoreboard.html.twig' %}
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-4 col-sm-6">
             <div class="panel panel-default">

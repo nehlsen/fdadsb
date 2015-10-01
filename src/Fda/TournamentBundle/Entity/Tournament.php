@@ -380,6 +380,32 @@ class Tournament
     }
 
     /**
+     * get tournament scoreboard as games-won to player-ID
+     * @return array win-count => player-ID
+     */
+    public function getGamesWonToPlayer()
+    {
+        $playerToWon = array();
+
+        foreach ($this->games as $game) {
+            $winner = $game->getWinner();
+            if (null === $winner) {
+                continue;
+            }
+
+            if (!array_key_exists($winner->getId(), $playerToWon)) {
+                $playerToWon[$winner->getId()] = 0;
+            }
+
+            $playerToWon[$winner->getId()] += 1;
+        }
+
+        $wonToPlayer = array_flip($playerToWon);
+        ksort($wonToPlayer);
+        return array_reverse($wonToPlayer, true);
+    }
+
+    /**
      * @return bool
      */
     public function isClosed()

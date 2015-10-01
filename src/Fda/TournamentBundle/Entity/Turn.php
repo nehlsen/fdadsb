@@ -229,6 +229,22 @@ class Turn
     }
 
     /**
+     * @return Arrow[]
+     */
+    public function getArrows()
+    {
+        $arrows = array();
+
+        foreach ([3,2,1] as $number) {
+            if ($this->hasArrow($number)) {
+                $arrows[] = $this->getArrow($number);
+            }
+        }
+
+        return $arrows;
+    }
+
+    /**
      * @param int|Arrow   $number_or_arrow
      * @param int|null    $score
      * @param string|null $multiplier

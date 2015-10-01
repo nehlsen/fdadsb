@@ -183,6 +183,36 @@ class Leg
     }
 
     /**
+     * @param Player $player
+     * @return int
+     */
+    public function getScoreOf(Player $player)
+    {
+        if ($player == $this->getGame()->getPlayer1()) {
+            return $this->getPlayer1score();
+        } elseif ($player == $this->getGame()->getPlayer2()) {
+            return $this->getPlayer2score();
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * @param Player $player
+     * @return int
+     */
+    public function getCountShotsOf(Player $player)
+    {
+        if ($player == $this->getGame()->getPlayer1()) {
+            return $this->getPlayer1shots();
+        } elseif ($player == $this->getGame()->getPlayer2()) {
+            return $this->getPlayer2shots();
+        } else {
+            return 0;
+        }
+    }
+
+    /**
      * @return Player
      */
     public function getWinner()

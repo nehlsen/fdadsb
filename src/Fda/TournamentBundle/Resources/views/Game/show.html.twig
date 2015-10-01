@@ -7,11 +7,23 @@
         {{ player_label(game.player1) }}
         vs
         {{ player_label(game.player2) }}
+        <small>
+            {% if game.isClosed %}
+                {{'game.closed.label'|trans}}
+            {% elseif game.isStarted %}
+                {{'game.running.label'|trans}}
+            {% else %}
+                {{'game.open.label'|trans}}
+            {% endif %}
+        </small>
     </h1>
 
     <div class="row">
         <div class="col-md-6">
             <dl class="dl-horizontal">
+                <dt>{{'game.winner.label'|trans}}</dt>
+                <dd>{{ game.winner ? player_link(game.winner) : '-' }}</dd>
+
                 <dt>{{'game.referee.label'|trans}}</dt>
                 <dd>{{ game.referee ? player_link(game.referee) : '-' }}</dd>
 
@@ -23,18 +35,102 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>total</th>
+                    <th>{{'game.stats.total.label'|trans}}</th>
                     <th>{{ player_label(game.player1) }}</th>
                     <th>{{ player_label(game.player2) }}</th>
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th>{{'leg.plural'|trans}}</th>
-                        <td>{{ game.legs|length }}</td>
-                        <td>{{ game.legsWonPlayer1 }}</td>
-                        <td>{{ game.legsWonPlayer2 }}</td>
-                    </tr>
+                <tr>
+                    <th>{{'leg.plural'|trans}}</th>
+                    <td>{{ game.stats.legs }}</td>
+                    <td>{{ game.stats.player1.legs }}</td>
+                    <td>{{ game.stats.player2.legs }}</td>
+                </tr>
+                <tr>
+                    <th>{{'leg.best.score'|trans}}</th>
+                    <td>{{ game.stats.legBestScore }}</td>
+                    <td>{{ game.stats.player1.legBestScore }}</td>
+                    <td>{{ game.stats.player2.legBestScore }}</td>
+                </tr>
+                <tr>
+                    <th>{{'leg.least.shots'|trans}}</th>
+                    <td>{{ game.stats.legLeastShots }}</td>
+                    <td>{{ game.stats.player1.legLeastShots }}</td>
+                    <td>{{ game.stats.player2.legLeastShots }}</td>
+                </tr>
+                <tr>
+                    <th>{{'turn.plural'|trans}}</th>
+                    <td>{{ game.stats.turns }}</td>
+                    <td>{{ game.stats.player1.turns }}</td>
+                    <td>{{ game.stats.player2.turns }}</td>
+                </tr>
+                <tr>
+                    <th>{{'turn.best.score'|trans}}</th>
+                    <td>{{ game.stats.turnBestScore }}</td>
+                    <td>{{ game.stats.player1.turnBestScore }}</td>
+                    <td>{{ game.stats.player2.turnBestScore }}</td>
+                </tr>
+                <tr>
+                    <th>{{'turn.best.average'|trans}}</th>
+                    <td>{{ game.stats.turnBestAverage|number_format(2) }}</td>
+                    <td>{{ game.stats.player1.turnBestAverage|number_format(2) }}</td>
+                    <td>{{ game.stats.player2.turnBestAverage|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <th>{{'turn.average'|trans}}</th>
+                    <td>{{ game.stats.turnAverage|number_format(2) }}</td>
+                    <td>{{ game.stats.player1.turnAverage|number_format(2) }}</td>
+                    <td>{{ game.stats.player2.turnAverage|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <th>{{'shot.plural'|trans}}</th>
+                    <td>{{ game.stats.shots }}</td>
+                    <td>{{ game.stats.player1.shots }}</td>
+                    <td>{{ game.stats.player2.shots }}</td>
+                </tr>
+                <tr>
+                    <th>{{'shot.zero.plural'|trans}}</th>
+                    <td>{{ game.stats.shotsZero }}</td>
+                    <td>{{ game.stats.player1.shotsZero }} ({{ game.stats.player1.shotsZeroPercent|number_format(1) }}%)</td>
+                    <td>{{ game.stats.player2.shotsZero }} ({{ game.stats.player2.shotsZeroPercent|number_format(1) }}%)</td>
+                </tr>
+                <tr>
+                    <th>{{'shot.single.plural'|trans}}</th>
+                    <td>{{ game.stats.shotsSingle }}</td>
+                    <td>{{ game.stats.player1.shotsSingle }} ({{ game.stats.player1.shotsSinglePercent|number_format(1) }}%)</td>
+                    <td>{{ game.stats.player2.shotsSingle }} ({{ game.stats.player2.shotsSinglePercent|number_format(1) }}%)</td>
+                </tr>
+                <tr>
+                    <th>{{'shot.double.plural'|trans}}</th>
+                    <td>{{ game.stats.shotsDouble }}</td>
+                    <td>{{ game.stats.player1.shotsDouble }} ({{ game.stats.player1.shotsDoublePercent|number_format(1) }}%)</td>
+                    <td>{{ game.stats.player2.shotsDouble }} ({{ game.stats.player2.shotsDoublePercent|number_format(1) }}%)</td>
+                </tr>
+                <tr>
+                    <th>{{'shot.triple.plural'|trans}}</th>
+                    <td>{{ game.stats.shotsTriple }}</td>
+                    <td>{{ game.stats.player1.shotsTriple }} ({{ game.stats.player1.shotsTriplePercent|number_format(1) }}%)</td>
+                    <td>{{ game.stats.player2.shotsTriple }} ({{ game.stats.player2.shotsTriplePercent|number_format(1) }}%)</td>
+                </tr>
+                <tr>
+                    <th>{{'shot.best'|trans}}</th>
+                    <td>{{ game.stats.shotsBest }}</td>
+                    <td>{{ game.stats.player1.shotsBest }}</td>
+                    <td>{{ game.stats.player2.shotsBest }}</td>
+                </tr>
+                <tr>
+                    <th>{{'shot.average'|trans}}</th>
+                    <td>{{ game.stats.shotsAverage|number_format(2) }}</td>
+                    <td>{{ game.stats.player1.shotsAverage|number_format(2) }}</td>
+                    <td>{{ game.stats.player2.shotsAverage|number_format(2) }}</td>
+                </tr>
+                <tr>
+                    <th>{{'game.total'|trans}}</th>
+                    <td>{{ game.stats.totalScore }}</td>
+                    <td>{{ game.stats.player1.totalScore }}</td>
+                    <td>{{ game.stats.player2.totalScore }}</td>
+                </tr>
                 </tbody>
             </table>
 
