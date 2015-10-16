@@ -91,7 +91,7 @@ class PlayerGameStatsFactory
             $totalScore += $turn->getTotalScore();
         }
 
-        $overallAverage = $totalScore / count($turns);
+        $overallAverage = count($turns) > 0 ? $totalScore / count($turns) : 0;
 
         $this->stats->turns = count($turns);
         $this->stats->turnBestAverage = $bestAverage;
@@ -124,11 +124,19 @@ class PlayerGameStatsFactory
             $this->stats->totalScore += $shot->getTotal();
         }
 
-        $this->stats->shotsAverage = $this->stats->totalScore / $this->stats->shots;
+        if ($this->stats->shots > 0) {
+            $this->stats->shotsAverage = $this->stats->totalScore / $this->stats->shots;
 
-        $this->stats->shotsZeroPercent = $this->stats->shotsZero / $this->stats->shots * 100.0;
-        $this->stats->shotsSinglePercent = $this->stats->shotsSingle / $this->stats->shots * 100.0;
-        $this->stats->shotsDoublePercent = $this->stats->shotsDouble / $this->stats->shots * 100.0;
-        $this->stats->shotsTriplePercent = $this->stats->shotsTriple / $this->stats->shots * 100.0;
+            $this->stats->shotsZeroPercent = $this->stats->shotsZero / $this->stats->shots * 100.0;
+            $this->stats->shotsSinglePercent = $this->stats->shotsSingle / $this->stats->shots * 100.0;
+            $this->stats->shotsDoublePercent = $this->stats->shotsDouble / $this->stats->shots * 100.0;
+            $this->stats->shotsTriplePercent = $this->stats->shotsTriple / $this->stats->shots * 100.0;
+        } else {
+            $this->stats->shotsAverage = 0;
+            $this->stats->shotsZeroPercent = 0;
+            $this->stats->shotsSinglePercent = 0;
+            $this->stats->shotsDoublePercent = 0;
+            $this->stats->shotsTriplePercent = 0;
+        }
     }
 }
