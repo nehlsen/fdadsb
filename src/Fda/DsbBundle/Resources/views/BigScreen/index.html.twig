@@ -1,0 +1,30 @@
+{% extends 'FdaDsbBundle:BigScreen:layout.html.twig' %}
+
+{% block content %}
+    {% if tournament is not null %}
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-header">
+                    <a href="#" id="fda-toggle-auto-update" class="btn btn-danger btn-sm pull-right">update on/off</a>
+                    {{ tournament.name }}
+                </h1>
+                {% set perRow = 4 %}
+                {% if tournament.boards|length < 4 %}{% set perRow = tournament.boards|length+1 %}{% endif %}
+                {% set colSize = 12 / perRow %}
+                <div class="row">
+                    {% for board in tournament.boards %}
+                        <div class="col-md-{{ colSize }}">
+                            {% include 'FdaDsbBundle:BigScreen:_board.html.twig' %}
+                        </div>
+                    {% endfor %}
+                    <div class="col-md-{{ colSize }}">
+                        {% include 'FdaDsbBundle:BigScreen:_overview.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <strong>NO RUNNING TOURNAMENT</strong>
+        TODO make page auto refresh every 60 seconds
+    {% endif %}
+{% endblock content %}

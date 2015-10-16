@@ -1,0 +1,29 @@
+{% extends 'FdaDsbBundle::layout.html.twig' %}
+
+{% block container %}
+    <div class="container">
+        <div class="content">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </div>
+{% endblock container %}
+
+{% block head_style %}
+    {% stylesheets '@FdaDsbBundle/Resources/public/less/layout_big_screen.less' %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+{% endblock head_style %}
+
+{% block foot_script %}
+    {{ parent() }}
+    {% javascripts
+    '@MopaBootstrapBundle/Resources/public/bootstrap/js/tooltip.js'
+    '@FdaDsbBundle/Resources/public/js/big-screen.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script type="text/javascript">
+        FdaBigScreen.urls.boardInfo = '{{ path('BigScreen_async_board_info',{boardId:'boardId'}) }}';
+    </script>
+{% endblock foot_script %}

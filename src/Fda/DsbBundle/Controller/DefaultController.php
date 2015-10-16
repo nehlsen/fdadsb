@@ -8,8 +8,12 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_REFEREE')) {
+        $authorizationChecker = $this->get('security.authorization_checker');
+        if ($authorizationChecker->isGranted('ROLE_REFEREE')) {
             return $this->forward('FdaRefereeBundle:Ledger:start');
+        }
+        if ($authorizationChecker->isGranted('ROLE_BIG_SCREEN')) {
+            return $this->redirectToRoute('BigScreen_index');
         }
 
         $tournament = $this->get('fda.tournament.engine')->getTournament();

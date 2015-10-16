@@ -2,6 +2,13 @@ fda_dsb_homepage:
   path:     /
   defaults: { _controller: FdaDsbBundle:Default:index }
 
+BigScreen_index:
+  path:     /big-screen
+  defaults: { _controller: FdaDsbBundle:BigScreen:index }
+BigScreen_async_board_info:
+  path:     /big-screen/board/{boardId}
+  defaults: { _controller: FdaDsbBundle:BigScreen:fetchBoardInfo }
+
 FdaPlayerBundle_player:
   resource: "@FdaPlayerBundle/Resources/config/routing.yml"
   prefix:   /player

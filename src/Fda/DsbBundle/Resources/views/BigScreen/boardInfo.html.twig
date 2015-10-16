@@ -1,0 +1,32 @@
+{# async response, no layout #}
+
+{% if game is not null %}
+    <table class="table">
+        <tr class="{{ turn.player == game.player1 ? 'info' : '' }}">
+            <td colspan="3">
+                {{ player_label(game.player1) }}
+            </td>
+        </tr>
+        <tr class="{{ turn.player == game.player2 ? 'info' : '' }}">
+            <td colspan="3">
+                {{ player_label(game.player2) }}
+            </td>
+        </tr>
+        <tr>
+            {% for number in 1..3 %}
+                <td class="text-right">
+                    {% if turn.hasArrow(number) %}
+                        <small class="pull-left">{{ turn.arrow(number) }}</small>
+                        {{ turn.arrow(number).total }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+    </table>
+{% else %}
+    NO GAME
+{% endif %}
+
+<small class="pull-right"><em>{{ null|date('H:m:s') }}</em></small>
