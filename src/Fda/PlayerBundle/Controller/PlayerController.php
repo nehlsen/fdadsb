@@ -13,14 +13,13 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PlayerController extends Controller
 {
-
     /**
      * Lists all Player entities.
      *
      */
     public function indexAction()
     {
-        $players = $this->getRepository()->findAll();
+        $players = $this->getPlayers();
 
         return $this->render('FdaPlayerBundle:Player:index.html.twig', array(
             'players' => $players,
@@ -230,5 +229,15 @@ class PlayerController extends Controller
         }
 
         return $player;
+    }
+
+    /**
+     * @return Player[]
+     */
+    protected function getPlayers()
+    {
+        $players = $this->getRepository()->findBy(array(), array('name' => 'ASC'));
+
+        return $players;
     }
 }
