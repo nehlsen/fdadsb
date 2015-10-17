@@ -45,7 +45,7 @@ class Board
      *
      * @var string
      */
-    protected $imageName;
+    protected $imageName = '';
 
     /**
      * @ORM\Column(type="datetime")
@@ -65,6 +65,14 @@ class Board
      * @var Game[]
      */
     protected $games;
+
+    /**
+     * Player constructor.
+     */
+    public function __construct()
+    {
+        $this->updated = new \DateTime();
+    }
 
     /**
      * @return int

@@ -47,7 +47,7 @@ class Player
      *
      * @var string
      */
-    protected $imageName;
+    protected $imageName = '';
 
     /**
      * @ORM\Column(type="datetime")
@@ -97,6 +97,14 @@ class Player
      * @var Game[]
      */
     protected $wonGames;
+
+    /**
+     * Player constructor.
+     */
+    public function __construct()
+    {
+        $this->updated = new \DateTime();
+    }
 
     /**
      * @return int
