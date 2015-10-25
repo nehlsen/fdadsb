@@ -4,6 +4,7 @@ namespace Fda\TournamentBundle\Controller;
 
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Form\TournamentType;
+use Fda\TournamentBundle\Form\TournamentWizard\WizardData;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,12 +76,41 @@ class TournamentController extends Controller
      */
     public function newAction()
     {
-        $tournament = new Tournament();
-        $form   = $this->createCreateForm($tournament);
+//        $tournament = new Tournament();
+//        $form   = $this->createCreateForm($tournament);
+//
+//        return $this->render('FdaTournamentBundle:Tournament:new.html.twig', array(
+//            'entity' => $tournament,
+//            'form'   => $form->createView(),
+//        ));
+
+        $wizardFormData = new WizardData();
+
+        $flow = $this->get('fda.tournament.new_tournament_wizard');
+        $flow->bind($wizardFormData);
+
+        $form = $flow->createForm();
+        if ($flow->isValid($form)) {
+            $flow->saveCurrentStepData($form);
+
+            if ($flow->nextStep()) {
+                $form = $flow->createForm();
+            } else {
+//                $em = $this->getDoctrine()->getManager();
+//                $em->persist($formData);
+//                $em->flush();
+//
+//                $flow->reset(); // remove step data from the session
+
+//                return $this->redirectToRoute('tournament_show', array('id' => $tournament->getId()));
+
+//                dump($wizardFormData);
+            }
+        }
 
         return $this->render('FdaTournamentBundle:Tournament:new.html.twig', array(
-            'entity' => $tournament,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
+            'flow' => $flow,
         ));
     }
 

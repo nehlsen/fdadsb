@@ -1,7 +1,7 @@
 {% extends 'FdaPlayerBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>Tournament creation</h1>
+    {#<h1>Tournament creation</h1>
 
     {{ form(form) }}
 
@@ -12,4 +12,23 @@
         </a>
     </li>
 </ul>
+#}
+    <div>
+        Steps:
+        {% include 'CraueFormFlowBundle:FormFlow:stepList.html.twig' %}
+    </div>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+
+    {#{% if flow.getCurrentStepNumber() == 1 %}#}
+        {#<div>#}
+            {#When selecting four wheels you have to choose the engine in the next step.<br />#}
+            {#{{ form_row(form.numberOfWheels) }}#}
+        {#</div>#}
+    {#{% endif %}#}
+
+    {{ form_rest(form) }}
+
+    {% include 'CraueFormFlowBundle:FormFlow:buttons.html.twig' %}
+    {{ form_end(form) }}
 {% endblock %}

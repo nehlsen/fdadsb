@@ -40,3 +40,9 @@ services:
     tags:
       - { name: twig.extension }
 
+  fda.tournament.new_tournament_wizard:
+    class: Fda\TournamentBundle\Form\TournamentWizard
+    parent: craue.form.flow
+    scope: request
+    calls:
+      - [setPlayerManager,[@fda.player.manager]]
