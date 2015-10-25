@@ -28,47 +28,6 @@ class TournamentController extends Controller
             'tournament'  => $tournament,
         ));
     }
-    /**
-     * Creates a new Tournament entity.
-     * @Secure(roles="ROLE_ADMIN")
-     */
-    public function createAction(Request $request)
-    {
-        $tournament = new Tournament();
-        $form = $this->createCreateForm($tournament);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $tournamentEngine = $this->get('fda.tournament.engine');
-            $tournamentEngine->createTournament($tournament);
-
-            return $this->redirect($this->generateUrl('tournament_show', array('id' => $tournament->getId())));
-        }
-
-        return $this->render('FdaTournamentBundle:Tournament:new.html.twig', array(
-            'entity' => $tournament,
-            'form'   => $form->createView(),
-        ));
-    }
-
-    /**
-     * Creates a form to create a Tournament entity.
-     *
-     * @param Tournament $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Tournament $entity)
-    {
-        $form = $this->createForm(new TournamentType(), $entity, array(
-            'action' => $this->generateUrl('tournament_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
 
     /**
      * Displays a form to create a new Tournament entity.
@@ -76,14 +35,6 @@ class TournamentController extends Controller
      */
     public function newAction()
     {
-//        $tournament = new Tournament();
-//        $form   = $this->createCreateForm($tournament);
-//
-//        return $this->render('FdaTournamentBundle:Tournament:new.html.twig', array(
-//            'entity' => $tournament,
-//            'form'   => $form->createView(),
-//        ));
-
         $wizardFormData = new WizardData();
 
         $flow = $this->get('fda.tournament.new_tournament_wizard');
@@ -96,15 +47,13 @@ class TournamentController extends Controller
             if ($flow->nextStep()) {
                 $form = $flow->createForm();
             } else {
-//                $em = $this->getDoctrine()->getManager();
-//                $em->persist($formData);
-//                $em->flush();
-//
-//                $flow->reset(); // remove step data from the session
+                $tournament = $wizardFormData->createTournament($this->get('fda.player.manager'));
 
-//                return $this->redirectToRoute('tournament_show', array('id' => $tournament->getId()));
+                $tournamentEngine = $this->get('fda.tournament.engine');
+                $tournamentEngine->createTournament($tournament);
 
-//                dump($wizardFormData);
+                $flow->reset();
+                return $this->redirectToRoute('tournament_show', array('id' => $tournament->getId()));
             }
         }
 

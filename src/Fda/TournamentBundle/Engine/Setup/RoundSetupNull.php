@@ -10,5 +10,8 @@ class RoundSetupNull extends AbstractRoundSetup
     public static function createStack()
     {
         // TODO: Implement createStack() method.
+        $setup = new self();
+        $setup->setInput(new InputStack());
+        return $setup;
     }
 }

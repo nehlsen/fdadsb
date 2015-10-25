@@ -4,11 +4,11 @@ namespace Fda\TournamentBundle\Engine\Setup;
 
 class PresetSimple
 {
-    public static function create($numberOfGroups)
+    public static function create($playerIdByGroup)
     {
         $setup = new TournamentSetup();
 
-        $seed = RoundSetupSeed::create($numberOfGroups); // create seed with n groups
+        $seed = RoundSetupSeed::create($playerIdByGroup); // create seed with n groups
         $seed->setAdvance(-1); // seed defaults to advance -1
         $setup->setSeed($seed);
 

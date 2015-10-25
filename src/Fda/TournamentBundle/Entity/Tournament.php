@@ -5,26 +5,13 @@ namespace Fda\TournamentBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Fda\BoardBundle\Entity\Board;
 use Fda\PlayerBundle\Entity\Player;
+use Fda\TournamentBundle\Engine\Setup\TournamentSetupInterface;
 
 /**
  * @ORM\Entity
  */
 class Tournament
 {
-    // how to advance in and win a tournament
-    const TOURNAMENT_LADDER     = 'ladder';
-    const TOURNAMENT_ALL_VS_ALL = 'all_vs_all';
-
-    // how to win a game
-    const GAME_FIRST_TO = 'first_to'; // first who wins 3 legs wins games
-    const GAME_AHEAD    = 'ahead';    // first to have 3 more legs than contestant
-
-    // how to win a leg
-    const LEG_301            = 'mode301';
-    const LEG_301_DOUBLE_OUT = 'mode301do';
-    const LEG_501            = 'mode501';
-    const LEG_501_DOUBLE_OUT = 'mode501do';
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -41,34 +28,10 @@ class Tournament
     protected $name;
 
     /**
-     * @ORM\Column(type="string")
-     * @var string
+     * @ORM\Column(type="object")
+     * @var TournamentSetupInterface
      */
-    protected $tournamentMode;
-
-    /**
-     * @ORM\Column(type="integer")
-     * @var int
-     */
-    protected $tournamentCount;
-
-    /**
-     * @ORM\Column(type="string")
-     * @var string
-     */
-    protected $gameMode;
-
-    /**
-     * @ORM\Column(type="integer")
-     * @var int
-     */
-    protected $gameCount;
-
-    /**
-     * @ORM\Column(type="string")
-     * @var string
-     */
-    protected $legMode;
+    protected $setup;
 
     /**
      * @ORM\ManyToMany(targetEntity="Fda\BoardBundle\Entity\Board", inversedBy="tournaments")
@@ -106,17 +69,7 @@ class Tournament
 
     public function __construct()
     {
-        $this->loadDefaults();
         $this->created = new \DateTime();
-    }
-
-    protected function loadDefaults()
-    {
-        $this->setTournamentMode(self::TOURNAMENT_LADDER);
-        $this->setTournamentCount(2);
-        $this->setGameMode(self::GAME_FIRST_TO);
-        $this->setGameCount(5);
-        $this->setLegMode(self::LEG_501_DOUBLE_OUT);
     }
 
     /**
@@ -144,133 +97,23 @@ class Tournament
     }
 
     /**
-     * @return string
+     * @return TournamentSetupInterface
      */
-    public function getTournamentMode()
+    public function getSetup()
     {
-        return $this->tournamentMode;
+        return $this->setup;
     }
 
     /**
-     * @param string $tournamentMode
+     * @param TournamentSetupInterface $setup
      */
-    public function setTournamentMode($tournamentMode)
+    public function setSetup(TournamentSetupInterface $setup)
     {
-        if (!in_array($tournamentMode, $this->getTournamentModes())) {
-            throw new \InvalidArgumentException();
-        }
-
-        $this->tournamentMode = $tournamentMode;
+        $this->setup = $setup;
     }
 
     /**
-     * @return array
-     */
-    public static function getTournamentModes()
-    {
-        return array(
-            self::TOURNAMENT_ALL_VS_ALL,
-            self::TOURNAMENT_LADDER,
-        );
-    }
-
-    /**
-     * @return int
-     */
-    public function getTournamentCount()
-    {
-        return $this->tournamentCount;
-    }
-
-    /**
-     * @param int $tournamentCount
-     */
-    public function setTournamentCount($tournamentCount)
-    {
-        $this->tournamentCount = $tournamentCount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGameMode()
-    {
-        return $this->gameMode;
-    }
-
-    /**
-     * @param string $gameMode
-     */
-    public function setGameMode($gameMode)
-    {
-        if (!in_array($gameMode, $this->getGameModes())) {
-            throw new \InvalidArgumentException();
-        }
-
-        $this->gameMode = $gameMode;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getGameModes()
-    {
-        return array(
-            self::GAME_FIRST_TO,
-            self::GAME_AHEAD,
-        );
-    }
-
-    /**
-     * @return int
-     */
-    public function getGameCount()
-    {
-        return $this->gameCount;
-    }
-
-    /**
-     * @param int $gameCount
-     */
-    public function setGameCount($gameCount)
-    {
-        $this->gameCount = $gameCount;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLegMode()
-    {
-        return $this->legMode;
-    }
-
-    /**
-     * @param string $legMode
-     */
-    public function setLegMode($legMode)
-    {
-        if (!in_array($legMode, $this->getLegModes())) {
-            throw new \InvalidArgumentException();
-        }
-        $this->legMode = $legMode;
-    }
-
-    /**
-     * @return array
-     */
-    public static function getLegModes()
-    {
-        return array(
-            self::LEG_301,
-            self::LEG_301_DOUBLE_OUT,
-            self::LEG_501,
-            self::LEG_501_DOUBLE_OUT,
-        );
-    }
-
-    /**
-     * @return \Fda\BoardBundle\Entity\Board[]
+     * @return Board[]
      */
     public function getBoards()
     {
@@ -278,7 +121,7 @@ class Tournament
     }
 
     /**
-     * @param \Fda\BoardBundle\Entity\Board[] $boards
+     * @param Board[] $boards
      */
     public function setBoards($boards)
     {
@@ -286,7 +129,7 @@ class Tournament
     }
 
     /**
-     * @return \Fda\PlayerBundle\Entity\Player[]
+     * @return Player[]
      */
     public function getPlayers()
     {
@@ -294,7 +137,7 @@ class Tournament
     }
 
     /**
-     * @param \Fda\PlayerBundle\Entity\Player[] $players
+     * @param Player[] $players
      */
     public function setPlayers($players)
     {

@@ -10,11 +10,6 @@ tournament_new:
     path:     /new
     defaults: { _controller: "FdaTournamentBundle:Tournament:new" }
 
-tournament_create:
-    path:     /create
-    defaults: { _controller: "FdaTournamentBundle:Tournament:create" }
-    methods:  POST
-
 tournament_edit:
     path:     /{id}/edit
     defaults: { _controller: "FdaTournamentBundle:Tournament:edit" }

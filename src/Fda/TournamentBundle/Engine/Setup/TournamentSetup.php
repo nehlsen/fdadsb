@@ -4,12 +4,19 @@ namespace Fda\TournamentBundle\Engine\Setup;
 
 class TournamentSetup implements TournamentSetupInterface
 {
+    /** @var RoundSetupSeedInterface */
+    protected $seed;
+
+    /** @var RoundSetupInterface[] */
+    protected $rounds = array();
+
     /**
      * @inheritDoc
      */
     public function setSeed(RoundSetupSeedInterface $seedRound)
     {
-        // TODO: Implement setSeed() method.
+        $this->seed = $seedRound;
+        return $this;
     }
 
     /**
@@ -17,6 +24,7 @@ class TournamentSetup implements TournamentSetupInterface
      */
     public function addRound(RoundSetupInterface $round)
     {
-        // TODO: Implement addRound() method.
+        $this->rounds[] = $round;
+        return $this;
     }
 }

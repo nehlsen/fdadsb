@@ -3,6 +3,7 @@
 namespace Fda\TournamentBundle\Form\TournamentWizard;
 
 use Fda\BoardBundle\Entity\Board;
+use Fda\PlayerBundle\Manager\PlayerManager;
 use Fda\TournamentBundle\Engine\Setup\PresetSimple;
 use Fda\TournamentBundle\Entity\Tournament;
 
@@ -141,12 +142,11 @@ class WizardData
         $this->players = $players;
     }
 
-    public function getPlayersGrouped()
+    public function getPlayerIdsGrouped()
     {
         $grouped = array();
 
         foreach ($this->players as $playerId => $association) {
-//            if (is_numeric($association)) {
             if (null !== $association) {
                 $grouped[(int)$association][] = $playerId;
             }
@@ -155,10 +155,28 @@ class WizardData
         return $grouped;
     }
 
-    public function createTournament()
+    public function getPlayerIds()
+    {
+        $playerIds = array();
+
+        foreach ($this->players as $playerId => $association) {
+            if (null !== $association) {
+                $playerIds[] = $playerId;
+            }
+        }
+
+        return $playerIds;
+    }
+
+    /**
+     * @param PlayerManager $playerManager to resolve player-IDs
+     * @return Tournament
+     * @throws \Exception
+     */
+    public function createTournament(PlayerManager $playerManager)
     {
         if ($this->preset == self::PRESET_SIMPLE) {
-            $setup = PresetSimple::create($this->numberOfGroups);
+            $setup = PresetSimple::create($this->getPlayerIdsGrouped());
             // TODO implement missing presets
 //        } elseif ($this->preset == self::PRESET_FULL) {
 //            $setup = PresetFull::create($this->numberOfGroups);
@@ -171,6 +189,13 @@ class WizardData
         $tournament = new Tournament();
         $tournament->setName($this->name);
         $tournament->setSetup($setup);
+        $tournament->setBoards($this->boards);
+
+        $players = array();
+        foreach ($this->getPlayerIds() as $playerId) {
+            $players[] = $playerManager->getPlayer($playerId);
+        }
+        $tournament->setPlayers($players);
 
         return $tournament;
     }

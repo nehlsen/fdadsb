@@ -25,6 +25,9 @@ class RoundSetupAva extends AbstractRoundSetup
     public static function createStep($steps)
     {
         // TODO: Implement createStep() method.
+        $setup = new self();
+        $setup->setInput(new InputStep($steps));
+        return $setup;
     }
 
     /**
@@ -33,6 +36,9 @@ class RoundSetupAva extends AbstractRoundSetup
     public static function createReduce()
     {
         // TODO: Implement createReduce() method.
+        $setup = new self();
+        $setup->setInput(new InputReduce());
+        return $setup;
     }
 
     /**
@@ -41,6 +47,9 @@ class RoundSetupAva extends AbstractRoundSetup
     public static function createSamePlace()
     {
         // TODO: Implement createSamePlace() method.
+        $setup = new self();
+        $setup->setInput(new InputSamePlace());
+        return $setup;
     }
 
     /**
