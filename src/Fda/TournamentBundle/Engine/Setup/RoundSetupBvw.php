@@ -12,4 +12,12 @@ class RoundSetupBvw extends AbstractRoundSetup
     {
         // TODO: Implement createStep() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getModeLabel()
+    {
+        return 'bvw';
+    }
 }

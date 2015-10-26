@@ -53,6 +53,14 @@ class RoundSetupAva extends AbstractRoundSetup
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getModeLabel()
+    {
+        return 'ava';
+    }
+
+    /**
      * how many times each player has to play against each other player
      *
      * @param int $number

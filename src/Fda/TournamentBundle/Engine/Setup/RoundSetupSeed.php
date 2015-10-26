@@ -25,13 +25,25 @@ class RoundSetupSeed extends AbstractRoundSetup implements RoundSetupSeedInterfa
         return $seed;
     }
 
-    // TODO move to interface?
+    /**
+     * @inheritDoc
+     */
+    public function getModeLabel()
+    {
+        return 'seed';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getNumberOfGroups()
     {
         return count($this->playerIdByGroup);
     }
 
-    // TODO move to interface?
+    /**
+     * @inheritDoc
+     */
     public function getPlayerIds($group)
     {
         if (!array_key_exists($group, $this->playerIdByGroup)) {
@@ -39,5 +51,13 @@ class RoundSetupSeed extends AbstractRoundSetup implements RoundSetupSeedInterfa
         }
 
         return $this->playerIdByGroup[$group];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPlayerIdsGrouped()
+    {
+        return $this->playerIdByGroup;
     }
 }

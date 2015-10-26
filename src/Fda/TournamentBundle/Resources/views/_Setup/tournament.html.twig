@@ -1,0 +1,25 @@
+<strong>setup</strong><br>
+
+GROUPS:
+<ul>
+    {% for playerIds in tournament.setup.seed.playerIdsGrouped %}
+        <li>
+            {{ playerIds|join(',') }}
+        </li>
+    {% else %}
+        <li>NO GROUPS</li>
+    {% endfor %}
+</ul>
+
+ROUNDS:
+<ul>
+    {% for round in tournament.setup.rounds %}
+        <li>
+            input: {{ round.input.modeLabel }},
+            mode: {{ round.modeLabel }},
+            advance: {{ round.advance }}
+        </li>
+    {% else %}
+        <li>NO ROUNDS</li>
+    {% endfor %}
+</ul>

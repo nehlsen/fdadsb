@@ -17,6 +17,14 @@ class InputStep implements InputInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getModeLabel()
+    {
+        return 'step';
+    }
+
+    /**
      * @return int
      */
     public function getSteps()

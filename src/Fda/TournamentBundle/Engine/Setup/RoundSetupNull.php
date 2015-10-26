@@ -14,4 +14,12 @@ class RoundSetupNull extends AbstractRoundSetup
         $setup->setInput(new InputStack());
         return $setup;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getModeLabel()
+    {
+        return 'null';
+    }
 }

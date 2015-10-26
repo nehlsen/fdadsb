@@ -22,9 +22,25 @@ class TournamentSetup implements TournamentSetupInterface
     /**
      * @inheritDoc
      */
+    public function getSeed()
+    {
+        return $this->seed;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function addRound(RoundSetupInterface $round)
     {
         $this->rounds[] = $round;
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRounds()
+    {
+        return $this->rounds;
     }
 }

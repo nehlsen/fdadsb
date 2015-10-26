@@ -27,6 +27,14 @@ abstract class AbstractRoundSetup implements RoundSetupInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getAdvance()
+    {
+        return $this->advance;
+    }
+
+    /**
      * @param InputInterface $input
      * @return $this
      */
@@ -34,5 +42,21 @@ abstract class AbstractRoundSetup implements RoundSetupInterface
     {
         $this->input = $input;
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getInput()
+    {
+        return $this->input;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getModeLabel()
+    {
+        return $this->input;
     }
 }
