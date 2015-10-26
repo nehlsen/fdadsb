@@ -5,6 +5,7 @@ namespace Fda\TournamentBundle\Engine;
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Entity\Turn;
 
+/** @deprecated */
 interface EngineInterface
 {
     /**

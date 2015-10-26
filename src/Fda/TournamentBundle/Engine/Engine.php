@@ -7,6 +7,7 @@ use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Entity\Turn;
 use Symfony\Component\DependencyInjection\ContainerAware;
 
+/** @deprecated */
 class Engine extends ContainerAware implements EngineInterface
 {
     /** @var EntityManager */
