@@ -2,6 +2,8 @@
 
 namespace Fda\TournamentBundle\Engine\Setup;
 
+use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
+
 class InputStep implements InputInterface
 {
     /** @var int */
@@ -40,5 +42,14 @@ class InputStep implements InputInterface
     {
         $this->steps = $steps;
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function filter(RoundGearsInterface $previousRoundGears)
+    {
+        // TODO implement input step : filter
+        throw new \Exception('TODO');
     }
 }

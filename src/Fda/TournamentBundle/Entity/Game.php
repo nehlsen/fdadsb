@@ -24,10 +24,10 @@ class Game
     protected $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Fda\TournamentBundle\Entity\Tournament", inversedBy="games")
+     * @ORM\ManyToOne(targetEntity="Fda\TournamentBundle\Entity\Group", inversedBy="games")
      * @var Tournament
      */
-    protected $tournament;
+    protected $group;
 
     /**
      * @ORM\ManyToOne(targetEntity="Fda\BoardBundle\Entity\Board", inversedBy="games")
@@ -90,23 +90,16 @@ class Game
     /** @var GameStats */
     protected $stats;
 
-    public function __construct()
-    {
-        $this->created = new \DateTime();
-    }
-
-    public static function prepare(Player $player1, Player $player2, Tournament $tournament = null)
+    public function __construct(Group $group, Player $player1, Player $player2)
     {
         if ($player1->getId() == $player2->getId()) {
             throw new \InvalidArgumentException('a player can not play against himself');
         }
 
-        $game = new self();
-        $game->player1 = $player1;
-        $game->player2 = $player2;
-        $game->tournament = $tournament;
-
-        return $game;
+        $this->group = $group;
+        $this->player1 = $player1;
+        $this->player2 = $player2;
+        $this->created = new \DateTime();
     }
 
     /**
@@ -115,14 +108,6 @@ class Game
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return Tournament
-     */
-    public function getTournament()
-    {
-        return $this->tournament;
     }
 
     /**

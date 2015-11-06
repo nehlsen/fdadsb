@@ -2,14 +2,18 @@
 
 namespace Fda\TournamentBundle\Engine;
 
-use Fda\TournamentBundle\Entity\Turn;
-
 class Arrow
 {
+    const MULTIPLIER_SINGLE = 'single';
+    const MULTIPLIER_DOUBLE = 'double';
+    const MULTIPLIER_TRIPLE = 'triple';
+
     /** @var int */
     protected $number;
+
     /** @var int */
     protected $score;
+
     /** @var string */
     protected $multiplier;
 
@@ -21,9 +25,11 @@ class Arrow
      */
     public function __construct($number, $score, $multiplier)
     {
-        $this->number = $number;
-        $this->score = $score;
-        $this->multiplier = $multiplier;
+        $this->number = (int)$number;
+        $this->score = (int)$score;
+        $this->multiplier = (string)$multiplier;
+
+        $this->check();
     }
 
     public function __toString()
@@ -70,7 +76,7 @@ class Arrow
      */
     public function isSingle()
     {
-        return $this->multiplier == Turn::MULTIPLIER_SINGLE;
+        return $this->multiplier == self::MULTIPLIER_SINGLE;
     }
 
     /**
@@ -78,7 +84,7 @@ class Arrow
      */
     public function isDouble()
     {
-        return $this->multiplier == Turn::MULTIPLIER_DOUBLE;
+        return $this->multiplier == self::MULTIPLIER_DOUBLE;
     }
 
     /**
@@ -86,7 +92,7 @@ class Arrow
      */
     public function isTriple()
     {
-        return $this->multiplier == Turn::MULTIPLIER_TRIPLE;
+        return $this->multiplier == self::MULTIPLIER_TRIPLE;
     }
 
     /**
@@ -95,17 +101,63 @@ class Arrow
     public function getTotal()
     {
         switch ($this->multiplier) {
-            case Turn::MULTIPLIER_SINGLE;
-                return $this->score * 1;
-                break;
-            case Turn::MULTIPLIER_DOUBLE;
+            case self::MULTIPLIER_DOUBLE;
                 return $this->score * 2;
                 break;
-            case Turn::MULTIPLIER_TRIPLE;
+            case self::MULTIPLIER_TRIPLE;
                 return $this->score * 3;
                 break;
         }
 
-        return 0;
+        return $this->score;
+    }
+
+    protected function check()
+    {
+        $this->checkNumber();
+        $this->checkScore();
+        $this->checkMultiplier();
+
+        if ($this->getScore() == 25 && $this->getMultiplier() == self::MULTIPLIER_TRIPLE) {
+            throw new \RuntimeException('bulls-eye can not be tripled!');
+        }
+    }
+
+    protected function checkNumber()
+    {
+        if (!in_array($this->getNumber(), [1,2,3])) {
+            throw new \RuntimeException(sprintf('"%d" is not a valid arrow-number', $this->getNumber()));
+        }
+    }
+
+    protected function checkScore()
+    {
+        $validScores = array(
+            25, 20, 19,
+            18, 17, 16,
+            15, 14, 13,
+            12, 11, 10,
+            9,  8,  7,
+            6,  5,  4,
+            3,  2,  1,
+            0
+        );
+
+        if (!in_array($this->getScore(), $validScores)) {
+            throw new \RuntimeException(sprintf('"%d" is not a valid score', $this->getScore()));
+        }
+    }
+
+    protected function checkMultiplier()
+    {
+        $validMultipliers = array(
+            self::MULTIPLIER_SINGLE,
+            self::MULTIPLIER_DOUBLE,
+            self::MULTIPLIER_TRIPLE,
+        );
+
+        if (!in_array($this->getMultiplier(), $validMultipliers)) {
+            throw new \RuntimeException(sprintf('"%s" is not a valid multiplier', $this->getMultiplier()));
+        }
     }
 }

@@ -13,8 +13,9 @@ class RoundSetupSeed extends AbstractRoundSetup implements RoundSetupSeedInterfa
      */
     public static function create($playerIdByGroup)
     {
-        if (!in_array(count($playerIdByGroup), array(2,4,8))) {
-            throw new \InvalidArgumentException('number of groups has to be 2, 4 or 8');
+        $groups = self::filterAndCheckPlayerIds($playerIdByGroup);
+        if (!in_array(count($groups), array(1, 2, 4, 8))) {
+            throw new \InvalidArgumentException('number of groups has to be 1, 2, 4 or 8');
         }
 
         // TODO: Implement create() method.
@@ -23,6 +24,48 @@ class RoundSetupSeed extends AbstractRoundSetup implements RoundSetupSeedInterfa
         $seed->playerIdByGroup = $playerIdByGroup;
 
         return $seed;
+    }
+
+    /**
+     * remove empty groups, check if a player is in more than group
+     *
+     * @param int[][] $playerIdByGroup
+     * @return int[][]
+     * @throws \InvalidArgumentException if a player is found in more than one group
+     * @throws \InvalidArgumentException if total number of players is less than two
+     */
+    protected static function filterAndCheckPlayerIds(array $playerIdByGroup)
+    {
+        $allPlayerIds = array();
+        $groups = array();
+
+        foreach ($playerIdByGroup as $players) {
+            if (!is_array($players)) {
+                throw new \InvalidArgumentException('expected array');
+            }
+            if (count($players) < 1) {
+                continue;
+            }
+
+            $groupPlayers = array();
+            foreach ($players as $playerId) {
+                if (in_array($playerId, $allPlayerIds)) {
+                    throw new \InvalidArgumentException('player in more than group');
+                }
+
+                $groupPlayers[] = $playerId;
+                $allPlayerIds[] = $playerId;
+            }
+
+            $groupNumber = count($groups);
+            $groups[$groupNumber] = $groupPlayers;
+        }
+
+        if (count($allPlayerIds) < 2) {
+            throw new \InvalidArgumentException('a tournament with less than 2 players makes no sense');
+        }
+
+        return $groups;
     }
 
     /**

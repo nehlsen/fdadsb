@@ -2,6 +2,9 @@
 
 namespace Fda\TournamentBundle\Engine\Setup;
 
+use Fda\PlayerBundle\Entity\Player;
+use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
+
 interface InputInterface
 {
     /**
@@ -10,4 +13,11 @@ interface InputInterface
      * @return string
      */
     public function getModeLabel();
+
+    /**
+     * @param RoundGearsInterface $previousRoundGears
+     *
+     * @return Player[][]
+     */
+    public function filter(RoundGearsInterface $previousRoundGears);
 }

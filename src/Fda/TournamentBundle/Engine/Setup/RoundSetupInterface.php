@@ -2,6 +2,9 @@
 
 namespace Fda\TournamentBundle\Engine\Setup;
 
+use Fda\TournamentBundle\Engine\GameMode;
+use Fda\TournamentBundle\Engine\LegMode;
+
 interface RoundSetupInterface
 {
     /**
@@ -27,6 +30,28 @@ interface RoundSetupInterface
      * @return InputInterface
      */
     public function getInput();
+
+    /**
+     * @param GameMode $mode
+     * @return RoundSetupInterface this
+     */
+    public function setGameMode(GameMode $mode);
+
+    /**
+     * @return GameMode
+     */
+    public function getGameMode();
+
+    /**
+     * @param LegMode $mode
+     * @return RoundSetupInterface this
+     */
+    public function setLegMode(LegMode $mode);
+
+    /**
+     * @return LegMode
+     */
+    public function getLegMode();
 
     /**
      * get a human readable label for the implementing mode

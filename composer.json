@@ -30,7 +30,9 @@
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
         "doctrine/doctrine-migrations-bundle": "^1.0",
-        "doctrine/doctrine-fixtures-bundle": "^2.2"
+        "doctrine/doctrine-fixtures-bundle": "^2.2",
+        "phpunit/phpunit": "^5.0",
+        "liip/functional-test-bundle": "^1.2"
     },
     "scripts": {
         "post-root-package-install": [

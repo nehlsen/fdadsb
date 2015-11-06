@@ -5,32 +5,59 @@ services:
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
 
   fda.tournament.engine:
-    class: Fda\TournamentBundle\Engine\Engine
-    arguments:
-      entityManager: @doctrine.orm.default_entity_manager
+    class: Fda\TournamentBundle\Engine\TournamentEngine
     calls:
-      - [setContainer,[@service_container]]
-
-  fda.tournament.gears.all_vs_all:
-    class: Fda\TournamentBundle\Engine\TournamentGearsAllVsAll
-    lazy: true
-    calls:
-      - [setEngine,[@fda.tournament.engine]]
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+#      - [setRoundGearsFactory,[@fda.tournament.round_gears_factory]]
+      - [setEngineFactory,[@fda.tournament.engine_factory]]
 
-  fda.game.gears.simple:
-    class: Fda\TournamentBundle\Engine\SimpleGameGears
-    lazy: true
+  fda.tournament.engine_factory:
+    class: Fda\TournamentBundle\Engine\Factory\TournamentEngineFactory
     calls:
-      - [setEngine,[@fda.tournament.engine]]
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+      - [setRoundGearsFactory,[@fda.tournament.round_gears_factory]]
+#    public: false
 
-  fda.leg.gears.simple:
-    class: Fda\TournamentBundle\Engine\SimpleLegGears
-    lazy: true
+  fda.tournament.round_gears_factory:
+    class: Fda\TournamentBundle\Engine\Factory\RoundGearsFactory
     calls:
-      - [setEngine,[@fda.tournament.engine]]
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+      - [setGameGearsFactory,[@fda.tournament.game_gears_factory]]
+    public: false
+
+  fda.tournament.game_gears_factory:
+    class: Fda\TournamentBundle\Engine\Factory\GameGearsFactory
+    calls:
+      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+      - [setLegGearsFactory,[@fda.tournament.leg_gears_factory]]
+    public: false
+
+  fda.tournament.leg_gears_factory:
+    class: Fda\TournamentBundle\Engine\Factory\LegGearsFactory
+    calls:
+      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+    public: false
+
+#  fda.tournament.gears.all_vs_all:
+#    class: Fda\TournamentBundle\Engine\TournamentGearsAllVsAll
+#    lazy: true
+#    calls:
+#      - [setEngine,[@fda.tournament.engine]]
+#      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+#
+#  fda.game.gears.simple:
+#    class: Fda\TournamentBundle\Engine\SimpleGameGears
+#    lazy: true
+#    calls:
+#      - [setEngine,[@fda.tournament.engine]]
+#      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+#
+#  fda.leg.gears.simple:
+#    class: Fda\TournamentBundle\Engine\SimpleLegGears
+#    lazy: true
+#    calls:
+#      - [setEngine,[@fda.tournament.engine]]
+#      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
 
   fda.tournament.twig.extension:
     class: Fda\TournamentBundle\Twig\TournamentExtension

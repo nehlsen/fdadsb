@@ -21,6 +21,13 @@ class CountDownFinishingMoveProvider
      */
     public function __construct($remainingScore, $isDoubleOutRequired)
     {
+        if ($remainingScore < 0) {
+            throw new \InvalidArgumentException(sprintf(
+                'remaining score has to be a positive number greater or equal to 0, provided: %d',
+                $remainingScore
+            ));
+        }
+
         $this->remainingScore = $remainingScore;
         $this->isDoubleOutRequired = $isDoubleOutRequired;
         $this->possibleShots = $this->calculatePossibleShots();
@@ -29,11 +36,21 @@ class CountDownFinishingMoveProvider
     /**
      * get a list of possible moves to end the game
      *
+     * an empty list is returned if the remaining score is 0 or not reachable
+     * e.g. remaining score is 1 and double out is required. that ain't not possible!
+     *
      * @return Arrow[]
      */
     public function getFinishingMoves()
     {
         $arrows = array();
+
+        if ($this->remainingScore < 1) {
+            return $arrows;
+        }
+        if ($this->remainingScore == 1 && $this->isDoubleOutRequired) {
+            return $arrows;
+        }
 
         $remainingScore = $this->remainingScore;
         if ($this->isDoubleOutRequired) {
@@ -90,7 +107,10 @@ class CountDownFinishingMoveProvider
             }
         }
 
-        throw new \Exception();
+        throw new \Exception(sprintf(
+            'failed to find a double-shot below %d',
+            $desiredScore
+        ));
     }
 
     protected function calculatePossibleShots()

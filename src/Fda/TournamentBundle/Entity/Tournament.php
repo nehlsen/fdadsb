@@ -2,6 +2,7 @@
 
 namespace Fda\TournamentBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Fda\BoardBundle\Entity\Board;
 use Fda\PlayerBundle\Entity\Player;
@@ -47,13 +48,13 @@ class Tournament
 
     /**
      * @ORM\OneToMany(
-     *  targetEntity="Fda\TournamentBundle\Entity\Game",
+     *  targetEntity="Fda\TournamentBundle\Entity\Round",
      *  mappedBy="tournament",
      *  cascade={"persist"}
      * )
-     * @var Game[]
+     * @var Round[]
      */
-    protected $games;
+    protected $rounds;
 
     /**
      * @ORM\Column(type="boolean")
@@ -69,6 +70,7 @@ class Tournament
 
     public function __construct()
     {
+        $this->rounds = new ArrayCollection();
         $this->created = new \DateTime();
     }
 
@@ -145,107 +147,31 @@ class Tournament
     }
 
     /**
-     * All known games, this may extend in a running tournament
+     * All known rounds, this may extend in a running tournament
      *
-     * @return Game[]
+     * @return Round[]
      */
-    public function getGames()
+    public function getRounds()
     {
-        return $this->games;
+        return $this->rounds;
     }
 
     /**
-     * get closed games
+     * get a round by number (starting from 0)
      *
-     * @return Game[]
+     * @param int $number
+     *
+     * @return Round|null
      */
-    public function getClosedGames()
+    public function getRoundByNumber($number)
     {
-        $games = array();
-
-        foreach($this->getGames() as $game) {
-            if (!$game->isClosed()) {
-                continue;
+        foreach ($this->getRounds() as $round) {
+            if ($round->getNumber() == $number) {
+                return $round;
             }
-
-            $games[] = $game;
         }
 
-        return $games;
-    }
-
-    /**
-     * get begun but not yet closed games
-     *
-     * @return Game[]
-     */
-    public function getRunningGames()
-    {
-        $games = array();
-
-        foreach($this->getGames() as $game) {
-            if ($game->isClosed()) {
-                continue;
-            }
-            if (!$game->isStarted()) {
-                continue;
-            }
-
-            $games[] = $game;
-        }
-
-        return $games;
-    }
-
-    /**
-     * get not closed games
-     *
-     * @param bool $excludeRunning whether to exclude begun games
-     *
-     * @return Game[]
-     */
-    public function getOpenGames($excludeRunning = true)
-    {
-        $games = array();
-
-        foreach($this->getGames() as $game) {
-            if ($game->isClosed()) {
-                continue;
-            }
-            if ($excludeRunning && $game->isStarted()) {
-                continue;
-            }
-
-            $games[] = $game;
-        }
-
-        return $games;
-    }
-
-    /**
-     * get tournament scoreboard as games-won to player-ID
-     * @return array win-count => player-ID
-     */
-    public function getGamesWonToPlayer()
-    {
-        $playerToWon = array();
-
-        foreach ($this->games as $game) {
-            $winner = $game->getWinner();
-            if (null === $winner) {
-                continue;
-            }
-
-            if (!array_key_exists($winner->getId(), $playerToWon)) {
-                $playerToWon[$winner->getId()] = 0;
-            }
-
-            $playerToWon[$winner->getId()] += 1;
-        }
-
-        $wonToPlayer = array_flip($playerToWon);
-        ksort($wonToPlayer);
-        return array_reverse($wonToPlayer, true);
+        return null;
     }
 
     /**

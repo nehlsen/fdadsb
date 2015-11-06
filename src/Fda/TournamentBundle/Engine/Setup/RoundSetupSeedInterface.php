@@ -2,7 +2,7 @@
 
 namespace Fda\TournamentBundle\Engine\Setup;
 
-interface RoundSetupSeedInterface
+interface RoundSetupSeedInterface extends RoundSetupInterface
 {
     /**
      * get number of groups

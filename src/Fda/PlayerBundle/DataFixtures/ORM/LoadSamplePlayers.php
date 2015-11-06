@@ -2,11 +2,11 @@
 
 namespace Fda\PlayerBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Fda\PlayerBundle\Entity\Player;
 
-class LoadSampleUsers implements FixtureInterface
+class LoadSamplePlayers extends AbstractFixture
 {
     /**
      * {@inheritDoc}
@@ -16,16 +16,19 @@ class LoadSampleUsers implements FixtureInterface
         $hulk = new Player();
         $hulk->setName('Hulk');
         $hulk->setImageName('hulk.gif');
+        $this->setReference('player-0', $hulk);
         $manager->persist($hulk);
 
         $spiderman = new Player();
         $spiderman->setName('Spiderman');
         $spiderman->setImageName('spiderman.png');
+        $this->setReference('player-1', $spiderman);
         $manager->persist($spiderman);
 
         $superman = new Player();
         $superman->setName('Superman');
         $superman->setImageName('superman.png');
+        $this->setReference('player-2', $superman);
         $manager->persist($superman);
 
         $playerNames = [

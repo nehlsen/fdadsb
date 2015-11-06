@@ -2,6 +2,9 @@
 
 namespace Fda\TournamentBundle\Engine\Setup;
 
+use Fda\TournamentBundle\Engine\GameMode;
+use Fda\TournamentBundle\Engine\LegMode;
+
 abstract class AbstractRoundSetup implements RoundSetupInterface
 {
     /** @var int */
@@ -9,6 +12,12 @@ abstract class AbstractRoundSetup implements RoundSetupInterface
 
     /** @var InputInterface */
     protected $input;
+
+    /** @var GameMode */
+    protected $gameMode;
+
+    /** @var LegMode */
+    protected $legMode;
 
     /**
      * children should implement factories like createXyz()
@@ -55,8 +64,34 @@ abstract class AbstractRoundSetup implements RoundSetupInterface
     /**
      * @inheritDoc
      */
-    public function getModeLabel()
+    public function setGameMode(GameMode $mode)
     {
-        return $this->input;
+        $this->gameMode = $mode;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getGameMode()
+    {
+        return $this->gameMode;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setLegMode(LegMode $mode)
+    {
+        $this->legMode = $mode;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLegMode()
+    {
+        return $this->legMode;
     }
 }

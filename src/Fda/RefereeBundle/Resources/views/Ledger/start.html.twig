@@ -25,6 +25,22 @@
     board: {{ board.name }}
     <a href="{{ path('ledger_choose_board') }}">change my place</a>
 
+    <br><br>
+    <strong>{{ tournament_engine().tournament.name }}</strong>: Round {{ tournament_engine().currentRoundNumber }}
+
+    <div class="row">
+    {% set currentRoundGears = tournament_engine().currentRoundGears %}
+    {% set width = 12 / currentRoundGears.gameGearsGrouped|length %}
+    {% for groupNumber,gameGears in currentRoundGears.gameGearsGrouped|reverse %}
+        <div class="col-md-{{ width }}">
+            group: {{ groupNumber }}, games: {{ gameGears|length }}
+        </div>
+    {% else %}
+        NO GROUPS / GAME GEARS
+    {% endfor %}
+    </div>
+
+{#
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -52,4 +68,5 @@
         {% endfor %}
         </tbody>
     </table>
+#}
 {% endblock %}

@@ -49,8 +49,9 @@ class TournamentController extends Controller
             } else {
                 $tournament = $wizardFormData->createTournament($this->get('fda.player.manager'));
 
-                $tournamentEngine = $this->get('fda.tournament.engine');
-                $tournamentEngine->createTournament($tournament);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($tournament);
+                $em->flush();
 
                 $flow->reset();
                 return $this->redirectToRoute('tournament_show', array('id' => $tournament->getId()));

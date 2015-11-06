@@ -2,22 +2,22 @@
 
 namespace Fda\TournamentBundle\Twig;
 
-use Fda\TournamentBundle\Engine\EngineInterface;
+use Fda\TournamentBundle\Engine\TournamentEngineInterface;
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Manager\TournamentManager;
 
 class TournamentExtension extends \Twig_Extension
 {
-    /** @var EngineInterface */
+    /** @var TournamentEngineInterface */
     protected $tournamentEngine;
 
     /** @var TournamentManager */
     protected $tournamentManager;
 
     /**
-     * @param EngineInterface $tournamentEngine
+     * @param TournamentEngineInterface $tournamentEngine
      */
-    public function setTournamentEngine($tournamentEngine)
+    public function setTournamentEngine(TournamentEngineInterface $tournamentEngine)
     {
         $this->tournamentEngine = $tournamentEngine;
     }
@@ -64,10 +64,11 @@ class TournamentExtension extends \Twig_Extension
     }
 
     /**
-     * @return EngineInterface
+     * @return TournamentEngineInterface
      */
     public function getTournamentEngine()
     {
+        $this->tournamentEngine->ensureReady();
         return $this->tournamentEngine;
     }
 

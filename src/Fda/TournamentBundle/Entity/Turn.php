@@ -11,8 +11,11 @@ use Fda\TournamentBundle\Engine\Arrow;
  */
 class Turn
 {
+    /** @deprecated */
     const MULTIPLIER_SINGLE = 'single';
+    /** @deprecated */
     const MULTIPLIER_DOUBLE = 'double';
+    /** @deprecated */
     const MULTIPLIER_TRIPLE = 'triple';
 
     /**
