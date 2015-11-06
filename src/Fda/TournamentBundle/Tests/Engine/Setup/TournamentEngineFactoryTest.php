@@ -56,6 +56,9 @@ class TournamentEngineFactoryTest extends WebTestCase
         $tournament->setBoards($boards);
         $tournament->setPlayers($players);
 
+        $entityManager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
+        $entityManager->persist($tournament);
+
         return $tournament;
     }
 

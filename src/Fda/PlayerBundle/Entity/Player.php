@@ -4,6 +4,7 @@ namespace Fda\PlayerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Fda\TournamentBundle\Entity\Game;
+use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Leg;
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Entity\Turn;
@@ -57,10 +58,16 @@ class Player
     protected $updated;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Fda\TournamentBundle\Entity\Tournament",mappedBy="players")
+     * @ORM\ManyToMany(targetEntity="Fda\TournamentBundle\Entity\Tournament", mappedBy="players")
      * @var Tournament[]
      */
     protected $tournaments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Fda\TournamentBundle\Entity\Group", mappedBy="players")
+     * @var Group[]
+     */
+    protected $groups;
 
     /**
      * @ORM\OneToMany(targetEntity="Fda\TournamentBundle\Entity\Game", mappedBy="referee")

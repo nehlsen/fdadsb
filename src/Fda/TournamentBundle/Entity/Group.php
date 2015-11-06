@@ -39,7 +39,7 @@ class Group
     /**
      * @ORM\ManyToMany(
      *     targetEntity="Fda\PlayerBundle\Entity\Player",
-     *     mappedBy="groups",
+     *     inversedBy="groups",
      *     cascade={"persist"}
      * )
      * @var Player[]
@@ -113,5 +113,53 @@ class Group
     public function getGames()
     {
         return $this->games;
+    }
+
+    /**
+     * find a game having player1 and player2 (not necessarily in that particular order)
+     *
+     * @param Player $player1
+     * @param Player $player2
+     *
+     * @return Game|null
+     *
+     * @throws \RuntimeException if multiple games match
+     */
+    public function getGameByContestants(Player $player1, Player $player2)
+    {
+        $foundGame = null;
+
+        if (null === $this->getGames()) {
+            return $foundGame;
+        }
+
+        $gameHasPlayer = function (Game $game, Player $player) {
+            if ($game->getPlayer1()->getId() == $player->getId()) {
+                return true;
+            }
+
+            if ($game->getPlayer2()->getId() == $player->getId()) {
+                return true;
+            }
+
+            return false;
+        };
+
+        foreach ($this->getGames() as $game) {
+            if (!$gameHasPlayer($game, $player1)) {
+                continue;
+            }
+            if (!$gameHasPlayer($game, $player2)) {
+                continue;
+            }
+
+            if (null !== $foundGame) {
+                throw new \RuntimeException('can not determine what game you asked for, multiple games matched!');
+            }
+
+            $foundGame = $game;
+        }
+
+        return $foundGame;
     }
 }

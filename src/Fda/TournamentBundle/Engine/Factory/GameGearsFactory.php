@@ -46,13 +46,19 @@ class GameGearsFactory
         $roundSetup = $group->getRound()->getSetup();
         $gameMode = $roundSetup->getGameMode();
 
-        $game = new Game($group, $player1, $player2);
+        $game = $group->getGameByContestants($player1, $player2);
+        if (null === $game) {
+            $game = new Game($group, $player1, $player2);
+            $this->entityManager->persist($game);
+        }
 
         if ($gameMode->getMode() == GameMode::FIRST_TO || $gameMode->getMode() == GameMode::AHEAD) {
             $gears = new GameGearsSimple($game);
         } else {
             throw new \InvalidArgumentException('can not create game-gears for '.$gameMode->getMode());
         }
+
+        $this->entityManager->flush();
 
         return $gears;
     }

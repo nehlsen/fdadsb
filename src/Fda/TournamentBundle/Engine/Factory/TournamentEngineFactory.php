@@ -63,7 +63,7 @@ class TournamentEngineFactory
             $previous = $roundGears;
         }
 
-//        $this->entityManager->flush();
+        $this->entityManager->flush();
 
         return $gears;
     }

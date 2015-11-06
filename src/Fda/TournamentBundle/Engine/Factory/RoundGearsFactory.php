@@ -69,6 +69,8 @@ class RoundGearsFactory
 
         $gears->setGameGearsFactory($this->gameGearsFactory);
 
+        $this->entityManager->flush();
+
         return $gears;
     }
 }
