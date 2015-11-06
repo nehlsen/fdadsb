@@ -2,8 +2,8 @@
 
 namespace Fda\TournamentBundle\Tests\Engine\Setup;
 
-use Fda\TournamentBundle\Engine\GameMode;
-use Fda\TournamentBundle\Engine\LegMode;
+use Fda\TournamentBundle\Engine\Bolts\GameMode;
+use Fda\TournamentBundle\Engine\Bolts\LegMode;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupSeed;
 
 class RoundSetupSeedTest extends \PHPUnit_Framework_TestCase

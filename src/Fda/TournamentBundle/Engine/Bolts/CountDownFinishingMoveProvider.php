@@ -1,8 +1,7 @@
 <?php
 
-namespace Fda\TournamentBundle\Engine;
+namespace Fda\TournamentBundle\Engine\Bolts;
 
-use Fda\TournamentBundle\Engine\Bolts\Arrow;
 use Fda\TournamentBundle\Entity\Turn;
 
 class CountDownFinishingMoveProvider

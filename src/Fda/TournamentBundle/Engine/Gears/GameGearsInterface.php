@@ -2,8 +2,8 @@
 
 namespace Fda\TournamentBundle\Engine\Gears;
 
+use Fda\TournamentBundle\Engine\Bolts\GameMode;
 use Fda\TournamentBundle\Engine\Factory\LegGearsFactory;
-use Fda\TournamentBundle\Engine\GameMode;
 use Fda\TournamentBundle\Entity\Game;
 
 interface GameGearsInterface

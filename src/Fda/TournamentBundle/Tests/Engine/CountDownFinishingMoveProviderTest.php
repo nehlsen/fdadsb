@@ -2,7 +2,7 @@
 
 namespace Fda\TournamentBundle\Tests\Engine;
 
-use Fda\TournamentBundle\Engine\CountDownFinishingMoveProvider;
+use Fda\TournamentBundle\Engine\Bolts\CountDownFinishingMoveProvider;
 
 class CountDownFinishingMoveProviderTest extends \PHPUnit_Framework_TestCase
 {

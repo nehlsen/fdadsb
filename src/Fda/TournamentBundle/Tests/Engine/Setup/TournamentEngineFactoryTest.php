@@ -4,9 +4,9 @@ namespace Fda\TournamentBundle\Tests\Engine\Setup;
 
 use Fda\BoardBundle\Entity\Board;
 use Fda\PlayerBundle\Entity\Player;
-use Fda\TournamentBundle\Engine\GameMode;
+use Fda\TournamentBundle\Engine\Bolts\GameMode;
+use Fda\TournamentBundle\Engine\Bolts\LegMode;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
-use Fda\TournamentBundle\Engine\LegMode;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupAva;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupSeed;
 use Fda\TournamentBundle\Engine\Setup\TournamentSetup;

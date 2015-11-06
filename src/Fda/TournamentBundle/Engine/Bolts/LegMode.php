@@ -1,6 +1,6 @@
 <?php
 
-namespace Fda\TournamentBundle\Engine;
+namespace Fda\TournamentBundle\Engine\Bolts;
 
 /**
  * how to win a leg

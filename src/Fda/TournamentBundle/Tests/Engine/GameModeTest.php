@@ -2,7 +2,7 @@
 
 namespace Fda\TournamentBundle\Tests\Engine;
 
-use Fda\TournamentBundle\Engine\GameMode;
+use Fda\TournamentBundle\Engine\Bolts\GameMode;
 
 class GameModeTest extends \PHPUnit_Framework_TestCase
 {

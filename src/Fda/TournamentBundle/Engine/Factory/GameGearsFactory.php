@@ -4,7 +4,7 @@ namespace Fda\TournamentBundle\Engine\Factory;
 
 use Doctrine\ORM\EntityManager;
 use Fda\PlayerBundle\Entity\Player;
-use Fda\TournamentBundle\Engine\GameMode;
+use Fda\TournamentBundle\Engine\Bolts\GameMode;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\GameGearsSimple;
 use Fda\TournamentBundle\Entity\Game;

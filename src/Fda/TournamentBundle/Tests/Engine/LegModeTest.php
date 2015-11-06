@@ -2,7 +2,7 @@
 
 namespace Fda\TournamentBundle\Tests\Engine;
 
-use Fda\TournamentBundle\Engine\LegMode;
+use Fda\TournamentBundle\Engine\Bolts\LegMode;
 
 class LegModeTest extends \PHPUnit_Framework_TestCase
 {

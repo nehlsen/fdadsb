@@ -2,8 +2,8 @@
 
 namespace Fda\TournamentBundle\Engine\Setup;
 
-use Fda\TournamentBundle\Engine\GameMode;
-use Fda\TournamentBundle\Engine\LegMode;
+use Fda\TournamentBundle\Engine\Bolts\GameMode;
+use Fda\TournamentBundle\Engine\Bolts\LegMode;
 
 class PresetSimple
 {
