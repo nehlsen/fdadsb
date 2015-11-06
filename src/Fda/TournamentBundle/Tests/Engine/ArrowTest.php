@@ -2,7 +2,7 @@
 
 namespace Fda\TournamentBundle\Tests\Engine;
 
-use Fda\TournamentBundle\Engine\Arrow;
+use Fda\TournamentBundle\Engine\Bolts\Arrow;
 
 class ArrowTest extends \PHPUnit_Framework_TestCase
 {

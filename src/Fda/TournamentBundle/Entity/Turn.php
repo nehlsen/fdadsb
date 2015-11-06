@@ -4,7 +4,7 @@ namespace Fda\TournamentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Fda\PlayerBundle\Entity\Player;
-use Fda\TournamentBundle\Engine\Arrow;
+use Fda\TournamentBundle\Engine\Bolts\Arrow;
 
 /**
  * @ORM\Entity

@@ -2,6 +2,7 @@
 
 namespace Fda\TournamentBundle\Engine;
 
+use Fda\TournamentBundle\Engine\Bolts\Arrow;
 use Fda\TournamentBundle\Entity\Turn;
 
 class CountDownFinishingMoveProvider

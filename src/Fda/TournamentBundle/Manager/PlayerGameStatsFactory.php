@@ -3,7 +3,7 @@
 namespace Fda\TournamentBundle\Manager;
 
 use Fda\PlayerBundle\Entity\Player;
-use Fda\TournamentBundle\Engine\Arrow;
+use Fda\TournamentBundle\Engine\Bolts\Arrow;
 use Fda\TournamentBundle\Entity\Game;
 
 class PlayerGameStatsFactory
