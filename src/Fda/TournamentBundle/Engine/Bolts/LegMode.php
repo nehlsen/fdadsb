@@ -20,6 +20,12 @@ final class LegMode
         $this->mode = $this->checkMode($mode);
     }
 
+    // for debug only!
+    public function __toString()
+    {
+        return $this->getMode();
+    }
+
     /**
      * @return string
      */
@@ -34,14 +40,11 @@ final class LegMode
      */
     public function getRequiredScore()
     {
-        if (in_array($this->mode, [self::SINGLE_OUT_301, self::DOUBLE_OUT_301])) {
-            return 301;
-        }
         if (in_array($this->mode, [self::SINGLE_OUT_501, self::DOUBLE_OUT_501])) {
             return 501;
         }
 
-        throw new \Exception();
+        return 301;
     }
 
     /**

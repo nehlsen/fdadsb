@@ -2,6 +2,7 @@
 
 namespace Fda\TournamentBundle\Engine\Gears;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Fda\PlayerBundle\Entity\Player;
 use Fda\TournamentBundle\Engine\Bolts\Arrow;
@@ -28,6 +29,7 @@ class LegGearsSimple extends AbstractLegGears
     {
         /** @var Collection|Turn[] $turns */
         $turns = $this->leg->getTurns();
+        $turns = is_array($turns) ? new ArrayCollection($turns) : $turns;
 
         /** @var Turn|null $lastTurn */
         $lastTurn = null === $turns ? false : $turns->last();

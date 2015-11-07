@@ -153,8 +153,21 @@ class Ledger
      */
     public function getGameGears()
     {
+        if (null === $this->gameId) {
+            throw new \RuntimeException(
+                'Game-ID has to be set prior to using the Ledger!'
+            );
+        }
+
         if (null === $this->gameGears) {
             $this->gameGears = $this->tournamentEngine->getGameGearsForGameId($this->gameId);
+
+            if (null === $this->gameGears) {
+                throw new \RuntimeException(sprintf(
+                    'Game-Gears for Game-ID %d not found!',
+                    $this->gameId
+                ));
+            }
         }
 
         return $this->gameGears;

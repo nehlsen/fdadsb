@@ -25,6 +25,12 @@ final class GameMode
         $this->count = $this->checkCount($count);
     }
 
+    // for debug only!
+    public function __toString()
+    {
+        return $this->getMode().':'.$this->getCount();
+    }
+
     /**
      * @return string
      */

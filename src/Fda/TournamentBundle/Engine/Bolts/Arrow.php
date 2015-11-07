@@ -134,18 +134,6 @@ class Arrow
     }
 
     /**
-     * do all checks
-     * @throws InvalidArrowException
-     */
-    protected function checkAll()
-    {
-        $this->checkNumber();
-        $this->checkScore();
-        $this->checkMultiplier();
-        $this->checkCombination();
-    }
-
-    /**
      * check if the arrow number is valid
      * @throws InvalidArrowException
      */
