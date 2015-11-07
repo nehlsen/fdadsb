@@ -8,6 +8,7 @@ use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\GameGearsSimple;
 use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Group;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class GameGearsFactory
 {
@@ -16,6 +17,9 @@ class GameGearsFactory
 
     /** @var LegGearsFactory */
     protected $legGearsFactory;
+
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
 
     /**
      * @param EntityManager $entityManager
@@ -31,6 +35,14 @@ class GameGearsFactory
     public function setLegGearsFactory(LegGearsFactory $legGearsFactory)
     {
         $this->legGearsFactory = $legGearsFactory;
+    }
+
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -58,6 +70,7 @@ class GameGearsFactory
         }
 
         $gears->setLegGearsFactory($this->legGearsFactory);
+        $this->eventDispatcher->addSubscriber($gears);
 
         $this->entityManager->flush();
 

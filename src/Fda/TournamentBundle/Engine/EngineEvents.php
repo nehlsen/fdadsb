@@ -18,10 +18,32 @@ final class EngineEvents
      */
     const ARROW_REGISTERED = 'fda.tournament.arrow.registered';
 
-    // three arrows or a bust
-    const TURN_COMPLETED = '';
+    /**
+     * this event is emitted after a turn has been completed
+     * a turn is completed by either being a bust or having 3 arrows
+     * event type: TurnEvent
+     */
+    const TURN_COMPLETED = 'fda.tournament.turn.completed';
 
-    const LEG_COMPLETED = '';
-    const GAME_COMPLETED = '';
-    const ROUND_COMPLETED = '';
+    /**
+     * this event is emitted after a leg has been completed
+     * event type: LegEvent
+     */
+    const LEG_COMPLETED = 'fda.tournament.leg.completed';
+
+    /**
+     * this event is emitted after a game has been completed
+     * event type: GameEvent
+     */
+    const GAME_COMPLETED = 'fda.tournament.game.completed';
+
+    /**
+     * this event is emitted after a round has been completed
+     * a round is completed when the last game of the round has been completed
+     *
+     * event type: RoundEvent
+     */
+    const ROUND_COMPLETED = 'fda.tournament.round.completed';
+
+    const TOURNAMENT_COMPLETED = 'fda.tournament.tournament.completed';
 }

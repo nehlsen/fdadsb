@@ -1,8 +1,15 @@
 {% extends 'FdaPlayerBundle::layout.html.twig' %}
 
 {% block content -%}
+    {% if app.session.flashBag.get('note')[0] == 'referee.game.completed' %}
+        <div class="alert alert-info">
+            <strong>{{'referee.game.completed'|trans}}</strong><br>
+            <a href="{{ path('ledger_start') }}">{{'referee.game.choose.lnk'|trans}}</a>
+        </div>
+    {% endif %}
+
     <h1>
-        {{ tournament_link(game.tournament) }}
+        {{ tournament_link(tournament) }}
         :
         {{ player_label(game.player1) }}
         vs

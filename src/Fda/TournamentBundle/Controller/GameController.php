@@ -10,19 +10,23 @@ class GameController extends Controller
 {
     /**
      * @Secure(roles="ROLE_USER")
+     * @param int $gameId
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction($gameId)
     {
         $game = $this->getGame($gameId);
+        $tournament = $game->getGroup()->getRound()->getTournament();
 
         $tournamentEngine = $this->get('fda.tournament.engine');
-        $tournamentEngine->setTournament($game->getTournament());
-        $gameGears = $tournamentEngine->getGears()->getGameGears($gameId);
+        $tournamentEngine->setTournament($tournament);
+        $gameGears = $tournamentEngine->getGameGearsForGameId($gameId);
 
         return $this->render('FdaTournamentBundle:Game:show.html.twig', array(
-            'game'      => $game,
-            'gameGears' => $gameGears,
-            ));
+            'tournament' => $tournament,
+            'game'       => $game,
+            'gameGears'  => $gameGears,
+        ));
     }
 
     /**

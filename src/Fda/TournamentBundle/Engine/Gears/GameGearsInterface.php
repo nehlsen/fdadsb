@@ -5,8 +5,9 @@ namespace Fda\TournamentBundle\Engine\Gears;
 use Fda\TournamentBundle\Engine\Bolts\GameMode;
 use Fda\TournamentBundle\Engine\Factory\LegGearsFactory;
 use Fda\TournamentBundle\Entity\Game;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-interface GameGearsInterface
+interface GameGearsInterface extends EventSubscriberInterface
 {
     /**
      * @param LegGearsFactory $legGearsFactory

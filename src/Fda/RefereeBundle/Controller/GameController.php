@@ -7,27 +7,30 @@ use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class GameController extends Controller
 {
     /**
      * @Secure(roles="ROLE_REFEREE")
-     * @param int $gameId
-     *
+     * @param Request $request
+     * @param int     $gameId
      * @return Response
-     *
-     * @throws \Exception if game is already closed
      */
-    public function playAction($gameId)
+    public function playAction(Request $request, $gameId)
     {
         $ledger = $this->get('fda.ledger');
         $ledger->setGameId($gameId);
 
         $gameGears = $ledger->getGameGears();
         $game = $gameGears->getGame();
-//        if ($game->isClosed()) {
-//            throw new \Exception('game closed!');
-//        }
+        if ($game->isClosed()) {
+            /** @var Session $session */
+            $session = $request->getSession();
+            $session->getFlashBag()->set('note', 'referee.game.completed');
+
+            return $this->redirectToRoute('game_show', array('gameId' => $gameId));
+        }
 
         if ($game->getLegs()->isEmpty()) {
             // fresh game! set referee and board!

@@ -136,9 +136,6 @@ class LegGearsSimple extends AbstractLegGears
             $this->setLegCompleted($this->leg);
         }
 
-        // TODO persist leg (cascades to turn)
-//        $this->entityManager->persist($this->leg);
-
         return $arrow;
     }
 

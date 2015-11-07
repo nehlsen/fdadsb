@@ -125,6 +125,15 @@ class Game
     }
 
     /**
+     * @return \Fda\TournamentBundle\Engine\Bolts\GameMode
+     */
+    public function getGameMode()
+    {
+        $setup = $this->getGroup()->getRound()->getSetup();
+        return $setup->getGameMode();
+    }
+
+    /**
      * @return Board
      */
     public function getBoard()
@@ -281,12 +290,16 @@ class Game
         $this->legsWonPlayer2 = 0;
 
         foreach ($this->getLegs() as $leg) {
+            if (!$leg->isClosed()) {
+                continue;
+            }
+
             if ($leg->getWinner() == $this->getPlayer1()) {
                 $this->legsWonPlayer1 += 1;
             } elseif ($leg->getWinner() == $this->getPlayer2()) {
                 $this->legsWonPlayer2 += 1;
             } else {
-                throw new \Exception();
+                throw new \Exception('the winner of one leg does not belong to this game!');
             }
         }
     }
