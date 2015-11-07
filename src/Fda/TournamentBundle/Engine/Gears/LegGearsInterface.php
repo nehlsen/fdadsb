@@ -5,8 +5,9 @@ namespace Fda\TournamentBundle\Engine\Gears;
 use Fda\PlayerBundle\Entity\Player;
 use Fda\TournamentBundle\Engine\Bolts\Arrow;
 use Fda\TournamentBundle\Entity\Turn;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-interface LegGearsInterface
+interface LegGearsInterface extends EventSubscriberInterface
 {
     /**
      * @return Turn

@@ -6,6 +6,7 @@ services:
       - [setPlayerManager,[@fda.player.manager]]
       - [setBoardManager,[@fda.board.manager]]
       - [setTournamentEngine,[@fda.tournament.engine]]
+      - [setEventDispatcher,[@event_dispatcher]]
 
   fda.referee.twig.extension:
     class: Fda\RefereeBundle\Twig\RefereeExtension

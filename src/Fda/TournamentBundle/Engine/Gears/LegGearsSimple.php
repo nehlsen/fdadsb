@@ -4,6 +4,7 @@ namespace Fda\TournamentBundle\Engine\Gears;
 
 use Doctrine\Common\Collections\Collection;
 use Fda\PlayerBundle\Entity\Player;
+use Fda\TournamentBundle\Engine\Bolts\Arrow;
 use Fda\TournamentBundle\Engine\Bolts\CountDownFinishingMoveProvider;
 use Fda\TournamentBundle\Engine\Bolts\LegMode;
 use Fda\TournamentBundle\Entity\Turn;
@@ -110,5 +111,72 @@ class LegGearsSimple extends AbstractLegGears
         );
 
         return $provider->getFinishingMoves();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function handleArrow(Arrow $arrow)
+    {
+        // set arrow number
+        // do stuff
+        // return arrow
+
+        $remainingShots = $this->remainingShots();
+        $arrowNumber = 4 - $remainingShots;
+        $arrow->setNumber($arrowNumber);
+
+        $turn = $this->updateTurn($arrow);
+
+        if ($turn->isVoid() || $turn->isComplete()) {
+            // turn closed!
+            $this->setTurnCompleted($turn);
+        }
+        if ($this->leg->isClosed()) {
+            $this->setLegCompleted($this->leg);
+        }
+
+        // TODO persist leg (cascades to turn)
+//        $this->entityManager->persist($this->leg);
+
+        return $arrow;
+    }
+
+    /**
+     * add arrow to turn, check for bust, re-calc scores of leg, close leg if necessary
+     *
+     * @param Arrow $arrow the incoming arrow
+     *
+     * @return Turn
+     */
+    protected function updateTurn(Arrow $arrow)
+    {
+        $turn = $this->getCurrentTurn();
+        $turn->setArrow($arrow);
+        $this->leg->updateScoresAndShots();
+
+        $score = $this->leg->getScoreOf($turn->getPlayer());
+        $maxScore = $this->getRequiredScore();
+        $doubleOutRequired = $this->leg->getLegMode()->isDoubleOutRequired();
+
+        if ($score == $maxScore) {
+            // check for double out
+            if ($doubleOutRequired && !$turn->getLastArrow()->isDouble()) {
+                $turn->setVoid();
+            } else {
+                // finished !!!
+                $this->leg->setWinner($turn->getPlayer());
+            }
+        } elseif ($score > $maxScore) {
+            // last turn is a bust!
+            $turn->setVoid();
+        }
+
+        if ($turn->isVoid()) {
+            // re-calc needed...
+            $this->leg->updateScoresAndShots();
+        }
+
+        return $turn;
     }
 }

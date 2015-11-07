@@ -6,9 +6,13 @@ use Fda\BoardBundle\Entity\Board;
 use Fda\BoardBundle\Manager\BoardManager;
 use Fda\PlayerBundle\Entity\Player;
 use Fda\PlayerBundle\Manager\PlayerManager;
+use Fda\TournamentBundle\Engine\Bolts\Arrow;
+use Fda\TournamentBundle\Engine\EngineEvents;
+use Fda\TournamentBundle\Engine\Events\ArrowEvent;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\TournamentEngineInterface;
 use Fda\TournamentBundle\Entity\Game;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class Ledger
@@ -27,6 +31,9 @@ class Ledger
 
     /** @var TournamentEngineInterface */
     protected $tournamentEngine;
+
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
 
     /** @var Player */
     protected $owner;
@@ -73,6 +80,14 @@ class Ledger
     public function setTournamentEngine(TournamentEngineInterface $tournamentEngine)
     {
         $this->tournamentEngine = $tournamentEngine;
+    }
+
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -143,6 +158,25 @@ class Ledger
         }
 
         return $this->gameGears;
+    }
+
+    /**
+     * called on incoming arrow
+     *
+     * @param Arrow $arrow
+     */
+    public function registerShot(Arrow $arrow)
+    {
+        // trigger initialization of leg-gears so they can listen for events
+        $this->getGameGears()->getCurrentLegGears();
+
+        $event = new ArrowEvent();
+        $event->setArrow($arrow);
+
+        $this->eventDispatcher->dispatch(
+            EngineEvents::ARROW_INCOMING,
+            $event
+        );
     }
 
     /**

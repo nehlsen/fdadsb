@@ -36,6 +36,7 @@ services:
     class: Fda\TournamentBundle\Engine\Factory\LegGearsFactory
     calls:
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+      - [setEventDispatcher,[@event_dispatcher]]
     public: false
 
 #  fda.tournament.gears.all_vs_all:

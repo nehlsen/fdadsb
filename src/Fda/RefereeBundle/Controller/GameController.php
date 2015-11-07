@@ -2,7 +2,7 @@
 
 namespace Fda\RefereeBundle\Controller;
 
-use Fda\TournamentBundle\Entity\Turn;
+use Fda\TournamentBundle\Engine\Bolts\Arrow;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,35 +58,56 @@ class GameController extends Controller
      */
     public function registerShotAction(Request $request, $gameId)
     {
+        $arrow = $this->getArrowFromRequest($request);
+
+        $ledger = $this->get('fda.ledger');
+        $ledger->setGameId($gameId);
+        $ledger->registerShot($arrow);
+
+//        $tournamentEngine = $this->get('fda.tournament.engine');
+//        $continueGame = $tournamentEngine->registerShot($gameId, $score, $multiplier);
+//        if (!$continueGame) {
+//            // make sure the correct referee is set in the end
+//            $game = $tournamentEngine->getGears()->getGameGears($gameId)->getGame();
+//            $this->setGameBoardAndReferee($game);
+//        }
+//
+//        $this->getDoctrine()->getManager()->flush();
+//
+//        if ($continueGame) {
+//            return $this->redirectToRoute('game_play', array('gameId' => $gameId));
+//        } else {
+//            return $this->redirectToRoute('ledger_start');
+//        }
+
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('game_play', array('gameId' => $gameId));
+    }
+
+    /**
+     * extract score and multiplier from request and put it into an arrow
+     *
+     * @param Request $request
+     * @return Arrow
+     */
+    protected function getArrowFromRequest(Request $request)
+    {
         $score = $request->get('score', 0);
         $multiplier = $request->get('multiplier', 1);
         switch ($multiplier) {
             default:
             case 1:
-                $multiplier = Turn::MULTIPLIER_SINGLE;
+                $multiplier = Arrow::MULTIPLIER_SINGLE;
                 break;
             case 2:
-                $multiplier = Turn::MULTIPLIER_DOUBLE;
+                $multiplier = Arrow::MULTIPLIER_DOUBLE;
                 break;
             case 3:
-                $multiplier = Turn::MULTIPLIER_TRIPLE;
+                $multiplier = Arrow::MULTIPLIER_TRIPLE;
                 break;
         }
 
-        $tournamentEngine = $this->get('fda.tournament.engine');
-        $continueGame = $tournamentEngine->registerShot($gameId, $score, $multiplier);
-        if (!$continueGame) {
-            // make sure the correct referee is set in the end
-            $game = $tournamentEngine->getGears()->getGameGears($gameId)->getGame();
-            $this->setGameBoardAndReferee($game);
-        }
-
-        $this->getDoctrine()->getManager()->flush();
-
-        if ($continueGame) {
-            return $this->redirectToRoute('game_play', array('gameId' => $gameId));
-        } else {
-            return $this->redirectToRoute('ledger_start');
-        }
+        return Arrow::create($score, $multiplier);
     }
 }
