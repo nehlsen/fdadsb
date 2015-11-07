@@ -11,6 +11,13 @@ class InvalidArrowException extends \RuntimeException
         );
     }
 
+    public static function multipliedZero()
+    {
+        return new self(
+            'zero can not be doubled or tripled!'
+        );
+    }
+
     public static function invalidArrowNumber($number)
     {
         return new self(sprintf(

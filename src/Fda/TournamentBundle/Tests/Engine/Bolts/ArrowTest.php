@@ -50,9 +50,6 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
         $triple1 = Arrow::create(1, Arrow::MULTIPLIER_TRIPLE);
         $this->assertEquals(3, $triple1->getTotal());
 
-        $triple0 = Arrow::create(0, Arrow::MULTIPLIER_TRIPLE);
-        $this->assertEquals(0, $triple0->getTotal());
-
         $triple20 = Arrow::create(20, Arrow::MULTIPLIER_TRIPLE);
         $this->assertEquals(60, $triple20->getTotal());
     }
@@ -78,6 +75,22 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
     public function testTripleBullsEye()
     {
         Arrow::create(25, Arrow::MULTIPLIER_TRIPLE);
+    }
+
+    /**
+     * @expectedException \Fda\TournamentBundle\Engine\Bolts\InvalidArrowException
+     */
+    public function testDoubleZero()
+    {
+        Arrow::create(0, Arrow::MULTIPLIER_DOUBLE);
+    }
+
+    /**
+     * @expectedException \Fda\TournamentBundle\Engine\Bolts\InvalidArrowException
+     */
+    public function testTripleZero()
+    {
+        Arrow::create(0, Arrow::MULTIPLIER_TRIPLE);
     }
 
     /**

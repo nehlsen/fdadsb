@@ -204,5 +204,9 @@ class Arrow
         if ($this->getScore() == 25 && $this->getMultiplier() == self::MULTIPLIER_TRIPLE) {
             throw InvalidArrowException::tripleBullsEye();
         }
+
+        if ($this->getScore() == 0 && $this->getMultiplier() != self::MULTIPLIER_SINGLE) {
+            throw InvalidArrowException::multipliedZero();
+        }
     }
 }
