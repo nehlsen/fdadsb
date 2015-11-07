@@ -15,14 +15,17 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 
 class TournamentEngineFactoryTest extends WebTestCase
 {
+    /** @var \Doctrine\Common\DataFixtures\ReferenceRepository */
     protected $fixtures;
 
     public function setUp()
     {
-        $this->fixtures = $this->loadFixtures(array(
+        /** @var \Doctrine\Common\DataFixtures\Executor\AbstractExecutor $fixturesExecutor */
+        $fixturesExecutor = $this->loadFixtures(array(
             'Fda\BoardBundle\DataFixtures\ORM\LoadSampleBoards',
             'Fda\PlayerBundle\DataFixtures\ORM\LoadSamplePlayers',
-        ))->getReferenceRepository();
+        ));
+        $this->fixtures = $fixturesExecutor->getReferenceRepository();
     }
 
     protected function getRealSimpleTournament()
@@ -56,6 +59,7 @@ class TournamentEngineFactoryTest extends WebTestCase
         $tournament->setBoards($boards);
         $tournament->setPlayers($players);
 
+        /** @var \Doctrine\ORM\EntityManager $entityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.default_entity_manager');
         $entityManager->persist($tournament);
 

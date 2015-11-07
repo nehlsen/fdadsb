@@ -1,6 +1,6 @@
 <?php
 
-namespace Fda\TournamentBundle\Tests\Engine;
+namespace Fda\TournamentBundle\Tests\Engine\Bolts;
 
 use Fda\TournamentBundle\Engine\Bolts\CountDownFinishingMoveProvider;
 
