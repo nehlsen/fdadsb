@@ -101,6 +101,15 @@ class Leg
     }
 
     /**
+     * @return \Fda\TournamentBundle\Engine\Bolts\LegMode
+     */
+    public function getLegMode()
+    {
+        $setup = $this->getGame()->getGroup()->getRound()->getSetup();
+        return $setup->getLegMode();
+    }
+
+    /**
      * @return Turn[]
      */
     public function getTurns()

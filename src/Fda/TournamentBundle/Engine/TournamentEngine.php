@@ -4,6 +4,7 @@ namespace Fda\TournamentBundle\Engine;
 
 use Doctrine\ORM\EntityManager;
 use Fda\TournamentBundle\Engine\Factory\TournamentEngineFactory;
+use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
 use Fda\TournamentBundle\Entity\Tournament;
 
@@ -114,6 +115,24 @@ class TournamentEngine implements TournamentEngineInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getGameGearsForGameId($gameId)
+    {
+        $groupedGameGears = $this->getCurrentRoundGears()->getGameGearsGrouped();
+        foreach ($groupedGameGears as $groupNumber => $gameGears) {
+            /** @var GameGearsInterface[] $gameGears */
+            foreach ($gameGears as $gears) {
+                if ($gameId == $gears->getGame()->getId()) {
+                    return $gears;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * initialize round-gears using the gears factory
      *
      * does nothing if gears is not empty
@@ -130,31 +149,6 @@ class TournamentEngine implements TournamentEngineInterface
         }
 
         $this->roundGears = $this->engineFactory->initializeGears($this->getTournament());
-
-//        $tournament = $this->getTournament();
-//        $setup = $tournament->getSetup();
-//        $roundNumber = 0;
-//
-//        $seedGears = $this->roundGearsFactory->create($setup->getSeed());
-//        $seedRound = $tournament->getRoundByNumber($roundNumber);
-//        $seedGears->setRound($seedRound);
-//        $this->entityManager->persist($seedRound);
-//
-//        $this->roundGears[] = $seedGears;
-//        $previous = $seedGears;
-//
-//        foreach ($setup->getRounds() as $roundSetup) {
-//            $roundGears = $this->roundGearsFactory->create($roundSetup);
-//            $roundGears->setPreviousRoundGears($previous);
-//            $round = $tournament->getRoundByNumber(++$roundNumber);
-//            $roundGears->setRound($round);
-//            $this->entityManager->persist($round);
-//
-//            $this->roundGears[] = $roundGears;
-//            $previous = $roundGears;
-//        }
-//
-//        $this->entityManager->flush();
 
         // TODO find first not closed round (except seed)
         $this->currentRoundNumber = 1;

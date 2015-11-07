@@ -24,7 +24,16 @@ interface GameGearsInterface
 //    public function getGameMode();
 
     /**
+     * get leg gears for all completed and begun legs of this game
+     *
+     * @return LegGearsInterface[]
+     */
+//    public function getAllLegGears();
+
+    /**
+     * get leg-gears for current leg
+     *
      * @return LegGearsInterface
      */
-//    public function getLegGears();
+    public function getCurrentLegGears();
 }

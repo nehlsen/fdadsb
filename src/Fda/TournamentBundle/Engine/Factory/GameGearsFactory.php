@@ -4,7 +4,6 @@ namespace Fda\TournamentBundle\Engine\Factory;
 
 use Doctrine\ORM\EntityManager;
 use Fda\PlayerBundle\Entity\Player;
-use Fda\TournamentBundle\Engine\Bolts\GameMode;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\GameGearsSimple;
 use Fda\TournamentBundle\Entity\Game;
@@ -52,11 +51,13 @@ class GameGearsFactory
             $this->entityManager->persist($game);
         }
 
-        if ($gameMode->getMode() == GameMode::FIRST_TO || $gameMode->getMode() == GameMode::AHEAD) {
+        if (in_array($gameMode->getMode(), GameGearsSimple::getSupportedModes())) {
             $gears = new GameGearsSimple($game);
         } else {
             throw new \InvalidArgumentException('can not create game-gears for '.$gameMode->getMode());
         }
+
+        $gears->setLegGearsFactory($this->legGearsFactory);
 
         $this->entityManager->flush();
 

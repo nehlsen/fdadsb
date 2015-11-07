@@ -11,10 +11,10 @@ abstract class AbstractGameGears implements GameGearsInterface
     private $game;
 
     /** @var LegGearsFactory */
-    private $legGearsFactory;
+    protected $legGearsFactory;
 
     /** @var LegGearsInterface[] */
-    private $legGears;
+//    private $legGears;
 
     public function __construct(Game $game)
     {

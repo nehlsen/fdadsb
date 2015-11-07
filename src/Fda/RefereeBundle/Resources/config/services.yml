@@ -5,6 +5,7 @@ services:
       - [setSession,[@session]]
       - [setPlayerManager,[@fda.player.manager]]
       - [setBoardManager,[@fda.board.manager]]
+      - [setTournamentEngine,[@fda.tournament.engine]]
 
   fda.referee.twig.extension:
     class: Fda\RefereeBundle\Twig\RefereeExtension

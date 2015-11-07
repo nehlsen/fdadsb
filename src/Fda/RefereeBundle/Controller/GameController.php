@@ -2,7 +2,6 @@
 
 namespace Fda\RefereeBundle\Controller;
 
-use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Turn;
 use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,24 +20,30 @@ class GameController extends Controller
      */
     public function playAction($gameId)
     {
-        $gameGears = $this->get('fda.tournament.engine')->getGears()->getGameGears($gameId);
+        $ledger = $this->get('fda.ledger');
+        $ledger->setGameId($gameId);
+
+        $gameGears = $ledger->getGameGears();
         $game = $gameGears->getGame();
-        if ($game->isClosed()) {
-            throw new \Exception('game closed!');
-        }
+//        if ($game->isClosed()) {
+//            throw new \Exception('game closed!');
+//        }
 
         if ($game->getLegs()->isEmpty()) {
             // fresh game! set referee and board!
-            $this->setGameBoardAndReferee($game);
+            $game->setBoard($ledger->getBoard());
+            $game->setReferee($ledger->getOwner());
         }
+        // TODO prevent moving game to different board
+        // TODO prevent stealing game from different referee
 
-        $legGears = $gameGears->getLegGears();
-        $turn = $legGears->currentTurn();
+        $legGears = $gameGears->getCurrentLegGears();
+        $turn = $legGears->getCurrentTurn();
 
         $this->getDoctrine()->getManager()->flush();
 
         return $this->render('FdaRefereeBundle:Game:play.html.twig', array(
-            'game'      => $game,
+            'game'      => $ledger->getGame(),
             'leg_gears' => $legGears,
             'turn'      => $turn,
         ));
@@ -83,12 +88,5 @@ class GameController extends Controller
         } else {
             return $this->redirectToRoute('ledger_start');
         }
-    }
-
-    protected function setGameBoardAndReferee(Game $game)
-    {
-        $ledger = $this->get('fda.ledger');
-        $game->setBoard($ledger->getBoard());
-        $game->setReferee($ledger->getOwner());
     }
 }

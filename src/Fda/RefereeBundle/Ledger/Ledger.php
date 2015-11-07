@@ -6,6 +6,9 @@ use Fda\BoardBundle\Entity\Board;
 use Fda\BoardBundle\Manager\BoardManager;
 use Fda\PlayerBundle\Entity\Player;
 use Fda\PlayerBundle\Manager\PlayerManager;
+use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
+use Fda\TournamentBundle\Engine\TournamentEngineInterface;
+use Fda\TournamentBundle\Entity\Game;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class Ledger
@@ -22,11 +25,20 @@ class Ledger
     /** @var BoardManager */
     protected $boardManager;
 
+    /** @var TournamentEngineInterface */
+    protected $tournamentEngine;
+
     /** @var Player */
     protected $owner;
 
     /** @var Board */
     protected $board;
+
+    /** @var int */
+    protected $gameId;
+
+    /** @var GameGearsInterface */
+    protected $gameGears;
 
     /**
      * @param Session $session
@@ -53,6 +65,14 @@ class Ledger
     {
         $this->boardManager = $boardManager;
         $this->autoStart();
+    }
+
+    /**
+     * @param TournamentEngineInterface $tournamentEngine
+     */
+    public function setTournamentEngine(TournamentEngineInterface $tournamentEngine)
+    {
+        $this->tournamentEngine = $tournamentEngine;
     }
 
     /**
@@ -95,6 +115,34 @@ class Ledger
 
         $this->board = $board;
         $this->session->set(self::SESSION_KEY_BOARD, $this->board->getId());
+    }
+
+    /**
+     * @param int $gameId
+     */
+    public function setGameId($gameId)
+    {
+        $this->gameId = $gameId;
+    }
+
+    /**
+     * @return Game
+     */
+    public function getGame()
+    {
+        return $this->getGameGears()->getGame();
+    }
+
+    /**
+     * @return GameGearsInterface
+     */
+    public function getGameGears()
+    {
+        if (null === $this->gameGears) {
+            $this->gameGears = $this->tournamentEngine->getGameGearsForGameId($this->gameId);
+        }
+
+        return $this->gameGears;
     }
 
     /**

@@ -21,6 +21,42 @@ final class LegMode
     }
 
     /**
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+
+    /**
+     * @return int
+     * @throws \Exception
+     */
+    public function getRequiredScore()
+    {
+        if (in_array($this->mode, [self::SINGLE_OUT_301, self::DOUBLE_OUT_301])) {
+            return 301;
+        }
+        if (in_array($this->mode, [self::SINGLE_OUT_501, self::DOUBLE_OUT_501])) {
+            return 501;
+        }
+
+        throw new \Exception();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDoubleOutRequired()
+    {
+        if (in_array($this->mode, [self::DOUBLE_OUT_301, self::DOUBLE_OUT_501])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * check if mode is valid and return it
      *
      * @param string $mode

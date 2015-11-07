@@ -2,6 +2,7 @@
 
 namespace Fda\TournamentBundle\Engine;
 
+use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
 use Fda\TournamentBundle\Entity\Tournament;
 
@@ -49,4 +50,13 @@ interface TournamentEngineInterface
      * @return int
      */
     public function getCurrentRoundNumber();
+
+    /**
+     * get the gears for a game by ID
+     *
+     * @param int $gameId
+     *
+     * @return GameGearsInterface
+     */
+    public function getGameGearsForGameId($gameId);
 }

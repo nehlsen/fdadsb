@@ -2,6 +2,7 @@
 
 namespace Fda\TournamentBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Fda\BoardBundle\Entity\Board;
@@ -29,7 +30,7 @@ class Game
      *     inversedBy="games",
      *     cascade={"persist"}
      * )
-     * @var Tournament
+     * @var Group
      */
     protected $group;
 
@@ -103,6 +104,7 @@ class Game
         $this->group = $group;
         $this->player1 = $player1;
         $this->player2 = $player2;
+        $this->legs = new ArrayCollection();
         $this->created = new \DateTime();
     }
 
@@ -112,6 +114,14 @@ class Game
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Group
+     */
+    public function getGroup()
+    {
+        return $this->group;
     }
 
     /**
