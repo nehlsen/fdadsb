@@ -22,6 +22,8 @@ class Arrow
      * @param int    $number
      * @param int    $score
      * @param string $multiplier
+     *
+     * @throws InvalidArrowException
      */
     public function __construct($number, $score, $multiplier)
     {
@@ -119,14 +121,14 @@ class Arrow
         $this->checkMultiplier();
 
         if ($this->getScore() == 25 && $this->getMultiplier() == self::MULTIPLIER_TRIPLE) {
-            throw new \RuntimeException('bulls-eye can not be tripled!');
+            throw InvalidArrowException::tripleBullsEye();
         }
     }
 
     protected function checkNumber()
     {
         if (!in_array($this->getNumber(), [1,2,3])) {
-            throw new \RuntimeException(sprintf('"%d" is not a valid arrow-number', $this->getNumber()));
+            throw InvalidArrowException::invalidArrowNumber($this->getNumber());
         }
     }
 
@@ -144,7 +146,7 @@ class Arrow
         );
 
         if (!in_array($this->getScore(), $validScores)) {
-            throw new \RuntimeException(sprintf('"%d" is not a valid score', $this->getScore()));
+            throw InvalidArrowException::invalidScore($this->getScore());
         }
     }
 
@@ -157,7 +159,7 @@ class Arrow
         );
 
         if (!in_array($this->getMultiplier(), $validMultipliers)) {
-            throw new \RuntimeException(sprintf('"%s" is not a valid multiplier', $this->getMultiplier()));
+            throw InvalidArrowException::invalidMultiplier($this->getMultiplier());
         }
     }
 }

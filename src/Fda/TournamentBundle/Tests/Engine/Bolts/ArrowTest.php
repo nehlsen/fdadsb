@@ -1,6 +1,6 @@
 <?php
 
-namespace Fda\TournamentBundle\Tests\Engine;
+namespace Fda\TournamentBundle\Tests\Engine\Bolts;
 
 use Fda\TournamentBundle\Engine\Bolts\Arrow;
 
@@ -36,7 +36,7 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($triple->isTriple());
     }
 
-    public function testToTotals()
+    public function testTotals()
     {
         $single = new Arrow(1, 5, Arrow::MULTIPLIER_SINGLE);
         $this->assertEquals(5, $single->getTotal());
@@ -58,7 +58,7 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \Fda\TournamentBundle\Engine\Bolts\InvalidArrowException
      */
     public function testTripleBullsEye()
     {
@@ -66,7 +66,7 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \Fda\TournamentBundle\Engine\Bolts\InvalidArrowException
      */
     public function testWrongNumber1()
     {
@@ -74,7 +74,7 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \Fda\TournamentBundle\Engine\Bolts\InvalidArrowException
      */
     public function testWrongNumber2()
     {
@@ -82,7 +82,7 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \Fda\TournamentBundle\Engine\Bolts\InvalidArrowException
      */
     public function testInvalidScore()
     {
@@ -90,7 +90,7 @@ class ArrowTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
+     * @expectedException \Fda\TournamentBundle\Engine\Bolts\InvalidArrowException
      */
     public function testInvalidMultiplier()
     {
