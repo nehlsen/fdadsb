@@ -17,21 +17,31 @@ class Arrow
     /** @var string */
     protected $multiplier;
 
+    protected function __construct()
+    {
+    }
+
     /**
-     * Arrow constructor.
-     * @param int    $number
-     * @param int    $score
-     * @param string $multiplier
+     * create a new arrow
+     *
+     * @param int $score
+     * @param int $multiplier
+     *
+     * @return Arrow
      *
      * @throws InvalidArrowException
      */
-    public function __construct($number, $score, $multiplier)
+    public static function create($score, $multiplier)
     {
-        $this->number = (int)$number;
-        $this->score = (int)$score;
-        $this->multiplier = (string)$multiplier;
+        $arrow = new self();
+        $arrow->score = $score;
+        $arrow->multiplier = $multiplier;
 
-        $this->check();
+        $arrow->checkScore();
+        $arrow->checkMultiplier();
+        $arrow->checkCombination();
+
+        return $arrow;
     }
 
     public function __toString()
@@ -50,7 +60,7 @@ class Arrow
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getNumber()
     {
@@ -58,7 +68,16 @@ class Arrow
     }
 
     /**
-     * @return mixed
+     * @param int $number
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+        $this->checkNumber();
+    }
+
+    /**
+     * @return int
      */
     public function getScore()
     {
@@ -66,7 +85,7 @@ class Arrow
     }
 
     /**
-     * @return mixed
+     * @return string one of Arrow::MULTIPLIER_*
      */
     public function getMultiplier()
     {
@@ -114,17 +133,22 @@ class Arrow
         return $this->score;
     }
 
-    protected function check()
+    /**
+     * do all checks
+     * @throws InvalidArrowException
+     */
+    protected function checkAll()
     {
         $this->checkNumber();
         $this->checkScore();
         $this->checkMultiplier();
-
-        if ($this->getScore() == 25 && $this->getMultiplier() == self::MULTIPLIER_TRIPLE) {
-            throw InvalidArrowException::tripleBullsEye();
-        }
+        $this->checkCombination();
     }
 
+    /**
+     * check if the arrow number is valid
+     * @throws InvalidArrowException
+     */
     protected function checkNumber()
     {
         if (!in_array($this->getNumber(), [1,2,3])) {
@@ -132,6 +156,10 @@ class Arrow
         }
     }
 
+    /**
+     * check if score is valid
+     * @throws InvalidArrowException
+     */
     protected function checkScore()
     {
         $validScores = array(
@@ -150,6 +178,10 @@ class Arrow
         }
     }
 
+    /**
+     * check if multiplier is valid
+     * @throws InvalidArrowException
+     */
     protected function checkMultiplier()
     {
         $validMultipliers = array(
@@ -160,6 +192,17 @@ class Arrow
 
         if (!in_array($this->getMultiplier(), $validMultipliers)) {
             throw InvalidArrowException::invalidMultiplier($this->getMultiplier());
+        }
+    }
+
+    /**
+     * check if multiplier makes sense in combination with score
+     * @throws InvalidArrowException
+     */
+    protected function checkCombination()
+    {
+        if ($this->getScore() == 25 && $this->getMultiplier() == self::MULTIPLIER_TRIPLE) {
+            throw InvalidArrowException::tripleBullsEye();
         }
     }
 }

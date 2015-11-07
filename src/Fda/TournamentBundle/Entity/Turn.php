@@ -11,13 +11,6 @@ use Fda\TournamentBundle\Engine\Bolts\Arrow;
  */
 class Turn
 {
-    /** @deprecated */
-    const MULTIPLIER_SINGLE = 'single';
-    /** @deprecated */
-    const MULTIPLIER_DOUBLE = 'double';
-    /** @deprecated */
-    const MULTIPLIER_TRIPLE = 'triple';
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -43,7 +36,7 @@ class Turn
      * @ORM\Column(type="string")
      * @var string
      */
-    protected $arrow1multiplier = self::MULTIPLIER_SINGLE;
+    protected $arrow1multiplier = Arrow::MULTIPLIER_SINGLE;
 
     /**
      * @ORM\Column(type="integer")
@@ -61,7 +54,7 @@ class Turn
      * @ORM\Column(type="string")
      * @var string
      */
-    protected $arrow2multiplier = self::MULTIPLIER_SINGLE;
+    protected $arrow2multiplier = Arrow::MULTIPLIER_SINGLE;
 
     /**
      * @ORM\Column(type="integer")
@@ -79,7 +72,7 @@ class Turn
      * @ORM\Column(type="string")
      * @var string
      */
-    protected $arrow3multiplier = self::MULTIPLIER_SINGLE;
+    protected $arrow3multiplier = Arrow::MULTIPLIER_SINGLE;
 
     /**
      * @ORM\Column(type="integer")
@@ -197,7 +190,7 @@ class Turn
     public function getArrow($number)
     {
         $score = 0;
-        $multiplier = self::MULTIPLIER_SINGLE;
+        $multiplier = Arrow::MULTIPLIER_SINGLE;
 
         switch ($number) {
             case 1:
@@ -214,7 +207,10 @@ class Turn
                 break;
         }
 
-        return $this->checkArrow($number, $score, $multiplier);
+        $arrow = Arrow::create($score, $multiplier);
+        $arrow->setNumber($number);
+
+        return $arrow;
     }
 
     /**
@@ -248,16 +244,12 @@ class Turn
     }
 
     /**
-     * @param int|Arrow   $number_or_arrow
-     * @param int|null    $score
-     * @param string|null $multiplier
+     * @param Arrow $arrow
      *
      * @return Arrow
      */
-    public function setArrow($number_or_arrow, $score = null, $multiplier = null)
+    public function setArrow(Arrow $arrow)
     {
-        $arrow = $this->checkArrow($number_or_arrow, $score, $multiplier);
-
         switch ($arrow->getNumber()) {
             case 1:
                 $this->arrow1multiplier = $arrow->getMultiplier();
@@ -347,95 +339,5 @@ class Turn
     public function setVoid($isVoid = true)
     {
         $this->isVoid = $isVoid;
-    }
-
-    /******************************************************************************************************************/
-
-    /**
-     * @param int|Arrow   $number_or_arrow
-     * @param int|null    $score
-     * @param string|null $multiplier
-     *
-     * @return Arrow
-     */
-    protected function checkArrow($number_or_arrow, $score = null, $multiplier = null)
-    {
-        if ($number_or_arrow instanceof Arrow) {
-            $arrow = $number_or_arrow;
-            $this->checkNumber($arrow->getNumber());
-            $this->checkScore($arrow->getScore());
-            $this->checkMultiplier($arrow->getMultiplier());
-        } else {
-            $arrow = new Arrow(
-                $this->checkNumber($number_or_arrow),
-                $this->checkScore($score),
-                $this->checkMultiplier($multiplier)
-            );
-        }
-
-        if ($arrow->getScore() == 25 && $arrow->getMultiplier() == self::MULTIPLIER_TRIPLE) {
-            throw new \RuntimeException('bulls-eye can not be tripled!');
-        }
-
-        return $arrow;
-    }
-
-    /**
-     * @param int $number
-     *
-     * @return int
-     */
-    protected function checkNumber($number)
-    {
-        if (in_array($number, [1,2,3])) {
-            return $number;
-        }
-
-        throw new \RuntimeException(sprintf('"%d" is not a valid arrow-number', $number));
-    }
-
-    /**
-     * @param int $score
-     *
-     * @return int
-     */
-    protected function checkScore($score)
-    {
-        $scores = array(
-            25, 20, 19,
-            18, 17, 16,
-            15, 14, 13,
-            12, 11, 10,
-             9,  8,  7,
-             6,  5,  4,
-             3,  2,  1,
-             0
-        );
-
-        if (in_array($score, $scores)) {
-            return $score;
-        }
-
-        throw new \RuntimeException(sprintf('"%d" is not a valid score', $score));
-    }
-
-    /**
-     * @param string $multiplier
-     *
-     * @return string
-     */
-    protected function checkMultiplier($multiplier)
-    {
-        $multipliers = array(
-            self::MULTIPLIER_SINGLE,
-            self::MULTIPLIER_DOUBLE,
-            self::MULTIPLIER_TRIPLE,
-        );
-
-        if (in_array($multiplier, $multipliers)) {
-            return $multiplier;
-        }
-
-        throw new \RuntimeException(sprintf('"%s" is not a valid multiplier', $multiplier));
     }
 }

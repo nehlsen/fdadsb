@@ -2,8 +2,6 @@
 
 namespace Fda\TournamentBundle\Engine\Bolts;
 
-use Fda\TournamentBundle\Entity\Turn;
-
 class CountDownFinishingMoveProvider
 {
     /** @var int */
@@ -118,12 +116,12 @@ class CountDownFinishingMoveProvider
         $convertMultiplier = function ($multiplier) {
             switch ($multiplier) {
                 case 3:
-                    return Turn::MULTIPLIER_TRIPLE;
+                    return Arrow::MULTIPLIER_TRIPLE;
                 case 2:
-                    return Turn::MULTIPLIER_DOUBLE;
+                    return Arrow::MULTIPLIER_DOUBLE;
             }
 
-            return Turn::MULTIPLIER_SINGLE;
+            return Arrow::MULTIPLIER_SINGLE;
         };
 
         $scores = array(25);
@@ -140,8 +138,7 @@ class CountDownFinishingMoveProvider
                     continue;
                 }
 
-                $arrow = new Arrow(
-                    1,
+                $arrow = Arrow::create(
                     $score,
                     $convertMultiplier($multiplier)
                 );
