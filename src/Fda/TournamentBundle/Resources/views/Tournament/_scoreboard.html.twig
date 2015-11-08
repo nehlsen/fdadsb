@@ -1,10 +1,13 @@
 <table class="table">
     <tbody>
-    {% for won,playerId in tournament.gamesWonToPlayer %}
-        <tr>
-            <td>{{ won }}</td>
-            <td>{{ player_link(playerId) }}</td>
-        </tr>
-    {% endfor %}
+    <tr>
+        <td>gamesWonToPlayer</td>
+    </tr>
+    {#{% for won,playerId in tournament.gamesWonToPlayer %}#}
+        {#<tr>#}
+            {#<td>{{ won }}</td>#}
+            {#<td>{{ player_link(playerId) }}</td>#}
+        {#</tr>#}
+    {#{% endfor %}#}
     </tbody>
 </table>
