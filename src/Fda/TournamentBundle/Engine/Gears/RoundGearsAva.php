@@ -4,6 +4,7 @@ namespace Fda\TournamentBundle\Engine\Gears;
 
 use Doctrine\Common\Collections\Collection;
 use Fda\PlayerBundle\Entity\Player;
+use Fda\TournamentBundle\Engine\LeaderBoard\BasicLeaderBoard;
 use Fda\TournamentBundle\Entity\Group;
 
 class RoundGearsAva extends AbstractRoundGears
@@ -49,5 +50,41 @@ class RoundGearsAva extends AbstractRoundGears
         }
 
         return $gameGears;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLeaderBoard()
+    {
+        $leaderBoard = new BasicLeaderBoard();
+
+        foreach ($this->getGameGearsGrouped() as $groupNumber => $gamesGears) {
+            foreach ($gamesGears as $gameGears) {
+                /** @var GameGearsInterface $gameGears */
+                $game = $gameGears->getGame();
+                $player1 = $game->getPlayer1();
+                $player2 = $game->getPlayer2();
+                $winner = $game->getWinner();
+
+                $player1entry = $leaderBoard->update(
+                    $groupNumber,
+                    $player1,
+                    ($winner == $player1 ? 1 : 0)
+                );
+                $player2entry = $leaderBoard->update(
+                    $groupNumber,
+                    $player2,
+                    ($winner == $player2 ? 1 : 0)
+                );
+
+                if (!$game->isClosed()) {
+                    $player1entry->setFinal(false);
+                    $player2entry->setFinal(false);
+                }
+            }
+        }
+
+        return $leaderBoard;
     }
 }

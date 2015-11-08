@@ -3,7 +3,7 @@
 namespace Fda\TournamentBundle\Engine\Gears;
 
 use Fda\TournamentBundle\Engine\Factory\GameGearsFactory;
-use Fda\TournamentBundle\Engine\Scoreboard\Scoreboard;
+use Fda\TournamentBundle\Engine\LeaderBoard\LeaderBoardInterface;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupInterface;
 use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Round;
@@ -29,6 +29,16 @@ interface RoundGearsInterface
      * @param RoundGearsInterface $previousRound
      */
     public function setPreviousRoundGears(RoundGearsInterface $previousRound);
+
+    /**
+     * @return RoundGearsInterface
+     */
+    public function getPreviousRoundGears();
+
+    /**
+     * @return bool
+     */
+    public function hasPreviousRoundGears();
 
     /**
      * whether the associated round is closed
@@ -58,26 +68,12 @@ interface RoundGearsInterface
     public function getGameGearsForGroup(Group $group);
 
     /**
-     * get the rounds scoreboard
+     * get leader board for this round
      *
-     * players grouped by group ordered by score
-     * all players in this round must be in the result,
-     * players with undetermined scores shall be appended to the appropriate list
+     * the board has to contain every player of this round
+     * even if unplaced/undetermined/not-final...
      *
-     * if round-is-closed because all matches are played, the list shall be properly ordered
-     *
-     * e.g.:
-     * [
-     *  0 => [        // first group
-     *      PlayerB,  // players ordered by score
-     *      PlayerA,
-     *      PlayerC,
-     *      ],
-     *  1 => [...],  // second group
-     *  ...          // remaining groups
-     * ]
-     *
-     * @return Scoreboard
+     * @return LeaderBoardInterface
      */
-    public function getScoreboard();
+    public function getLeaderBoard();
 }

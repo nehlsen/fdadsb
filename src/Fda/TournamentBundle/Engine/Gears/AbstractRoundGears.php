@@ -97,6 +97,22 @@ abstract class AbstractRoundGears implements RoundGearsInterface
     /**
      * @inheritDoc
      */
+    public function getPreviousRoundGears()
+    {
+        return $this->previousRound;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasPreviousRoundGears()
+    {
+        return null !== $this->getPreviousRoundGears();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function isRoundClosed()
     {
         // at least the previous round has to be closed for this round to be open
@@ -161,9 +177,11 @@ abstract class AbstractRoundGears implements RoundGearsInterface
     /**
      * @inheritDoc
      */
-    public function getScoreboard()
+    public function getLeaderBoard()
     {
-        // TODO: Implement getScoreboard() method.
-        throw new \Exception('TODO');
+        // TODO: Implement getLeaderBoard() method.
+        throw new \Exception(
+            'TODO: Implement getLeaderBoard() of '.get_class($this)
+        );
     }
 }

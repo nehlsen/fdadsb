@@ -3,7 +3,7 @@
 namespace Fda\TournamentBundle\Engine\Setup;
 
 use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
-use Fda\TournamentBundle\Engine\Scoreboard\ScoreboardEntry;
+use Fda\TournamentBundle\Engine\LeaderBoard\LeaderBoardEntryInterface;
 
 // round-setup:advance players from each group will advance
 //  -1 ==> all players
@@ -28,11 +28,11 @@ class InputStraight implements InputInterface
         }
 
         $advance = $previousRoundGears->getSetup()->getAdvance();
-        $scoreboard = $previousRoundGears->getScoreboard();
+        $leaderBoard = $previousRoundGears->getLeaderBoard();
 
         $output = array();
-        foreach ($scoreboard->getEntriesGrouped() as $groupNumber => $entries) {
-            /** @var ScoreboardEntry[] $entries */
+        foreach ($leaderBoard->getEntries() as $groupNumber => $entries) {
+            /** @var LeaderBoardEntryInterface[] $entries */
             $output[$groupNumber] = array();
             foreach ($entries as $entry) {
                 if (-1 != $advance && count($output[$groupNumber]) >= $advance) {

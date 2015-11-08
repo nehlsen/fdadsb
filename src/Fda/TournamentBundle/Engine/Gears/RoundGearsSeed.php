@@ -2,7 +2,7 @@
 
 namespace Fda\TournamentBundle\Engine\Gears;
 
-use Fda\TournamentBundle\Engine\Scoreboard\Scoreboard;
+use Fda\TournamentBundle\Engine\LeaderBoard\BasicLeaderBoard;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupSeed;
 use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Round;
@@ -66,21 +66,20 @@ class RoundGearsSeed extends AbstractRoundGears
     /**
      * @inheritDoc
      */
-    public function getScoreboard()
+    public function getLeaderBoard()
     {
-        $scoreboard = new Scoreboard();
+        $leaderBoard = new BasicLeaderBoard();
 
         foreach ($this->getRound()->getGroups() as $group) {
             foreach ($group->getPlayers() as $player) {
-                $scoreboard->setEntry(
+                $leaderBoard->update(
                     $group->getNumber(),
                     $player,
-                    0,
-                    true
+                    0
                 );
             }
         }
 
-        return $scoreboard;
+        return $leaderBoard;
     }
 }

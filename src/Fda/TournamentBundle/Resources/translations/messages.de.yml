@@ -17,10 +17,6 @@ tournament:
     ahead:
       label: 'Vorsprung von...'
       description: 'Vorsprung von %count% Legs'
-  game:
-    running.label: '%count% Laufende Spiele'
-    closed.label: '%count% Beendete Spiele'
-    open.label: '%count% noch nicht begonnene Spiele'
   game_count:
     choose: 'Anzahl'
   leg_mode:

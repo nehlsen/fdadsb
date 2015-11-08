@@ -48,7 +48,7 @@ class LoadSimpleTournament extends AbstractFixture implements OrderedFixtureInte
             $players[2]->getId()
         ]]));
         $round1 = RoundSetupAva::createStraight();
-        $round1->setGameMode(new GameMode(GameMode::FIRST_TO, 3));
+        $round1->setGameMode(new GameMode(GameMode::FIRST_TO, 1));
         $round1->setLegMode(new LegMode(LegMode::SINGLE_OUT_301));
         $tournamentSetup->addRound($round1);
 
