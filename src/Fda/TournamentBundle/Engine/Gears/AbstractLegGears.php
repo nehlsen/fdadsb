@@ -122,7 +122,7 @@ abstract class AbstractLegGears implements LegGearsInterface
      */
     public function onIncomingArrow(ArrowEvent $arrowIncomingEvent, $name, EventDispatcherInterface $dispatcher)
     {
-        $this->log('onIncomingArrow');
+//        $this->log('onIncomingArrow');
 
         $incomingArrow = $arrowIncomingEvent->getArrow();
         $arrow = $this->handleArrow(clone $incomingArrow);

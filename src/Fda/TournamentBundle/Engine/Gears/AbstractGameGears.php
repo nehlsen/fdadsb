@@ -125,7 +125,7 @@ abstract class AbstractGameGears implements GameGearsInterface
             return;
         }
 
-        $this->log('onLegCompleted, proceed - forward event to implementing class');
+//        $this->log('onLegCompleted, proceed - forward event to implementing class');
         $this->handleLegCompleted($leg);
 
         if (null !== $this->gameCompleted) {

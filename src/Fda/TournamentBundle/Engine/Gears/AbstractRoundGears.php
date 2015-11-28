@@ -291,17 +291,17 @@ abstract class AbstractRoundGears implements RoundGearsInterface
     public function onGameCompleted(GameEvent $gameCompletedEvent, $name, EventDispatcherInterface $dispatcher)
     {
         if (!$this->isRoundOpen()) {
-            $this->log('onGameCompleted, round not open - bailing');
+//            $this->log('onGameCompleted, round not open - bailing');
             return;
         }
 
         $game = $gameCompletedEvent->getGame();
         if ($this->getRound()->getId() != $game->getGroup()->getRound()->getId()) {
-            $this->log('onGameCompleted, event happened in another round (id mismatch)');
+//            $this->log('onGameCompleted, event happened in another round (id mismatch)');
             return;
         }
 
-        $this->log('onGameCompleted, proceed - forward event to implementing class');
+//        $this->log('onGameCompleted, proceed - forward event to implementing class');
         $this->handleGameCompleted($game, $dispatcher);
     }
 
