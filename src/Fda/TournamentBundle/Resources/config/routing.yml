@@ -6,6 +6,10 @@ tournament_show:
     path:     /{id}/show
     defaults: { _controller: "FdaTournamentBundle:Tournament:show" }
 
+tournament_details:
+    path:     /{tournamentId}/details
+    defaults: { _controller: "FdaTournamentBundle:Tournament:details" }
+
 tournament_new:
     path:     /new
     defaults: { _controller: "FdaTournamentBundle:Tournament:new" }
