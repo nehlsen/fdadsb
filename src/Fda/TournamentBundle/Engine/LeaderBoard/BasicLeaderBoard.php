@@ -115,8 +115,6 @@ class BasicLeaderBoard implements LeaderBoardInterface
             return;
         }
 
-//        ksort($this->groupedEntries);
-
         foreach (array_keys($this->groupedEntries) as $groupNumber) {
             usort(
                 $this->groupedEntries[$groupNumber],
