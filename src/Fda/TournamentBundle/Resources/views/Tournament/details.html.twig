@@ -1,0 +1,57 @@
+{% extends 'FdaTournamentBundle::layout.html.twig' %}
+
+{% block content -%}
+    <h1>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('tournament_edit', { 'id': tournament.id }) }}" class="pull-right">
+                <i class="fa fa-edit"></i>
+                {{'tournament.edit'|trans}}
+            </a>
+        {% endif %}
+        {{ tournament_label(tournament) }}
+        <small>
+            {% if tournament.isClosed %}
+                {{'tournament.closed.label'|trans}}
+            {% else %}
+                {{'tournament.open.label'|trans}}
+            {% endif %}
+        </small>
+    </h1>
+
+    {% set seed = tournament.setup.seed %}
+    {% set width = 12 / seed.numberOfGroups %}
+    <div class="row">
+        <div class="col-md-12">start gruppierung</div>
+        {% for groupNumber in 1..seed.numberOfGroups %}
+        <div class="col-md-{{ width }}">
+            <div class="panel panel-default">
+                <div class="panel-heading">group {{ groupNumber }}</div>
+                <table class="table">
+                    <tbody>
+                    {% for playerId in seed.playerIds(groupNumber-1) %}
+                        <tr>
+                            <td>{{ player_label(playerId) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% for roundSetup in tournament.setup.rounds %}
+        <div class="row">
+            <div class="col-md-12">
+                runde {{ loop.index }}
+                <br>
+                input: {{ roundSetup.input.modeLabel }},
+                mode: {{ roundSetup.modeLabel }},
+                advance: {{ roundSetup.advance }},
+                gameMode: {{ roundSetup.gameMode }},
+                legMode: {{ roundSetup.legMode }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+

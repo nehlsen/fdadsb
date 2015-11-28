@@ -78,6 +78,20 @@ class TournamentController extends Controller
     }
 
     /**
+     * display configuration of a tournament
+     *
+     * @Secure(roles="ROLE_USER")
+     */
+    public function detailsAction($tournamentId)
+    {
+        $tournament = $this->getTournament($tournamentId);
+
+        return $this->render('FdaTournamentBundle:Tournament:details.html.twig', array(
+            'tournament'  => $tournament,
+        ));
+    }
+
+    /**
      * Displays a form to edit an existing Tournament entity.
      * @Secure(roles="ROLE_ADMIN")
      */
