@@ -290,18 +290,19 @@ abstract class AbstractRoundGears implements RoundGearsInterface
      */
     public function onGameCompleted(GameEvent $gameCompletedEvent, $name, EventDispatcherInterface $dispatcher)
     {
-        if (!$this->isRoundOpen()) {
-//            $this->log('onGameCompleted, round not open - bailing');
+        if (!$this->isRoundInitialized) {
+            // if this round is not yet initialized, we are probably not meant...
+//            $this->log('onGameCompleted, no round initialized - bailing');
             return;
         }
 
         $game = $gameCompletedEvent->getGame();
         if ($this->getRound()->getId() != $game->getGroup()->getRound()->getId()) {
-//            $this->log('onGameCompleted, event happened in another round (id mismatch)');
+            $this->log('onGameCompleted, event happened in another round (id mismatch)');
             return;
         }
 
-//        $this->log('onGameCompleted, proceed - forward event to implementing class');
+        $this->log('onGameCompleted, proceed - forward event to implementing class');
         $this->handleGameCompleted($game, $dispatcher);
     }
 
@@ -316,11 +317,17 @@ abstract class AbstractRoundGears implements RoundGearsInterface
         $this->handleGameCompletesGroup($game, $dispatcher);
     }
 
+    /**
+     * check if the provided game completes the associated group and proceed accordingly
+     *
+     * @param Game $game
+     * @param EventDispatcherInterface $dispatcher
+     */
     protected function handleGameCompletesGroup(Game $game, EventDispatcherInterface $dispatcher)
     {
         $group = $game->getGroup();
         if ($group->isClosed()) {
-            $this->log('GROUP COMPLETE');
+            $this->log('handleGameCompletesGroup, GROUP COMPLETE!');
 
             $groupCompletedEvent = new GroupEvent();
             $groupCompletedEvent->setGroup($group);
@@ -331,15 +338,19 @@ abstract class AbstractRoundGears implements RoundGearsInterface
 
             $this->handleGroupCompletesRound($group, $dispatcher);
         }
-
-//        return true;
     }
 
+    /**
+     * check if the provided group completes the associated round and proceed accordingly
+     *
+     * @param Group $group
+     * @param EventDispatcherInterface $dispatcher
+     */
     protected function handleGroupCompletesRound(Group $group, EventDispatcherInterface $dispatcher)
     {
         $round = $group->getRound();
         if ($round->isClosed()) {
-            $this->log('ROUND COMPLETE');
+            $this->log('handleGroupCompletesRound, ROUND COMPLETE!');
 
             $roundCompletedEvent = new RoundEvent();
             $roundCompletedEvent->setRound($round);
@@ -348,9 +359,7 @@ abstract class AbstractRoundGears implements RoundGearsInterface
                 $roundCompletedEvent
             );
 
-            throw new \Exception('without this exception, the game would be persisted and the round would be closed!');
+//            throw new \Exception('without this exception, the game would be persisted and the round would be closed!');
         }
-
-//        return true;
     }
 }
