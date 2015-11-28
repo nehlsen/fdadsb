@@ -162,4 +162,19 @@ class Group
 
         return $foundGame;
     }
+
+    /**
+     * whether all games in this group are closed
+     * @return bool
+     */
+    public function isClosed()
+    {
+        foreach ($this->getGames() as $game) {
+            if (!$game->isClosed()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

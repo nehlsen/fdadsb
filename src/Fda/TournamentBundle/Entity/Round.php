@@ -141,4 +141,19 @@ class Round
         $this->groups[] = $group;
         return $group;
     }
+
+    /**
+     * whether all groups in this round are closed
+     * @return bool
+     */
+    public function isClosed()
+    {
+        foreach ($this->getGroups() as $group) {
+            if (!$group->isClosed()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
