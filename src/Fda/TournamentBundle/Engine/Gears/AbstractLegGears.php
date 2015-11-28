@@ -10,6 +10,7 @@ use Fda\TournamentBundle\Engine\Events\TurnEvent;
 use Fda\TournamentBundle\Entity\Leg;
 use Fda\TournamentBundle\Entity\Turn;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 abstract class AbstractLegGears implements LegGearsInterface
 {

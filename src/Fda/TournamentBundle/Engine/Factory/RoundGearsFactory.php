@@ -16,6 +16,7 @@ use Fda\TournamentBundle\Engine\Setup\RoundSetupSeed;
 use Fda\TournamentBundle\Entity\Round;
 use Fda\TournamentBundle\Entity\Tournament;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class RoundGearsFactory
 {

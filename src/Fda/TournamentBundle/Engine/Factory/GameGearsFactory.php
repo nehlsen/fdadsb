@@ -9,6 +9,7 @@ use Fda\TournamentBundle\Engine\Gears\GameGearsSimple;
 use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Group;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class GameGearsFactory
 {

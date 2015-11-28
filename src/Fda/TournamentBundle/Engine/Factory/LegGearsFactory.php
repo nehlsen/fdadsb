@@ -8,6 +8,7 @@ use Fda\TournamentBundle\Engine\Gears\LegGearsSimple;
 use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Leg;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class LegGearsFactory
 {

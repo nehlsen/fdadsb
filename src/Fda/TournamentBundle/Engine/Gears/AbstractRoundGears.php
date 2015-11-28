@@ -12,6 +12,7 @@ use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Round;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 abstract class AbstractRoundGears implements RoundGearsInterface
 {

@@ -9,6 +9,7 @@ use Fda\TournamentBundle\Engine\Factory\LegGearsFactory;
 use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Leg;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 abstract class AbstractGameGears implements GameGearsInterface
 {
