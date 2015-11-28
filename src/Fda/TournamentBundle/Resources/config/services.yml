@@ -23,6 +23,8 @@ services:
     calls:
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
       - [setGameGearsFactory,[@fda.tournament.game_gears_factory]]
+      - [setEventDispatcher,[@event_dispatcher]]
+      - [setLogger,[@logger]]
     public: false
 
   fda.tournament.game_gears_factory:
@@ -31,6 +33,7 @@ services:
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
       - [setLegGearsFactory,[@fda.tournament.leg_gears_factory]]
       - [setEventDispatcher,[@event_dispatcher]]
+      - [setLogger,[@logger]]
     public: false
 
   fda.tournament.leg_gears_factory:
@@ -38,6 +41,7 @@ services:
     calls:
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
       - [setEventDispatcher,[@event_dispatcher]]
+      - [setLogger,[@logger]]
     public: false
 
 #  fda.tournament.gears.all_vs_all:
@@ -75,3 +79,10 @@ services:
     scope: request
     calls:
       - [setPlayerManager,[@fda.player.manager]]
+
+  fda.tournament.engine_logger:
+    class: Fda\TournamentBundle\Engine\EngineLogger
+    calls:
+      - [setLogger,[@logger]]
+    tags:
+      - { name: kernel.event_subscriber }

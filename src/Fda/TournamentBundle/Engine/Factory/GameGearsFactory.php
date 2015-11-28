@@ -21,6 +21,9 @@ class GameGearsFactory
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /**
      * @param EntityManager $entityManager
      */
@@ -43,6 +46,14 @@ class GameGearsFactory
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -70,6 +81,7 @@ class GameGearsFactory
         }
 
         $gears->setLegGearsFactory($this->legGearsFactory);
+        $gears->setLogger($this->logger);
         $this->eventDispatcher->addSubscriber($gears);
 
         $this->entityManager->flush();

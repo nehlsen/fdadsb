@@ -16,6 +16,9 @@ abstract class AbstractLegGears implements LegGearsInterface
     /** @var Leg */
     protected $leg;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /** @var Turn */
     private $turnCompleted;
 
@@ -29,6 +32,50 @@ abstract class AbstractLegGears implements LegGearsInterface
     public function __construct(Leg $leg)
     {
         $this->leg = $leg;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * log message to debug log (if logger has been set)
+     * @param string $message
+     */
+    protected function log($message)
+    {
+        if ($this->logger) {
+            $this->logger->debug(sprintf(
+                '%s:%s',
+                $this->getLogIdentification(),
+                $message
+            ));
+        }
+    }
+
+    /**
+     * get a string to identify this object in logs
+     *
+     * the default implementation returns the class name stripped of the namespace
+     *
+     * @return string
+     */
+    protected function getLogIdentification()
+    {
+        $className = get_class($this);
+        $className = substr($className, strrpos($className, "\\")+1);
+//        $className .= sprintf('{%s}', spl_object_hash($this));
+//        $className .= sprintf(
+//            '(id:%d,no:%d)',
+//            $this->round->getId(),
+//            $this->round->getNumber()
+//        );
+
+        return $className;
     }
 
     /**
@@ -74,6 +121,8 @@ abstract class AbstractLegGears implements LegGearsInterface
      */
     public function onIncomingArrow(ArrowEvent $arrowIncomingEvent, $name, EventDispatcherInterface $dispatcher)
     {
+        $this->log('onIncomingArrow');
+
         $incomingArrow = $arrowIncomingEvent->getArrow();
         $arrow = $this->handleArrow(clone $incomingArrow);
 

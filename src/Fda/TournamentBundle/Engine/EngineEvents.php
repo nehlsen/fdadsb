@@ -38,6 +38,14 @@ final class EngineEvents
     const GAME_COMPLETED = 'fda.tournament.game.completed';
 
     /**
+     * this event is emitted after a group has been completed
+     * a group is completed when all games in the group are completed
+     *
+     * event type: GroupEvent
+     */
+    const GROUP_COMPLETED = 'fda.tournament.group.completed';
+
+    /**
      * this event is emitted after a round has been completed
      * a round is completed when the last game of the round has been completed
      *

@@ -17,6 +17,9 @@ class LegGearsFactory
     /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /**
      * @param EntityManager $entityManager
      */
@@ -31,6 +34,14 @@ class LegGearsFactory
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -69,6 +80,7 @@ class LegGearsFactory
             throw new \InvalidArgumentException('can not create leg-gears for '.$legMode->getMode());
         }
 
+        $gears->setLogger($this->logger);
         $this->eventDispatcher->addSubscriber($gears);
 
         $this->entityManager->flush();

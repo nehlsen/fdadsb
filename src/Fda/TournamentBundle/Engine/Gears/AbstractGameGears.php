@@ -18,6 +18,9 @@ abstract class AbstractGameGears implements GameGearsInterface
     /** @var LegGearsFactory */
     protected $legGearsFactory;
 
+    /** @var LoggerInterface */
+    protected $logger;
+
     /** @var LegGearsInterface[] */
 //    private $legGears;
 
@@ -37,6 +40,50 @@ abstract class AbstractGameGears implements GameGearsInterface
     public function setLegGearsFactory(LegGearsFactory $legGearsFactory)
     {
         $this->legGearsFactory = $legGearsFactory;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * log message to debug log (if logger has been set)
+     * @param string $message
+     */
+    protected function log($message)
+    {
+        if ($this->logger) {
+            $this->logger->debug(sprintf(
+                '%s:%s',
+                $this->getLogIdentification(),
+                $message
+            ));
+        }
+    }
+
+    /**
+     * get a string to identify this object in logs
+     *
+     * the default implementation returns the class name stripped of the namespace
+     *
+     * @return string
+     */
+    protected function getLogIdentification()
+    {
+        $className = get_class($this);
+        $className = substr($className, strrpos($className, "\\")+1);
+//        $className .= sprintf('{%s}', spl_object_hash($this));
+//        $className .= sprintf(
+//            '(id:%d,no:%d)',
+//            $this->round->getId(),
+//            $this->round->getNumber()
+//        );
+
+        return $className;
     }
 
     /**
@@ -69,7 +116,15 @@ abstract class AbstractGameGears implements GameGearsInterface
      */
     public function onLegCompleted(LegEvent $legCompletedEvent, $name, EventDispatcherInterface $dispatcher)
     {
+//        $this->log('onLegCompleted');
+
         $leg = $legCompletedEvent->getLeg();
+        if ($leg->getGame()->getId() != $this->getGame()->getId()) {
+//            $this->log('onLegCompleted, not my game - bailing');
+            return;
+        }
+
+        $this->log('onLegCompleted, proceed - forward event to implementing class');
         $this->handleLegCompleted($leg);
 
         if (null !== $this->gameCompleted) {

@@ -15,6 +15,7 @@ use Fda\TournamentBundle\Engine\Setup\RoundSetupNull;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupSeed;
 use Fda\TournamentBundle\Entity\Round;
 use Fda\TournamentBundle\Entity\Tournament;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class RoundGearsFactory
 {
@@ -23,6 +24,12 @@ class RoundGearsFactory
 
     /** @var GameGearsFactory */
     protected $gameGearsFactory;
+
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
+    /** @var LoggerInterface */
+    protected $logger;
 
     /**
      * @param EntityManager $entityManager
@@ -38,6 +45,22 @@ class RoundGearsFactory
     public function setGameGearsFactory(GameGearsFactory $gameGearsFactory)
     {
         $this->gameGearsFactory = $gameGearsFactory;
+    }
+
+    /**
+     * @param EventDispatcherInterface $eventDispatcher
+     */
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -68,6 +91,8 @@ class RoundGearsFactory
         }
 
         $gears->setGameGearsFactory($this->gameGearsFactory);
+        $gears->setLogger($this->logger);
+        $this->eventDispatcher->addSubscriber($gears);
 
         $this->entityManager->flush();
 
