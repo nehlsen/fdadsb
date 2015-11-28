@@ -23,7 +23,7 @@ class InputStraight implements InputInterface
      */
     public function filter(RoundGearsInterface $previousRoundGears)
     {
-        if (!$previousRoundGears->isRoundClosed()) {
+        if (!$previousRoundGears->isRoundCompleted()) {
             throw new \RuntimeException();
         }
 

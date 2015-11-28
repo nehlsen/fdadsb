@@ -7,8 +7,9 @@ use Fda\TournamentBundle\Engine\LeaderBoard\LeaderBoardInterface;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupInterface;
 use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Round;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-interface RoundGearsInterface
+interface RoundGearsInterface extends EventSubscriberInterface
 {
     /**
      * @param GameGearsFactory $gameGearsFactory
@@ -50,6 +51,18 @@ interface RoundGearsInterface
      * @return bool
      */
     public function isRoundClosed();
+
+    /**
+     * whether all games for this round have been completed and this round is not playable anymore
+     *
+     * @return bool
+     */
+    public function isRoundCompleted();
+
+    /**
+     * @return bool
+     */
+    public function isRoundOpen();
 
     /**
      * get all games by group-number

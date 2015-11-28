@@ -57,6 +57,23 @@ class RoundGearsSeed extends AbstractRoundGears
     /**
      * @inheritDoc
      */
+    public function isRoundCompleted()
+    {
+        // seed is not playable and therefore always completed
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isRoundOpen()
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
     protected function initGameGearsForGroup(Group $group)
     {
         // TODO initGameGearsForGroup
@@ -82,4 +99,13 @@ class RoundGearsSeed extends AbstractRoundGears
 
         return $leaderBoard;
     }
+
+//    /**
+//     * @inheritDoc
+//     */
+//    protected function handleGameCompleted(Game $game)
+//    {
+//        // TODO: Implement handleGameCompleted() method.
+//        throw new \Exception('TODO: Implement handleGameCompleted() method.');
+//    }
 }

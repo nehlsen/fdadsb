@@ -2,15 +2,24 @@
 
 namespace Fda\TournamentBundle\Engine\Gears;
 
+use Fda\TournamentBundle\Engine\EngineEvents;
+use Fda\TournamentBundle\Engine\Events\GameEvent;
+use Fda\TournamentBundle\Engine\Events\GroupEvent;
+use Fda\TournamentBundle\Engine\Events\RoundEvent;
 use Fda\TournamentBundle\Engine\Factory\GameGearsFactory;
 use Fda\TournamentBundle\Engine\Setup\RoundSetupInterface;
+use Fda\TournamentBundle\Entity\Game;
 use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Round;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractRoundGears implements RoundGearsInterface
 {
     /** @var GameGearsFactory */
     protected $gameGearsFactory;
+
+    /** @var LoggerInterface */
+    protected $logger;
 
     /** @var Round */
     private $round;
@@ -42,10 +51,60 @@ abstract class AbstractRoundGears implements RoundGearsInterface
     }
 
     /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * log message to debug log (if logger has been set)
+     * @param string $message
+     */
+    protected function log($message)
+    {
+        if ($this->logger) {
+            $this->logger->debug(sprintf(
+                '%s:%s',
+                $this->getLogIdentification(),
+                $message
+            ));
+        }
+    }
+
+    /**
+     * get a string to identify this object in logs
+     *
+     * the default implementation returns the class name stripped of the namespace
+     * with added id and round-number
+     *
+     * @return string
+     */
+    protected function getLogIdentification()
+    {
+        $className = get_class($this);
+        $className = substr($className, strrpos($className, "\\")+1);
+//        $className .= sprintf('{%s}', spl_object_hash($this));
+        $className .= sprintf(
+            '(id:%d,no:%d)',
+            $this->round->getId(),
+            $this->round->getNumber()
+        );
+
+        return $className;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getRound()
     {
+        if (null !== $this->previousRound && !$this->previousRound->isRoundCompleted()) {
+            // previous round not complete, initializing this round would probably fail
+            return null;
+        }
+
         if (!$this->isRoundInitialized) {
             $this->initializeRoundEntity($this->round);
             $this->isRoundInitialized = true;
@@ -115,7 +174,9 @@ abstract class AbstractRoundGears implements RoundGearsInterface
      */
     public function isRoundClosed()
     {
-        // at least the previous round has to be closed for this round to be open
+//        throw new \Exception('TODO');
+
+        // at least the previous round has to be completed for this round to be open
         //  whether this round is closed because all matches are complete has to be
         //  determined in implementing sub classes
 
@@ -123,8 +184,34 @@ abstract class AbstractRoundGears implements RoundGearsInterface
             throw new \RuntimeException('no previous round set');
         }
 
-        return !$this->previousRound->isRoundClosed();
+        return !$this->previousRound->isRoundCompleted();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isRoundCompleted()
+    {
+        if (null !== $this->round && $this->round->isClosed()) {
+            return true;
+        }
+
+        // leave it to the implementing class
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isRoundOpen()
+    {
+        if (!$this->previousRound->isRoundCompleted()) {
+            return false;
+        }
+
+        return !$this->isRoundCompleted();
+    }
+
 
     /**
      * initialize game-gears (one for each group)
@@ -183,5 +270,86 @@ abstract class AbstractRoundGears implements RoundGearsInterface
         throw new \Exception(
             'TODO: Implement getLeaderBoard() of '.get_class($this)
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getSubscribedEvents()
+    {
+        return array(
+            EngineEvents::GAME_COMPLETED => 'onGameCompleted',
+        );
+    }
+
+    /**
+     * @param GameEvent                $gameCompletedEvent
+     * @param string                   $name
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function onGameCompleted(GameEvent $gameCompletedEvent, $name, EventDispatcherInterface $dispatcher)
+    {
+        if (!$this->isRoundOpen()) {
+            $this->log('onGameCompleted, round not open - bailing');
+            return;
+        }
+
+        $game = $gameCompletedEvent->getGame();
+        if ($this->getRound()->getId() != $game->getGroup()->getRound()->getId()) {
+            $this->log('onGameCompleted, event happened in another round (id mismatch)');
+            return;
+        }
+
+        $this->log('onGameCompleted, proceed - forward event to implementing class');
+        $this->handleGameCompleted($game, $dispatcher);
+    }
+
+    /**
+     * handle the provided completed game
+     *
+     * @param Game $game
+     * @param EventDispatcherInterface $dispatcher
+     */
+    protected function handleGameCompleted(Game $game, EventDispatcherInterface $dispatcher)
+    {
+        $this->handleGameCompletesGroup($game, $dispatcher);
+    }
+
+    protected function handleGameCompletesGroup(Game $game, EventDispatcherInterface $dispatcher)
+    {
+        $group = $game->getGroup();
+        if ($group->isClosed()) {
+            $this->log('GROUP COMPLETE');
+
+            $groupCompletedEvent = new GroupEvent();
+            $groupCompletedEvent->setGroup($group);
+            $dispatcher->dispatch(
+                EngineEvents::GROUP_COMPLETED,
+                $groupCompletedEvent
+            );
+
+            $this->handleGroupCompletesRound($group, $dispatcher);
+        }
+
+//        return true;
+    }
+
+    protected function handleGroupCompletesRound(Group $group, EventDispatcherInterface $dispatcher)
+    {
+        $round = $group->getRound();
+        if ($round->isClosed()) {
+            $this->log('ROUND COMPLETE');
+
+            $roundCompletedEvent = new RoundEvent();
+            $roundCompletedEvent->setRound($round);
+            $dispatcher->dispatch(
+                EngineEvents::ROUND_COMPLETED,
+                $roundCompletedEvent
+            );
+
+            throw new \Exception('without this exception, the game would be persisted and the round would be closed!');
+        }
+
+//        return true;
     }
 }

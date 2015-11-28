@@ -9,6 +9,19 @@ use Fda\TournamentBundle\Entity\Group;
 
 class RoundGearsAva extends AbstractRoundGears
 {
+//    /**
+//     * @inheritDoc
+//     */
+//    public function isRoundCompleted()
+//    {
+//        if (parent::isRoundCompleted()) {
+//            return true;
+//        }
+//
+//        // the round entity says it is not yet closed...
+//        throw new \Exception('TODO: determine if this round is closed');
+//    }
+
     /**
      * @inheritdoc
      */
