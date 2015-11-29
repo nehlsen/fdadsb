@@ -42,27 +42,11 @@ interface RoundGearsInterface extends EventSubscriberInterface
     public function hasPreviousRoundGears();
 
     /**
-     * whether the associated round is closed
-     *
-     * a round can be closed for various reasons (including but not limited to)
-     *  - all games for this round completed, round is over
-     *  - previous round not completed, round not yet open
-     *
-     * @return bool
-     */
-    public function isRoundClosed();
-
-    /**
      * whether all games for this round have been completed and this round is not playable anymore
      *
      * @return bool
      */
     public function isRoundCompleted();
-
-    /**
-     * @return bool
-     */
-    public function isRoundOpen();
 
     /**
      * get all games by group-number

@@ -83,9 +83,7 @@ class TournamentEngineFactoryTest extends WebTestCase
         $this->assertEquals($tournament, $seedRound->getTournament());
         $this->assertEquals(0, $seedRound->getNumber());
 
-        // seed round shall always be closed
-        $this->assertTrue($seedGears->isRoundClosed());
-        // ... and completed
+        // seed round shall always be  completed
         $this->assertTrue($seedGears->isRoundCompleted());
 
         // seed shall have one group
@@ -106,9 +104,7 @@ class TournamentEngineFactoryTest extends WebTestCase
         $this->assertEquals($tournament, $round1->getTournament());
         $this->assertEquals(1, $round1->getNumber());
 
-        // no games yet, first actual round shall be open
-        $this->assertFalse($round1gears->isRoundClosed());
-        // ... and not complete
+        // no games yet, first actual round shall not be complete
         $this->assertFalse($round1gears->isRoundCompleted());
 
         // round1 shall have one group

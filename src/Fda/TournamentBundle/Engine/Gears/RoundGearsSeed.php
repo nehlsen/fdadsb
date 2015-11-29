@@ -48,15 +48,6 @@ class RoundGearsSeed extends AbstractRoundGears
     /**
      * @inheritDoc
      */
-    public function isRoundClosed()
-    {
-        // seed is not playable and therefore always closed
-        return true;
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function isRoundCompleted()
     {
         // seed is not playable and therefore always completed
@@ -66,18 +57,10 @@ class RoundGearsSeed extends AbstractRoundGears
     /**
      * @inheritDoc
      */
-    public function isRoundOpen()
-    {
-        return false;
-    }
-
-    /**
-     * @inheritDoc
-     */
     protected function initGameGearsForGroup(Group $group)
     {
-        // TODO initGameGearsForGroup
-        throw new \Exception('TODO initGameGearsForGroup');
+//        throw new \RuntimeException('Seed has no Games and should not be initialized!');
+        return array();
     }
 
     /**

@@ -145,12 +145,17 @@ class TournamentEngine implements TournamentEngineInterface
      */
     public function getGameGearsForGameId($gameId)
     {
-        $groupedGameGears = $this->getCurrentRoundGears()->getGameGearsGrouped();
-        foreach ($groupedGameGears as $groupNumber => $gameGears) {
-            /** @var GameGearsInterface[] $gameGears */
-            foreach ($gameGears as $gears) {
-                if ($gameId == $gears->getGame()->getId()) {
-                    return $gears;
+        // make sure initialization is triggered
+        $this->getCurrentRoundGears();
+
+        foreach ($this->roundGears as $roundGears) {
+            $groupedGameGears = $roundGears->getGameGearsGrouped();
+            foreach ($groupedGameGears as $gameGears) {
+                /** @var GameGearsInterface[] $gameGears */
+                foreach ($gameGears as $gears) {
+                    if ($gameId == $gears->getGame()->getId()) {
+                        return $gears;
+                    }
                 }
             }
         }
@@ -176,16 +181,19 @@ class TournamentEngine implements TournamentEngineInterface
 
         $this->roundGears = $this->engineFactory->initializeGears($this->getTournament());
 
-        $this->currentRoundNumber = 0;
+        $this->currentRoundNumber = -1;
         foreach ($this->roundGears as $roundNumber => $gears) {
-//            if (!$gears->isRoundClosed()) {
-            if (!$gears->getRound()->isClosed()) {
+            if (!$gears->isRoundCompleted()) {
                 $this->log(sprintf('initializeGears, round %d not complete', $roundNumber));
                 $this->currentRoundNumber = $roundNumber;
                 break;
             }
 
             $this->log(sprintf('initializeGears, round %d complete', $roundNumber));
+        }
+
+        if (-1 == $this->currentRoundNumber) {
+            throw new \RuntimeException('All rounds claim to be complete!');
         }
     }
 }

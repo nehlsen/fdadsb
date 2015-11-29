@@ -173,46 +173,17 @@ abstract class AbstractRoundGears implements RoundGearsInterface
     /**
      * @inheritDoc
      */
-    public function isRoundClosed()
-    {
-//        throw new \Exception('TODO');
-
-        // at least the previous round has to be completed for this round to be open
-        //  whether this round is closed because all matches are complete has to be
-        //  determined in implementing sub classes
-
-        if (null === $this->previousRound) {
-            throw new \RuntimeException('no previous round set');
-        }
-
-        return !$this->previousRound->isRoundCompleted();
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function isRoundCompleted()
     {
-        if (null !== $this->round && $this->round->isClosed()) {
-            return true;
-        }
+        return $this->getRound()->isClosed();
 
-        // leave it to the implementing class
-        return false;
+//        if (null !== $this->round && $this->round->isClosed()) {
+//            return true;
+//        }
+//
+//        // leave it to the implementing class
+//        return false;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function isRoundOpen()
-    {
-        if (!$this->previousRound->isRoundCompleted()) {
-            return false;
-        }
-
-        return !$this->isRoundCompleted();
-    }
-
 
     /**
      * initialize game-gears (one for each group)
