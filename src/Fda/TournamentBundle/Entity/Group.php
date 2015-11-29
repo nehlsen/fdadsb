@@ -169,6 +169,12 @@ class Group
      */
     public function isClosed()
     {
+        if (null === $this->getGames() && null !== $this->getPlayers() && count($this->getPlayers()) > 0) {
+            // no games, probably not initialized yet
+            //  we have players, so there should be games too
+            return false;
+        }
+
         foreach ($this->getGames() as $game) {
             if (!$game->isClosed()) {
                 return false;
