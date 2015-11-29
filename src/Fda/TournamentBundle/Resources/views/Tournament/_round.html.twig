@@ -1,0 +1,40 @@
+{# expects var roundGears #}
+{# accepts var recursive #}
+{% set recursive = recursive is defined ? recursive : false %}
+
+<div class="row">
+    {% set roundNumber = roundGears.round.number %}
+    <div class="col-md-12">
+        <h1>round {{ roundNumber }}</h1>
+    </div>
+
+    {% set leaderBoard = roundGears.leaderBoard %}
+    {% set width = 12 / leaderBoard.groupNumbers|length %}
+    {% for groupNumber,entries in leaderBoard.entries %}
+        <div class="col-md-{{ width }}">
+            <div class="panel panel-default">
+                <div class="panel-heading">group {{ groupNumber }}</div>
+                <table class="table">
+                    <tbody>
+                    {% for entry in entries %}
+                        <tr>
+                            <td>{{ loop.index }}{{ entry.isFinal ? '' : '*' }}</td>
+                            <td>{{ player_label(entry.player) }}</td>
+                            <td>{{ entry.points }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        BOOOM!
+    {% endfor %}
+</div>
+
+{% if recursive and roundGears.hasPreviousRoundGears %}
+    {% include 'FdaTournamentBundle:Tournament:_round.html.twig' with {
+        roundGears: roundGears.previousRoundGears,
+        recursive: true
+    } %}
+{% endif %}
