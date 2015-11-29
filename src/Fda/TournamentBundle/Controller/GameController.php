@@ -22,6 +22,10 @@ class GameController extends Controller
         $tournamentEngine->setTournament($tournament);
         $gameGears = $tournamentEngine->getGameGearsForGameId($gameId);
 
+        if (null === $gameGears) {
+            throw $this->createNotFoundException('failed to find gears for game '.$gameId);
+        }
+
         return $this->render('FdaTournamentBundle:Game:show.html.twig', array(
             'tournament' => $tournament,
             'game'       => $game,
