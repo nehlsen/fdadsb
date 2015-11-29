@@ -67,7 +67,7 @@ class BasicLeaderBoardEntry implements LeaderBoardEntryInterface
     }
 
     /**
-     * @param boolean $isFinal
+     * @param bool $isFinal
      */
     public function setFinal($isFinal = true)
     {

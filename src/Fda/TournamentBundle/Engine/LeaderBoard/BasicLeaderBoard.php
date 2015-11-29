@@ -85,11 +85,16 @@ class BasicLeaderBoard implements LeaderBoardInterface
 
         $this->sortEntries();
 
-        if (null !== $limit) {
-            throw new \Exception('TODO: return limited result');
+        $entries = $this->groupedEntries[$groupNumber];
+
+        if (null === $limit || -1 == $limit) {
+            return $entries;
+        }
+        if ($limit < 0) {
+            throw new \InvalidArgumentException('can not fetch negative amount from list');
         }
 
-        return $this->groupedEntries[$groupNumber];
+        return array_slice($entries, 0, $limit, true);
     }
 
     /**
@@ -99,11 +104,16 @@ class BasicLeaderBoard implements LeaderBoardInterface
     {
         $this->sortEntries();
 
-        if (null !== $limit) {
-            throw new \Exception('TODO: return limited result');
+        if (null === $limit || -1 == $limit) {
+            return $this->groupedEntries;
         }
 
-        return $this->groupedEntries;
+        $groupedEntries = array();
+        foreach ($this->getGroupNumbers() as $groupNumber) {
+            $groupedEntries[$groupNumber] = $this->getGroupEntries($groupNumber, $limit);
+        }
+
+        return $groupedEntries;
     }
 
     /**
