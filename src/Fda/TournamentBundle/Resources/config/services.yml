@@ -10,6 +10,7 @@ services:
       - [setEntityManager,[@doctrine.orm.default_entity_manager]]
 #      - [setRoundGearsFactory,[@fda.tournament.round_gears_factory]]
       - [setEngineFactory,[@fda.tournament.engine_factory]]
+      - [setLogger,[@logger]]
 
   fda.tournament.engine_factory:
     class: Fda\TournamentBundle\Engine\Factory\TournamentEngineFactory

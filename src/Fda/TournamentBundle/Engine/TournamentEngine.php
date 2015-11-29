@@ -7,6 +7,7 @@ use Fda\TournamentBundle\Engine\Factory\TournamentEngineFactory;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
 use Fda\TournamentBundle\Entity\Tournament;
+use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class TournamentEngine implements TournamentEngineInterface
 {
@@ -18,6 +19,9 @@ class TournamentEngine implements TournamentEngineInterface
 
     /** @var TournamentEngineFactory */
     protected $engineFactory;
+
+    /** @var LoggerInterface */
+    protected $logger;
 
     /** @var Tournament */
     protected $tournament;
@@ -50,6 +54,28 @@ class TournamentEngine implements TournamentEngineInterface
     public function setEngineFactory(TournamentEngineFactory $engineFactory)
     {
         $this->engineFactory = $engineFactory;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * log message to debug log (if logger has been set)
+     * @param string $message
+     */
+    protected function log($message)
+    {
+        if ($this->logger) {
+            $this->logger->debug(sprintf(
+                'TournamentEngine:%s',
+                $message
+            ));
+        }
     }
 
     /**
@@ -150,7 +176,16 @@ class TournamentEngine implements TournamentEngineInterface
 
         $this->roundGears = $this->engineFactory->initializeGears($this->getTournament());
 
-        // TODO find first not closed round (except seed)
-        $this->currentRoundNumber = 1;
+        $this->currentRoundNumber = 0;
+        foreach ($this->roundGears as $roundNumber => $gears) {
+//            if (!$gears->isRoundClosed()) {
+            if (!$gears->getRound()->isClosed()) {
+                $this->log(sprintf('initializeGears, round %d not complete', $roundNumber));
+                $this->currentRoundNumber = $roundNumber;
+                break;
+            }
+
+            $this->log(sprintf('initializeGears, round %d complete', $roundNumber));
+        }
     }
 }
