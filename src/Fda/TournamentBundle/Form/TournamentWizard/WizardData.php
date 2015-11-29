@@ -5,10 +5,13 @@ namespace Fda\TournamentBundle\Form\TournamentWizard;
 use Fda\BoardBundle\Entity\Board;
 use Fda\PlayerBundle\Manager\PlayerManager;
 use Fda\TournamentBundle\Engine\Setup\PresetSimple;
+use Fda\TournamentBundle\Engine\Setup\PresetTesting;
 use Fda\TournamentBundle\Entity\Tournament;
 
 class WizardData
 {
+    // the 'test' setup
+    const PRESET_TEST = 'test';
     // the 'small' setup
     const PRESET_SIMPLE = 'simple';
     // the 'big' setup
@@ -23,7 +26,7 @@ class WizardData
     protected $name = '';
 
     /** @var string */
-    protected $preset = self::PRESET_SIMPLE;
+    protected $preset = self::PRESET_TEST;
 
     /** @var Board[] */
     protected $boards = array();
@@ -72,6 +75,7 @@ class WizardData
     public static function getAllPresets()
     {
         return array(
+            self::PRESET_TEST,
             self::PRESET_SIMPLE,
             self::PRESET_FULL,
             self::PRESET_LEAGUE,
@@ -175,7 +179,9 @@ class WizardData
      */
     public function createTournament(PlayerManager $playerManager)
     {
-        if ($this->preset == self::PRESET_SIMPLE) {
+        if ($this->preset == self::PRESET_TEST) {
+            $setup = PresetTesting::create($this->getPlayerIdsGrouped());
+        } elseif ($this->preset == self::PRESET_SIMPLE) {
             $setup = PresetSimple::create($this->getPlayerIdsGrouped());
             // TODO implement missing presets
 //        } elseif ($this->preset == self::PRESET_FULL) {

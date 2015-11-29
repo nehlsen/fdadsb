@@ -7,6 +7,9 @@ namespace Fda\TournamentBundle\Engine\Bolts;
  */
 final class LegMode
 {
+    // for testing
+    const SINGLE_OUT_25 = 'so_25';
+
     const SINGLE_OUT_301 = 'so_301';
     const DOUBLE_OUT_301 = 'do_301';
     const SINGLE_OUT_501 = 'so_501';
@@ -43,6 +46,9 @@ final class LegMode
         if (in_array($this->mode, [self::SINGLE_OUT_501, self::DOUBLE_OUT_501])) {
             return 501;
         }
+        if (self::SINGLE_OUT_25 == $this->mode) {
+            return 25;
+        }
 
         return 301;
     }
@@ -69,6 +75,7 @@ final class LegMode
     protected function checkMode($mode)
     {
         if (!in_array($mode, array(
+            self::SINGLE_OUT_25,
             self::SINGLE_OUT_301, self::DOUBLE_OUT_301,
             self::SINGLE_OUT_501, self::DOUBLE_OUT_501
         ))) {

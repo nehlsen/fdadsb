@@ -15,6 +15,7 @@ class LegGearsSimple extends AbstractLegGears
     public static function getSupportedModes()
     {
         return array(
+            LegMode::SINGLE_OUT_25,
             LegMode::SINGLE_OUT_301,
             LegMode::DOUBLE_OUT_301,
             LegMode::SINGLE_OUT_501,
