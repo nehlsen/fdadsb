@@ -11,6 +11,8 @@ services:
 #      - [setRoundGearsFactory,[@fda.tournament.round_gears_factory]]
       - [setEngineFactory,[@fda.tournament.engine_factory]]
       - [setLogger,[@logger]]
+    tags:
+      - {name: kernel.event_subscriber}
 
   fda.tournament.engine_factory:
     class: Fda\TournamentBundle\Engine\Factory\TournamentEngineFactory

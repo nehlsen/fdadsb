@@ -25,45 +25,49 @@
     board: {{ board.name }}
     <a href="{{ path('ledger_choose_board') }}">change my place</a>
 
-    <br><br>
-    <strong>{{ tournament_engine().tournament.name }}</strong>: Round {{ tournament_engine().currentRoundNumber }}
-
-    <div class="row">
-    {% set currentRoundGears = tournament_engine().currentRoundGears %}
-    {% set width = 12 / currentRoundGears.gameGearsGrouped|length %}
-    {% for groupNumber,gameGears in currentRoundGears.gameGearsGrouped|reverse %}
-        <div class="col-md-{{ width }}">
-            group: {{ groupNumber }}, games: {{ gameGears|length }}
-
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>player 1</th>
-                    <th>player 2</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for gears in gameGears %}
-                    <tr>
-                        <td>{{ player_label(gears.game.player1) }}</td>
-                        <td>{{ player_label(gears.game.player2) }}</td>
-                        <td>
-                            {% if gears.game.isClosed %}
-                                DONE
-                            {% else %}
-                                <a href="{{ path('game_play',{gameId:gears.game.id}) }}">
-                                    GO
-                                </a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    {% if tournament_engine().isTournamentCompleted %}
+        <div class="alert alert-danger">this tournament is OVER</div>
     {% else %}
-        NO GROUPS / GAME GEARS
-    {% endfor %}
-    </div>
+        <br><br>
+        <strong>{{ tournament_engine().tournament.name }}</strong>: Round {{ tournament_engine().currentRoundNumber }}
+
+        <div class="row">
+            {% set currentRoundGears = tournament_engine().currentRoundGears %}
+            {% set width = 12 / currentRoundGears.gameGearsGrouped|length %}
+            {% for groupNumber,gameGears in currentRoundGears.gameGearsGrouped|reverse %}
+                <div class="col-md-{{ width }}">
+                    group: {{ groupNumber }}, games: {{ gameGears|length }}
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>player 1</th>
+                            <th>player 2</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for gears in gameGears %}
+                            <tr>
+                                <td>{{ player_label(gears.game.player1) }}</td>
+                                <td>{{ player_label(gears.game.player2) }}</td>
+                                <td>
+                                    {% if gears.game.isClosed %}
+                                        DONE
+                                    {% else %}
+                                        <a href="{{ path('game_play',{gameId:gears.game.id}) }}">
+                                            GO
+                                        </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                NO GROUPS / GAME GEARS
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace Fda\TournamentBundle\Engine;
 
 use Doctrine\ORM\EntityManager;
+use Fda\TournamentBundle\Engine\Events\RoundEvent;
 use Fda\TournamentBundle\Engine\Factory\TournamentEngineFactory;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
@@ -13,9 +14,6 @@ class TournamentEngine implements TournamentEngineInterface
 {
     /** @var EntityManager */
     protected $entityManager;
-
-//    /** @var RoundGearsFactory */
-//    protected $roundGearsFactory;
 
     /** @var TournamentEngineFactory */
     protected $engineFactory;
@@ -30,7 +28,7 @@ class TournamentEngine implements TournamentEngineInterface
     protected $roundGears = array();
 
     /** @var int */
-    protected $currentRoundNumber = 0;
+    protected $currentRoundNumber;
 
     /**
      * @param EntityManager $entityManager
@@ -39,14 +37,6 @@ class TournamentEngine implements TournamentEngineInterface
     {
         $this->entityManager = $entityManager;
     }
-
-//    /**
-//     * @param RoundGearsFactory $roundGearsFactory
-//     */
-//    public function setRoundGearsFactory(RoundGearsFactory $roundGearsFactory)
-//    {
-//        $this->roundGearsFactory = $roundGearsFactory;
-//    }
 
     /**
      * @param TournamentEngineFactory $engineFactory
@@ -128,8 +118,20 @@ class TournamentEngine implements TournamentEngineInterface
         if (count($this->roundGears) < 1) {
             $this->initializeGears();
         }
+        if ($this->isTournamentCompleted()) {
+            throw new \RuntimeException('can not get current round gears from a completed tournament');
+        }
 
         return $this->roundGears[$this->getCurrentRoundNumber()];
+    }
+
+    public function getLastRoundGears()
+    {
+        if (count($this->roundGears) < 1) {
+            $this->initializeGears();
+        }
+
+        return end($this->roundGears);
     }
 
     /**
@@ -137,7 +139,19 @@ class TournamentEngine implements TournamentEngineInterface
      */
     public function getCurrentRoundNumber()
     {
+        if (null === $this->currentRoundNumber) {
+            $this->initializeGears();
+        }
+
         return $this->currentRoundNumber;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isTournamentCompleted()
+    {
+        return -1 == $this->getCurrentRoundNumber();
     }
 
     /**
@@ -146,7 +160,7 @@ class TournamentEngine implements TournamentEngineInterface
     public function getGameGearsForGameId($gameId)
     {
         // make sure initialization is triggered
-        $this->getCurrentRoundGears();
+        $this->initializeGears();
 
         foreach ($this->roundGears as $roundGears) {
             $groupedGameGears = $roundGears->getGameGearsGrouped();
@@ -193,7 +207,44 @@ class TournamentEngine implements TournamentEngineInterface
         }
 
         if (-1 == $this->currentRoundNumber) {
-            throw new \RuntimeException('All rounds claim to be complete!');
+//            throw new \RuntimeException('All rounds claim to be complete!');
+//            $this->getTournament()->setClosed(true);
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public static function getSubscribedEvents()
+    {
+        return array(
+            EngineEvents::ROUND_COMPLETED => 'onRoundCompleted',
+        );
+    }
+
+    /**
+     * @param RoundEvent $roundCompletedEvent
+     */
+    public function onRoundCompleted(RoundEvent $roundCompletedEvent)
+    {
+        $tournamentComplete = true;
+        foreach ($this->roundGears as $roundNumber => $gears) {
+            if ($gears->isRoundCompleted()) {
+                $this->log(sprintf('onRoundCompleted, round %d complete', $roundNumber));
+                continue;
+            }
+            if ($gears->getRound()->getId() == $roundCompletedEvent->getRound()->getId()) {
+                $this->log(sprintf('onRoundCompleted, round %d CONSIDER complete', $roundNumber));
+                continue;
+            }
+
+            $this->log(sprintf('onRoundCompleted, round %d NOT complete', $roundNumber));
+            $tournamentComplete = false;
+            break;
+        }
+
+//        if ($tournamentComplete)
+//        throw new \Exception('TE:onRoundCompleted');
+//        // TODO check if this completes the tournament
     }
 }

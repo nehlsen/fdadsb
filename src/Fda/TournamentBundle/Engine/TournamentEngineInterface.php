@@ -5,8 +5,9 @@ namespace Fda\TournamentBundle\Engine;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
 use Fda\TournamentBundle\Entity\Tournament;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-interface TournamentEngineInterface
+interface TournamentEngineInterface extends EventSubscriberInterface
 {
     /**
      * make sure engine is ready
@@ -50,6 +51,12 @@ interface TournamentEngineInterface
      * @return int
      */
     public function getCurrentRoundNumber();
+
+    /**
+     * whether the associated tournament is completed
+     * @return bool
+     */
+    public function isTournamentCompleted();
 
     /**
      * get the gears for a game by ID

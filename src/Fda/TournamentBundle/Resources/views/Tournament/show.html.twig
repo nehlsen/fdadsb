@@ -19,8 +19,15 @@
     </h1>
 
     {# FIXME this always shows the active tournament, not the selected (see request) #}
+    {% if tournament_engine().isTournamentCompleted %}
+        {% set roundGears = tournament_engine().lastRoundGears %}
+        <div class="alert alert-danger">this tournament is OVER</div>
+    {% else %}
+        {% set roundGears = tournament_engine().currentRoundGears %}
+    {% endif %}
+
     {% include 'FdaTournamentBundle:Tournament:_round.html.twig' with {
-        roundGears: tournament_engine().currentRoundGears,
+        roundGears: roundGears,
         recursive: true
     } %}
 {% endblock %}

@@ -191,6 +191,21 @@ class Tournament
     }
 
     /**
+     * whether all rounds in this tournament are considered closed / complete
+     * @return bool
+     */
+    public function isCompleted()
+    {
+        foreach ($this->getRounds() as $round) {
+            if (!$round->isClosed()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getCreated()

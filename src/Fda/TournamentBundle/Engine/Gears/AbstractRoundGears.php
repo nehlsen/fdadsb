@@ -329,8 +329,6 @@ abstract class AbstractRoundGears implements RoundGearsInterface
                 EngineEvents::ROUND_COMPLETED,
                 $roundCompletedEvent
             );
-
-//            throw new \Exception('without this exception, the game would be persisted and the round would be closed!');
         }
     }
 }

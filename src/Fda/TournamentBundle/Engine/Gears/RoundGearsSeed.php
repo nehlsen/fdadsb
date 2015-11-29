@@ -82,13 +82,4 @@ class RoundGearsSeed extends AbstractRoundGears
 
         return $leaderBoard;
     }
-
-//    /**
-//     * @inheritDoc
-//     */
-//    protected function handleGameCompleted(Game $game)
-//    {
-//        // TODO: Implement handleGameCompleted() method.
-//        throw new \Exception('TODO: Implement handleGameCompleted() method.');
-//    }
 }
