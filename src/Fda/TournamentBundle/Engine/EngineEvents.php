@@ -53,5 +53,10 @@ final class EngineEvents
      */
     const ROUND_COMPLETED = 'fda.tournament.round.completed';
 
+    /**
+     * this event is emitted when the last game of the tournament is finished
+     *
+     * event type: TournamentEvent
+     */
     const TOURNAMENT_COMPLETED = 'fda.tournament.tournament.completed';
 }

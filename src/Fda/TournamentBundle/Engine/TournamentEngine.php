@@ -4,10 +4,12 @@ namespace Fda\TournamentBundle\Engine;
 
 use Doctrine\ORM\EntityManager;
 use Fda\TournamentBundle\Engine\Events\RoundEvent;
+use Fda\TournamentBundle\Engine\Events\TournamentEvent;
 use Fda\TournamentBundle\Engine\Factory\TournamentEngineFactory;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\Gears\RoundGearsInterface;
 use Fda\TournamentBundle\Entity\Tournament;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 
 class TournamentEngine implements TournamentEngineInterface
@@ -223,9 +225,11 @@ class TournamentEngine implements TournamentEngineInterface
     }
 
     /**
-     * @param RoundEvent $roundCompletedEvent
+     * @param RoundEvent               $roundCompletedEvent
+     * @param string                   $name
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function onRoundCompleted(RoundEvent $roundCompletedEvent)
+    public function onRoundCompleted(RoundEvent $roundCompletedEvent, $name, EventDispatcherInterface $dispatcher)
     {
         $tournamentComplete = true;
         foreach ($this->roundGears as $roundNumber => $gears) {
@@ -243,8 +247,13 @@ class TournamentEngine implements TournamentEngineInterface
             break;
         }
 
-//        if ($tournamentComplete)
-//        throw new \Exception('TE:onRoundCompleted');
-//        // TODO check if this completes the tournament
+        if ($tournamentComplete) {
+            $tournamentCompletedEvent = new TournamentEvent();
+            $tournamentCompletedEvent->setTournament($this->getTournament());
+            $dispatcher->dispatch(
+                EngineEvents::TOURNAMENT_COMPLETED,
+                $tournamentCompletedEvent
+            );
+        }
     }
 }
