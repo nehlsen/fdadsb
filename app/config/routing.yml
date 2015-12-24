@@ -2,6 +2,5 @@ fda_dsb:
   resource: "@FdaDsbBundle/Resources/config/routing.yml"
   prefix:   /
 
-nehlsen_choice_auth:
-  resource: "@NehlsenChoiceAuthBundle/Resources/config/routing.yml"
-  prefix:   /
+fos_user:
+  resource: "@FOSUserBundle/Resources/config/routing/all.xml"

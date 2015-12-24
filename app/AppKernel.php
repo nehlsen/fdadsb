@@ -24,8 +24,8 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
-            
-            new Nehlsen\ChoiceAuthBundle\NehlsenChoiceAuthBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+
             new Fda\DsbBundle\FdaDsbBundle(),
             new Fda\PlayerBundle\FdaPlayerBundle(),
             new Fda\BoardBundle\FdaBoardBundle(),

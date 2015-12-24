@@ -2,4 +2,12 @@
 
 {% block content %}
     {% include 'FdaTournamentBundle:Tournament:_box.html.twig' %}
+
+    {% for rr in ['IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_GUEST', 'ROLE_USER'] %}
+        {% if is_granted(rr) %}
+            <span class="label label-success">{{ rr }}</span>
+        {% else %}
+            <span class="label label-danger">{{ rr }}</span>
+        {% endif %}
+    {% endfor %}
 {% endblock content %}

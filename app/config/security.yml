@@ -1,35 +1,31 @@
 security:
-  always_authenticate_before_granting: true
+  encoders:
+    FOS\UserBundle\Model\UserInterface: bcrypt
+
+  role_hierarchy:
+    IS_AUTHENTICATED_ANONYMOUSLY: ROLE_GUEST
+    ROLE_USER:        ROLE_GUEST
+    ROLE_SPECTATOR:   ROLE_USER
+    ROLE_BIG_SCREEN:  ROLE_SPECTATOR
+    ROLE_REFEREE:     ROLE_SPECTATOR
+    ROLE_ADMIN:       ROLE_USER
+    ROLE_SUPER_ADMIN: ROLE_ADMIN
 
   providers:
-    choice:
-      id: choice_auth.user_provider
+    fos_userbundle:
+      id: fos_user.user_provider.username
 
   firewalls:
-    dev:
-      pattern: ^/(_(profiler|wdt)|css|images|js)/
-      security: false
-
-    login_firewall:
-      pattern:   ^/login$
-      anonymous: ~
-
     main:
       pattern: ^/
-#      entry_point: some.service...
-      provider: choice
-      choice_auth:
-        login_path: /login
-      logout:
-        path:   /logout
-      anonymous: ~
-
-      remember_me:
-        lifetime: 1209600 # 14 days in seconds
-        always_remember_me: true
-        key: foo-baz
+      form_login:
+        provider: fos_userbundle
+        csrf_provider: security.csrf.token_manager
+      logout:       true
+      anonymous:    true
 
   access_control:
-    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-#    - { path: ^/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/, roles: ROLE_USER }
+    - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/admin/, role: ROLE_ADMIN }

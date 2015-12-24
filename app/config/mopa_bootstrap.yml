@@ -2,4 +2,4 @@ mopa_bootstrap:
   form: ~
   menu: ~
   icons:
-    icon_set: fontawesome4
+    icon_set: fontawesome

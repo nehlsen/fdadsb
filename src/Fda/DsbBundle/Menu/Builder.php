@@ -50,14 +50,18 @@ class Builder extends ContainerAware
         ));
 
         if ($this->isLoggedIn()) {
-            $login = $menu->addChild('security.logout.btn', array(
+            $profile = $menu->addChild('security.profile.btn', array(
                 'icon'  => 'user',
-                'route' => 'nehlsen_choice_auth_logout',
+                'route' => 'fos_user_profile_show',
+            ));
+            $logout = $menu->addChild('security.logout.btn', array(
+                'icon'  => 'user',
+                'route' => 'fos_user_security_logout',
             ));
         } else {
             $login = $menu->addChild('security.login.btn', array(
                 'icon'  => 'user',
-                'route' => 'nehlsen_choice_auth_login',
+                'route' => 'fos_user_security_login',
             ));
         }
 
