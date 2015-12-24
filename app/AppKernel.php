@@ -26,11 +26,12 @@ class AppKernel extends Kernel
             new Craue\FormFlowBundle\CraueFormFlowBundle(),
             new FOS\UserBundle\FOSUserBundle(),
 
+            new Fda\BoardBundle\FdaBoardBundle(),
             new Fda\DsbBundle\FdaDsbBundle(),
             new Fda\PlayerBundle\FdaPlayerBundle(),
-            new Fda\BoardBundle\FdaBoardBundle(),
-            new Fda\TournamentBundle\FdaTournamentBundle(),
             new Fda\RefereeBundle\FdaRefereeBundle(),
+            new Fda\TournamentBundle\FdaTournamentBundle(),
+            new Fda\UserBundle\FdaUserBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

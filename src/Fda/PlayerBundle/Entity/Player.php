@@ -8,6 +8,7 @@ use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Leg;
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Entity\Turn;
+use Fda\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -104,6 +105,12 @@ class Player
      * @var Game[]
      */
     protected $wonGames;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Fda\UserBundle\Entity\User", mappedBy="player")
+     * @var User
+     */
+    protected $user;
 
     /**
      * Player constructor.
@@ -222,5 +229,13 @@ class Player
     public function getWonGames()
     {
         return $this->wonGames;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }
