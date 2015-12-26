@@ -71,6 +71,7 @@ class TournamentController extends Controller
     public function showAction($id)
     {
         $tournament = $this->getTournament($id);
+        $this->get('fda.tournament.engine')->setTournament($tournament);
 
         return $this->render('FdaTournamentBundle:Tournament:show.html.twig', array(
             'tournament'  => $tournament,
@@ -133,6 +134,7 @@ class TournamentController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Tournament entity.
      * @Secure(roles="ROLE_ADMIN")
@@ -163,6 +165,36 @@ class TournamentController extends Controller
             'delete_form' => $deleteForm->createView(),
         ));
     }
+
+    /**
+     * @Secure(roles="ROLE_ADMIN")
+     */
+    public function closeAction(Request $request, $id)
+    {
+        $tournament = $this->getTournament($id);
+
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('tournament_close', array('id' => $id)))
+            ->setMethod('PATCH')
+            ->add('submit', 'submit', array('label' => 'tournament.close'))
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $tournament->setClosed(true);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tournament);
+            $em->flush();
+
+            return $this->redirectToRoute('tournament');
+        }
+
+        return $this->render('FdaTournamentBundle:Tournament:close.html.twig', array(
+            'tournament' => $tournament,
+            'form' => $form->createView(),
+        ));
+    }
+
     /**
      * Deletes a Tournament entity.
      * @Secure(roles="ROLE_ADMIN")
