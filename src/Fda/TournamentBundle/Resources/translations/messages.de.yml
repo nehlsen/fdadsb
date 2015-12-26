@@ -3,7 +3,10 @@ tournament:
   active:
     label: 'Aktives Turnier'
     none: 'Kein aktives Turnier'
+  status:
+    completed: 'Alle Spiele dieses Turniers sind beendet.'
   new: 'Neues Turnier'
+  edit: 'Turnier bearbeiten'
   mode:
     label: 'Tournier Modus'
     ladder.description: 'Final Runden %count%'

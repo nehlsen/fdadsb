@@ -23,6 +23,10 @@ tournament_update:
     defaults: { _controller: "FdaTournamentBundle:Tournament:update" }
     methods:  [POST, PUT]
 
+tournament_close:
+    path:     /{id}/close
+    defaults: { _controller: "FdaTournamentBundle:Tournament:close" }
+
 tournament_delete:
     path:     /{id}/delete
     defaults: { _controller: "FdaTournamentBundle:Tournament:delete" }

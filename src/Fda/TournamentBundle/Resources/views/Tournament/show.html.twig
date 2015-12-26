@@ -1,13 +1,17 @@
 {% extends 'FdaTournamentBundle::layout.html.twig' %}
 
 {% block content -%}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('tournament_close', { 'id': tournament.id }) }}" class="pull-right">
+            <i class="fa fa-stop"></i>
+            {{'tournament.close'|trans}}
+        </a>
+        <a href="{{ path('tournament_edit', { 'id': tournament.id }) }}" class="pull-right">
+            <i class="fa fa-edit"></i>
+            {{'tournament.edit'|trans}}
+        </a>
+    {% endif %}
     <h1>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('tournament_edit', { 'id': tournament.id }) }}" class="pull-right">
-                <i class="fa fa-edit"></i>
-                {{'tournament.edit'|trans}}
-            </a>
-        {% endif %}
         {{ tournament_label(tournament) }}
         <small>
             {% if tournament.isClosed %}
@@ -18,10 +22,9 @@
         </small>
     </h1>
 
-    {# FIXME this always shows the active tournament, not the selected (see request) #}
     {% if tournament_engine().isTournamentCompleted %}
         {% set roundGears = tournament_engine().lastRoundGears %}
-        <div class="alert alert-danger">this tournament is OVER</div>
+        <div class="alert alert-danger">{{'tournament.status.completed'|trans}}</div>
     {% else %}
         {% set roundGears = tournament_engine().currentRoundGears %}
     {% endif %}
