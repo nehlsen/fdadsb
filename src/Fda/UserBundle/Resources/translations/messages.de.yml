@@ -1,3 +1,7 @@
 user:
   player.info:
     unavailable: 'Keine Spielerinformationen verfügbar'
+  profile:
+    menu: 'Profil'
+    about: 'Profil anzeigen'
+    edit: 'Profil bearbeiten'

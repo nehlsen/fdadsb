@@ -1,27 +1,37 @@
 <strong>setup</strong><br>
 
-GROUPS:
-<ul>
-    {% for playerIds in tournament.setup.seed.playerIdsGrouped %}
-        <li>
-            {{ playerIds|join(',') }}
-        </li>
-    {% else %}
-        <li>NO GROUPS</li>
+{% set seed = tournament.setup.seed %}
+{% set width = 12 / seed.numberOfGroups %}
+<div class="row">
+    <div class="col-md-12">start gruppierung</div>
+    {% for groupNumber in 1..seed.numberOfGroups %}
+        <div class="col-md-{{ width }}">
+            <div class="panel panel-default">
+                <div class="panel-heading">group {{ groupNumber }}</div>
+                <table class="table">
+                    <tbody>
+                    {% for playerId in seed.playerIds(groupNumber-1) %}
+                        <tr>
+                            <td>{{ player_label(playerId) }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     {% endfor %}
-</ul>
+</div>
 
-ROUNDS:
-<ul>
-    {% for round in tournament.setup.rounds %}
-        <li>
-            input: {{ round.input.modeLabel }},
-            mode: {{ round.modeLabel }},
-            advance: {{ round.advance }},
-            gameMode: {{ round.gameMode }},
-            legMode: {{ round.legMode }}
-        </li>
-    {% else %}
-        <li>NO ROUNDS</li>
-    {% endfor %}
-</ul>
+{% for roundSetup in tournament.setup.rounds %}
+    <div class="row">
+        <div class="col-md-12">
+            runde {{ loop.index }}
+            <br>
+            input: {{ roundSetup.input.modeLabel }},
+            mode: {{ roundSetup.modeLabel }},
+            advance: {{ roundSetup.advance }},
+            gameMode: {{ roundSetup.gameMode }},
+            legMode: {{ roundSetup.legMode }}
+        </div>
+    </div>
+{% endfor %}

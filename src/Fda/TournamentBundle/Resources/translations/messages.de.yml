@@ -1,5 +1,7 @@
 tournament:
   menu: 'Turniere'
+  plural: 'Turniere'
+  name: 'Name'
   active:
     label: 'Aktives Turnier'
     none: 'Kein aktives Turnier'

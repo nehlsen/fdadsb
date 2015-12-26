@@ -1,0 +1,18 @@
+<table class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th>{{'tournament.name'|trans}}</th>
+        <th>{{'tournament.created'|trans}}</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tournament in tournaments %}
+        <tr>
+            <td>{{ tournament_link(tournament) }}</td>
+            <td>{{ tournament.created|date }}</td>
+            <td></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
