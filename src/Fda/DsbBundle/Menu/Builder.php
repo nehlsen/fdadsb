@@ -50,16 +50,25 @@ class Builder extends ContainerAware
         ));
 
         if ($this->isLoggedIn()) {
-            $profile = $menu->addChild('security.profile.btn', array(
+            $userMenu = $menu->addChild('user.profile.menu', array(
+                'icon'  => 'user',
+                'dropdown' => true,
+                'caret' => true,
+            ));
+            $userMenu->addChild('user.profile.about', array(
                 'icon'  => 'user',
                 'route' => 'fos_user_profile_show',
             ));
-            $logout = $menu->addChild('security.logout.btn', array(
+            $userMenu->addChild('user.profile.edit', array(
+                'icon'  => 'user',
+                'route' => 'fos_user_profile_edit',
+            ));
+            $userMenu->addChild('security.logout.btn', array(
                 'icon'  => 'user',
                 'route' => 'fos_user_security_logout',
             ));
         } else {
-            $login = $menu->addChild('security.login.btn', array(
+            $menu->addChild('security.login.btn', array(
                 'icon'  => 'user',
                 'route' => 'fos_user_security_login',
             ));
