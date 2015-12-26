@@ -4,6 +4,8 @@ player:
   singular: 'Spieler'
   new: 'Neuer Spieler'
   edit: 'Spieler bearbeiten'
+  name: 'Name'
+  image: 'Bild'
   tournament.participate.count: 'Turniere'
   game:
     referred.count: 'Schiedsrichter Einsätze'

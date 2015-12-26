@@ -20,6 +20,7 @@ class PlayerType extends AbstractType
             ))
             ->add('imageFile', 'file', array(
                 'label' => 'player.image',
+                'required' => false,
             ))
         ;
     }

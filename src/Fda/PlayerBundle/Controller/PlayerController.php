@@ -4,6 +4,7 @@ namespace Fda\PlayerBundle\Controller;
 
 use Fda\PlayerBundle\Entity\Player;
 use Fda\PlayerBundle\Form\PlayerType;
+use JMS\SecurityExtraBundle\Annotation\Secure;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,6 +29,7 @@ class PlayerController extends Controller
 
     /**
      * Creates a new Player entity.
+     * @Secure(roles="ROLE_ADMIN")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
@@ -72,7 +74,7 @@ class PlayerController extends Controller
 
     /**
      * Displays a form to create a new Player entity.
-     *
+     * @Secure(roles="ROLE_ADMIN")
      */
     public function newAction()
     {
@@ -104,12 +106,14 @@ class PlayerController extends Controller
 
     /**
      * Displays a form to edit an existing Player entity.
+     * @Secure(roles="ROLE_ADMIN")
      * @param int $id player-ID
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction($id)
     {
         $player = $this->getPlayer($id);
+        $user = $player->getUser();
 
         $editForm = $this->createEditForm($player);
         $deleteForm = $this->createDeleteForm($id);
@@ -135,13 +139,17 @@ class PlayerController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array(
+            'label' => 'button.save',
+            'attr' => ['class' => 'btn-primary'],
+        ));
 
         return $form;
     }
 
     /**
      * Edits an existing Player entity.
+     * @Secure(roles="ROLE_ADMIN")
      * @param Request $request
      * @param int     $id      player-ID
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
@@ -170,6 +178,7 @@ class PlayerController extends Controller
 
     /**
      * Deletes a Player entity.
+     * @Secure(roles="ROLE_ADMIN")
      * @param Request $request
      * @param int     $id      player-ID
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

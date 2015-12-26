@@ -1,13 +1,13 @@
 {% extends 'FdaPlayerBundle::layout.html.twig' %}
 
 {% block content -%}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('player_edit', { 'id': player.id }) }}" class="pull-right">
+            <i class="fa fa-edit"></i>
+            {{'player.edit'|trans}}
+        </a>
+    {% endif %}
     <h1>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('player_edit', { 'id': player.id }) }}">
-                <i class="fa fa-edit"></i>
-                {{'player.edit'|trans}}
-            </a>
-        {% endif %}
         {{ player_label(player) }}
     </h1>
 
