@@ -1,5 +1,8 @@
 mopa_bootstrap:
-  form: ~
+  form:
+    show_legend: false
+    render_required_asterisk: true
+    render_optional_text: false
   menu: ~
   icons:
     icon_set: fontawesome
