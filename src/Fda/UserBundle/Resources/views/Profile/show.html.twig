@@ -1,0 +1,15 @@
+{% extends 'FdaDsbBundle::layout.html.twig' %}
+
+{% block content %}
+    {% if user.player %}
+        <h1>
+            {{ player_label(user.player) }}
+        </h1>
+
+        {% include 'FdaPlayerBundle:Player:_about.html.twig' with {player:user.player} %}
+    {% else %}
+        <div class="alert alert-warning">
+            <strong>{{'user.player.info.unavailable'|trans}}</strong>
+        </div>
+    {% endif %}
+{% endblock content %}
