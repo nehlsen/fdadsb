@@ -67,6 +67,10 @@ class PlayerExtension extends \Twig_Extension
     {
         $player = $this->player($player_or_id);
 
+        $options = array_merge(array(
+            'size' => 'default', // text, table, default(large)
+        ), $options);
+
         return $environment->render('FdaPlayerBundle:_Twig:player_label.html.twig', array(
             'player'  => $player,
             'options' => $options,

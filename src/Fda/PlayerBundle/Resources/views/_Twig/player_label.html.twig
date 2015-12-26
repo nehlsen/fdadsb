@@ -1,6 +1,6 @@
 {%- if player.imageName is empty -%}
     <i class="fa fa-user"></i>
 {% else -%}
-    <img src="{{ vich_uploader_asset(player, 'imageFile') }}" alt="[IMG]" class="player" />
+    <img src="{{ vich_uploader_asset(player, 'imageFile') }}" alt="[IMG]" class="player player-{{ options.size }}" />
 {% endif %}
 {{ player.name }}

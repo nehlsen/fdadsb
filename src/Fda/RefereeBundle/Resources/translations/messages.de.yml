@@ -2,3 +2,4 @@ referee:
   game:
     completed: 'Spiel beendet!'
     choose.lnk: 'Klicke hier um ein weiteres Spiel zu starten'
+  board.choose: 'Bitte wähle welches Board du beaufsichtigst'

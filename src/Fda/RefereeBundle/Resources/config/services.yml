@@ -3,7 +3,7 @@ services:
     class: Fda\RefereeBundle\Ledger\Ledger
     calls:
       - [setSession,[@session]]
-      - [setPlayerManager,[@fda.player.manager]]
+      - [setTokenStorage,[@security.token_storage]]
       - [setBoardManager,[@fda.board.manager]]
       - [setTournamentEngine,[@fda.tournament.engine]]
       - [setEventDispatcher,[@event_dispatcher]]

@@ -1,12 +1,10 @@
 {% extends 'FdaRefereeBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>Game:play</h1>
-
     <div class="row">
         <div class="col-sm-5 col-xs-6 text-center">
             <div class="panel panel-default {{ turn.player.id == game.player1.id ? 'panel-primary' : '' }}">
-                <div class="panel-body">
+                <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-10">
                             {{ player_label(game.player1) }}
@@ -25,7 +23,7 @@
         </div>
         <div class="col-sm-5 col-xs-6 text-center">
             <div class="panel panel-default {{ turn.player.id == game.player2.id ? 'panel-primary' : '' }}">
-                <div class="panel-body">
+                <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-10">
                             {{ player_label(game.player2) }}
@@ -41,19 +39,18 @@
         </div>
     </div>
 
-    <h2>
-        remaining: {{ leg_gears.remainingShots }},
-        need: {{ leg_gears.finishingMovesOf(turn.player)|length }}:
-        {% for arrow in leg_gears.finishingMovesOf(turn.player) %}
-            {{ arrow }},
-        {% endfor %}
-    </h2>
-
     <div class="row">
         <div class="col-md-6 col-sm-12 col-xs-12">
             {% include 'FdaRefereeBundle:Game:_controls.html.twig' %}
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12">
+            <div>
+                remaining: {{ leg_gears.remainingShots }},
+                need: {{ leg_gears.finishingMovesOf(turn.player)|length }}:
+                {% for arrow in leg_gears.finishingMovesOf(turn.player) %}
+                    {{ arrow }},
+                {% endfor %}
+            </div>
             {% include 'FdaRefereeBundle:Game:_progress.html.twig' %}
         </div>
     </div>

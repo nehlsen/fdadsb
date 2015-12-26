@@ -11,5 +11,7 @@
 /web/bundles/
 /web/fonts/
 /web/image/
+/web/js/
+/web/css/
 composer.phar
 .idea

@@ -1,7 +1,7 @@
 tournament:
   menu: 'Turniere'
   plural: 'Turniere'
-  name: 'Name des Tunriers'
+  name: 'Name des Turniers'
   active:
     label: 'Aktives Turnier'
     none: 'Kein aktives Turnier'
@@ -56,6 +56,12 @@ tournament:
       choose: 'Zuordnung der Spieler'
       random.label: 'Zufällige Zuordnung der Spieler zu den Startgruppen'
       manual.label: 'Spieler manuell den Startgruppen zuordnen'
+
+round:
+  n: 'Runde %n%'
+
+group:
+  n: 'Gruppe %n%'
 
 game:
   closed.label: 'Beendet'

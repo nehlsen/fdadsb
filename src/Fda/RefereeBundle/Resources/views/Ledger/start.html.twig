@@ -2,72 +2,56 @@
 
 {% block content -%}
     <div class="row">
-        <div class="col-xs-6 text-center">
+        <div class="col-md-4">
             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-beer"></i> {{ tournament_engine().tournament.name }},
+                    {{'round.n'|trans({'%n%':tournament_engine().currentRoundNumber})}}
+                </div>
                 <div class="panel-body">
-                    {{ player_label(owner) }}
+                    {{ board_label(ledger().board) }}
+                    <a href="{{ path('ledger_choose_board') }}" class="pull-right">
+                        <i class="fa fa-exchange"></i>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    {{ player_label(ledger().owner) }}
                 </div>
             </div>
         </div>
-        <div class="col-xs-6 text-center">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {{ board_label(board) }}
-                </div>
+        {% if tournament_engine().isTournamentCompleted %}
+            <div class="col-md-4">
+                <div class="alert alert-danger">this tournament is OVER</div>
             </div>
-        </div>
-    </div>
-
-
-    owner: {{ owner.name }}
-    <a href="{{ path('ledger_choose_owner') }}">change me</a>
-    <br>
-    board: {{ board.name }}
-    <a href="{{ path('ledger_choose_board') }}">change my place</a>
-
-    {% if tournament_engine().isTournamentCompleted %}
-        <div class="alert alert-danger">this tournament is OVER</div>
-    {% else %}
-        <br><br>
-        <strong>{{ tournament_engine().tournament.name }}</strong>: Round {{ tournament_engine().currentRoundNumber }}
-
-        <div class="row">
+        {% else %}
             {% set currentRoundGears = tournament_engine().currentRoundGears %}
-            {% set width = 12 / currentRoundGears.gameGearsGrouped|length %}
+            {#{% set width = 12 / currentRoundGears.gameGearsGrouped|length + 1 %}#}
+            {% set width = 4 %}
             {% for groupNumber,gameGears in currentRoundGears.gameGearsGrouped|reverse %}
                 <div class="col-md-{{ width }}">
-                    group: {{ groupNumber }}, games: {{ gameGears|length }}
-
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr>
-                            <th>player 1</th>
-                            <th>player 2</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for gears in gameGears %}
-                            <tr>
-                                <td>{{ player_label(gears.game.player1) }}</td>
-                                <td>{{ player_label(gears.game.player2) }}</td>
-                                <td>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{'group.n'|trans({'%n%':groupNumber+1})}}
+                        </div>
+                        <ul class="list-group">
+                            {% for gears in gameGears %}
+                                <li class="list-group-item">
+                                    {% if not gears.game.isClosed %}<a href="{{ path('game_play',{gameId:gears.game.id}) }}">{% endif %}
+                                    {{ player_label(gears.game.player1,{size:'text'}) }} vs {{ player_label(gears.game.player2,{size:'text'}) }}
+                                    {% if not gears.game.isClosed %}</a>{% endif %}
                                     {% if gears.game.isClosed %}
-                                        DONE
-                                    {% else %}
-                                        <a href="{{ path('game_play',{gameId:gears.game.id}) }}">
-                                            GO
-                                        </a>
+                                        <span class="badge">DONE</span>
                                     {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             {% else %}
-                NO GROUPS / GAME GEARS
+                <div class="col-md-4">
+                    <div class="alert alert-danger">NO GROUPS / GAME GEARS</div>
+                </div>
             {% endfor %}
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock %}

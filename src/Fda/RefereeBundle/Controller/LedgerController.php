@@ -13,46 +13,15 @@ class LedgerController extends Controller
      */
     public function startAction()
     {
-        // if set, display owner, else form to choose
-        // if set, display board, else form to choose
         $ledger = $this->get('fda.ledger');
 
-        $owner = $ledger->getOwner();
-        if (null === $owner) {
-            return $this->forward('FdaRefereeBundle:Ledger:chooseOwner');
-        }
-
+        // make sure board is set
         $board = $ledger->getBoard();
         if (null === $board) {
             return $this->forward('FdaRefereeBundle:Ledger:chooseBoard');
         }
 
-        return $this->render('FdaRefereeBundle:Ledger:start.html.twig', array(
-            'owner' => $owner,
-            'board' => $board,
-        ));
-    }
-
-    /**
-     * @Secure(roles="ROLE_REFEREE")
-     */
-    public function chooseOwnerAction()
-    {
-        $players = $this->get('fda.player.manager')->getPlayers();
-
-        return $this->render('FdaRefereeBundle:Ledger:chooseOwner.html.twig', array(
-            'players' => $players,
-        ));
-    }
-
-    /**
-     * @Secure(roles="ROLE_REFEREE")
-     */
-    public function setOwnerAction(Request $request)
-    {
-        $ownerId = $request->get('id');
-        $this->get('fda.ledger')->setOwner($ownerId);
-        return $this->forward('FdaRefereeBundle:Ledger:start');
+        return $this->render('FdaRefereeBundle:Ledger:start.html.twig');
     }
 
     /**

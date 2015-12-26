@@ -5,26 +5,23 @@ namespace Fda\RefereeBundle\Ledger;
 use Fda\BoardBundle\Entity\Board;
 use Fda\BoardBundle\Manager\BoardManager;
 use Fda\PlayerBundle\Entity\Player;
-use Fda\PlayerBundle\Manager\PlayerManager;
 use Fda\TournamentBundle\Engine\Bolts\Arrow;
 use Fda\TournamentBundle\Engine\EngineEvents;
 use Fda\TournamentBundle\Engine\Events\ArrowEvent;
 use Fda\TournamentBundle\Engine\Gears\GameGearsInterface;
 use Fda\TournamentBundle\Engine\TournamentEngineInterface;
 use Fda\TournamentBundle\Entity\Game;
+use Fda\UserBundle\Entity\User;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class Ledger
 {
-    const SESSION_KEY_OWNER = 'ledger-owner';
     const SESSION_KEY_BOARD = 'ledger-board';
 
     /** @var Session */
     protected $session;
-
-    /** @var PlayerManager */
-    protected $playerManager;
 
     /** @var BoardManager */
     protected $boardManager;
@@ -57,12 +54,22 @@ class Ledger
     }
 
     /**
-     * @param PlayerManager $playerManager
+     * @param TokenStorageInterface $tokenStorage
      */
-    public function setPlayerManager($playerManager)
+    public function setTokenStorage($tokenStorage)
     {
-        $this->playerManager = $playerManager;
-        $this->autoStart();
+        $token = $tokenStorage->getToken();
+        if (!$token) {
+            return;
+        }
+
+        /** @var User $user */
+        $user = $token->getUser();
+        if (!($user instanceof User)) {
+            return;
+        }
+
+        $this->owner = $user->getPlayer();
     }
 
     /**
@@ -99,19 +106,6 @@ class Ledger
     }
 
     /**
-     * @param Player $owner
-     */
-    public function setOwner($owner)
-    {
-        if (!$owner instanceof Player) {
-            $owner = $this->playerManager->getPlayer($owner);
-        }
-
-        $this->owner = $owner;
-        $this->session->set(self::SESSION_KEY_OWNER, $this->owner->getId());
-    }
-
-    /**
      * @return Board
      */
     public function getBoard()
@@ -120,7 +114,7 @@ class Ledger
     }
 
     /**
-     * @param Board $board
+     * @param int|Board $board
      */
     public function setBoard($board)
     {
@@ -193,14 +187,11 @@ class Ledger
     }
 
     /**
-     * load session data if session, playerManager and boardManager are set, else nothing
+     * load session data if session and boardManager are set, else nothing
      */
     protected function autoStart()
     {
         if (null === $this->session) {
-            return;
-        }
-        if (null === $this->playerManager) {
             return;
         }
         if (null === $this->boardManager) {
@@ -212,11 +203,6 @@ class Ledger
 
     protected function restoreFromSession()
     {
-        if ($this->session->has(self::SESSION_KEY_OWNER)) {
-            $this->owner = $this->playerManager->getPlayer(
-                $this->session->get(self::SESSION_KEY_OWNER)
-            );
-        }
         if ($this->session->has(self::SESSION_KEY_BOARD)) {
             $this->board = $this->boardManager->getBoard(
                 $this->session->get(self::SESSION_KEY_BOARD)
