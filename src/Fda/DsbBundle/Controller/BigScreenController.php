@@ -9,11 +9,7 @@ class BigScreenController extends Controller
 {
     public function indexAction()
     {
-        $tournament = $this->get('fda.tournament.engine')->getTournament();
-
-        return $this->render('FdaDsbBundle:BigScreen:index.html.twig', array(
-            'tournament' => $tournament,
-        ));
+        return $this->render('FdaDsbBundle:BigScreen:index.html.twig');
     }
 
     public function fetchBoardInfoAction($boardId)

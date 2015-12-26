@@ -5,3 +5,5 @@ button:
   finish: 'Fertig'
   restart: 'Neu beginnen'
   reset: 'Rückgängig'
+  save: 'Speichern'
+  create: 'Erstellen'

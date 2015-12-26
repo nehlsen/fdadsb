@@ -3,7 +3,16 @@
 {% block content %}
     {% include 'FdaTournamentBundle:Tournament:_box.html.twig' %}
 
-    {% for rr in ['IS_AUTHENTICATED_ANONYMOUSLY', 'ROLE_GUEST', 'ROLE_USER'] %}
+    {% set check_roles = [
+        'IS_AUTHENTICATED_ANONYMOUSLY',
+        'ROLE_GUEST',
+        'ROLE_USER',
+        'ROLE_SPECTATOR',
+        'ROLE_BIG_SCREEN',
+        'ROLE_REFEREE',
+        'ROLE_ADMIN'
+    ] %}
+    {% for rr in check_roles %}
         {% if is_granted(rr) %}
             <span class="label label-success">{{ rr }}</span>
         {% else %}

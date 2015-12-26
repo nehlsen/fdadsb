@@ -55,6 +55,15 @@ class Builder extends ContainerAware
                 'dropdown' => true,
                 'caret' => true,
             ));
+
+            $authorizationChecker = $this->container->get('security.authorization_checker');
+            if ($authorizationChecker->isGranted('ROLE_BIG_SCREEN')) {
+                $userMenu->addChild('big screen', array(
+                    'icon'  => 'user',
+                    'route' => 'BigScreen_index',
+                ));
+            }
+
             $userMenu->addChild('user.profile.about', array(
                 'icon'  => 'user',
                 'route' => 'fos_user_profile_show',
