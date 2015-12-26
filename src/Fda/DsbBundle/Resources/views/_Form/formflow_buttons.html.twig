@@ -1,0 +1,22 @@
+{% set renderBackButton = flow.getCurrentStep() in (flow.getFirstStep() + 1) .. flow.getLastStep() %}
+<div class="form-actions form-flow-actions">
+    <button type="submit" class="btn btn-primary pull-right">
+        {%- if flow.getCurrentStep() < flow.getMaxSteps() -%}
+            {{- 'button.next' | trans }}
+            <i class="fa fa-arrow-right"></i>
+        {%- else -%}
+            <i class="fa fa-check"></i>
+            {{ 'button.finish' | trans -}}
+        {%- endif -%}
+    </button>
+
+    <button type="submit" name="{{ flow.getFormTransitionKey() }}" value="back" class="btn btn-default{% if not renderBackButton %} disabled{% endif %}" formnovalidate="formnovalidate"{% if not renderBackButton %} disabled="disabled"{% endif %}>
+        <i class="fa fa-arrow-left"></i>
+        {{ 'button.back' | trans -}}
+    </button>
+
+    <button type="submit" name="{{ flow.getFormTransitionKey() }}" value="reset" class="btn btn-default" formnovalidate="formnovalidate">
+        <i class="fa fa-undo"></i>
+        {{ 'button.restart' | trans -}}
+    </button>
+</div>

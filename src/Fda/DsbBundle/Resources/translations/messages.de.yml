@@ -1,0 +1,7 @@
+#generic translations
+button:
+  next: 'Weiter'
+  back: 'Zurück'
+  finish: 'Fertig'
+  restart: 'Neu beginnen'
+  reset: 'Rückgängig'

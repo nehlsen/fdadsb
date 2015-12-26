@@ -1,7 +1,7 @@
 tournament:
   menu: 'Turniere'
   plural: 'Turniere'
-  name: 'Name'
+  name: 'Name des Tunriers'
   active:
     label: 'Aktives Turnier'
     none: 'Kein aktives Turnier'
@@ -36,9 +36,26 @@ tournament:
     closed.label: 'Gewonnen von: %winner%'
   board.choose: 'Gespielt wird auf'
   player.choose: 'Mitspieler'
+  close: 'Turnier schließen'
   closed.label: 'Beendet'
   open.label: 'Läuft'
   created: 'Erstell am/um'
+  setup_preset:
+    choose: 'Einstellungen'
+    test.label: 'Test'
+    simple.label: 'Simpel'
+    full.label: 'Voll'
+    league.label: 'Liga'
+  wizard:
+    name_and_preset.label: 'Name & Einstellungen'
+    boards.label: 'Dartscheiben'
+    groups.label: 'Gruppen'
+    players.label: 'Spieler'
+    numberOfGroups.choose: 'Anzahl Startgruppen'
+    fillGroups:
+      choose: 'Zuordnung der Spieler'
+      random.label: 'Zufällige Zuordnung der Spieler zu den Startgruppen'
+      manual.label: 'Spieler manuell den Startgruppen zuordnen'
 
 game:
   closed.label: 'Beendet'
