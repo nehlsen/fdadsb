@@ -11,30 +11,5 @@
         {{ player_label(player) }}
     </h1>
 
-    <table class="table">
-        <tr>
-            <th>{{ 'player.tournament.participate.count'|trans }}</th>
-            <td>{{ player.tournaments|length }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'player.game.referred.count'|trans }}</th>
-            <td>{{ player.gamesReferred|length }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'player.game.played.count'|trans }}</th>
-            <td>{{ player.games|length }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'player.game.won.count'|trans }}</th>
-            <td>{{ player.wonGames|length }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'player.leg.won.count'|trans }}</th>
-            <td>{{ player.wonLegs|length }}</td>
-        </tr>
-        <tr>
-            <th>{{ 'player.turn.count'|trans }}</th>
-            <td>{{ player.turns|length }}</td>
-        </tr>
-    </table>
+    {% include 'FdaPlayerBundle:Player:_about.html.twig' %}
 {% endblock %}
