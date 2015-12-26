@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class BoardController extends Controller
 {
-
     /**
      * Lists all Board entities.
      *

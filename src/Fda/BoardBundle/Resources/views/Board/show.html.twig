@@ -1,15 +1,13 @@
 {% extends 'FdaBoardBundle::layout.html.twig' %}
 
 {% block content -%}
-    <h1>
-        {% if is_granted('ROLE_ADMIN') %}
-            <a href="{{ path('board_edit', { 'id': entity.id }) }}">
-                <i class="fa fa-edit"></i>
-                {{'board.edit'|trans}}
-            </a>
-        {% endif %}
-        {{ board_label(board) }}
-    </h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('board_edit', { 'id': board.id }) }}" class="pull-right">
+            <i class="fa fa-edit"></i>
+            {{'board.edit'|trans}}
+        </a>
+    {% endif %}
+    <h1 class="page-header">{{ board_label(board) }}</h1>
 
     {{'tournament.plural'|trans}}: {{ board.tournaments|length }}
     <br>
