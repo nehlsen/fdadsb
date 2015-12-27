@@ -66,4 +66,13 @@ interface TournamentEngineInterface extends EventSubscriberInterface
      * @return GameGearsInterface
      */
     public function getGameGearsForGameId($gameId);
+
+    /**
+     * get game gears for currently running game on specified board
+     * returns null if currently no game running on board
+     *
+     * @param int $boardId
+     * @return GameGearsInterface
+     */
+    public function getGameGearsForBoardId($boardId);
 }

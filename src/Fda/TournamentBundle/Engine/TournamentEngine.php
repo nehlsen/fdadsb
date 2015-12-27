@@ -180,6 +180,33 @@ class TournamentEngine implements TournamentEngineInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getGameGearsForBoardId($boardId)
+    {
+        // make sure initialization is triggered
+        $this->initializeGears();
+
+        $groupedGameGears = $this->getCurrentRoundGears()->getGameGearsGrouped();
+        foreach ($groupedGameGears as $gameGears) {
+            /** @var GameGearsInterface[] $gameGears */
+            foreach ($gameGears as $gears) {
+                if (!$gears->getGame()->isStarted()) {
+                    continue;
+                }
+                if ($gears->getGame()->isClosed()) {
+                    continue;
+                }
+                if ($boardId == $gears->getGame()->getBoard()->getId()) {
+                    return $gears;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * initialize round-gears using the gears factory
      *
      * does nothing if gears is not empty
