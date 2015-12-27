@@ -2,7 +2,7 @@
     {% for leg in game.legs|reverse %}
         <tr>
             <th colspan="5">
-                {{ 'tournament.leg.counter'|trans({'%index%':(loop.length-loop.index0)}) -}}
+                {{ 'leg.n'|trans({'%n%':(loop.length-loop.index0)}) -}}
                 {%- if leg.isClosed -%}
                     , {{ 'tournament.leg.closed.label'|trans({'%winner%':leg.winner.name}) }}
                 {% endif %}

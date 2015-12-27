@@ -32,7 +32,6 @@ tournament:
     mode501.label: '501'
     mode501do.label: '501 + double out'
   leg:
-    counter: 'Leg %index%'
     closed.label: 'Gewonnen von: %winner%'
   board.choose: 'Gespielt wird auf'
   player.choose: 'Mitspieler'
@@ -72,7 +71,9 @@ game:
   board.label: 'Austragungsort'
   stats.total.label: 'Gesamt'
 
-leg.plural: 'Legs'
+leg:
+  plural: 'Legs'
+  n: 'Leg %n%'
 
 turn:
   plural: 'Züge'

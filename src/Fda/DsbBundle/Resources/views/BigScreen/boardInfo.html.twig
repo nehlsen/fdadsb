@@ -5,6 +5,11 @@
     {% set legGears = gears.currentLegGears %}
     {% set turn = legGears.currentTurn %}
     <table class="table">
+        <tr>
+            <td colspan="3">
+                {{'leg.n'|trans({'%n%':turn.leg.number})}}
+            </td>
+        </tr>
         {% for player in [game.player1,game.player2] %}
             <tr class="{{ turn.player == player ? 'info' : '' }}">
                 <td colspan="3">

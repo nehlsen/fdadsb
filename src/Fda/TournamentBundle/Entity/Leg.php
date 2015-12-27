@@ -101,6 +101,21 @@ class Leg
     }
 
     /**
+     * get leg number (starting at 1)
+     * @return int|null
+     */
+    public function getNumber()
+    {
+        foreach ($this->getGame()->getLegs() as $idx=>$leg) {
+            if ($leg == $this) {
+                return $idx+1;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return \Fda\TournamentBundle\Engine\Bolts\LegMode
      */
     public function getLegMode()
