@@ -24,3 +24,7 @@ FdaTournamentBundle_tournament:
 FdaRefereeBundle:
   resource: "@FdaRefereeBundle/Resources/config/routing.yml"
   prefix:   /referee
+
+FdaUserBundle:
+  resource: "@FdaUserBundle/Resources/config/routing/invite.yml"
+  prefix:   /

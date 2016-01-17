@@ -10,13 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Player controller.
- *
  */
 class PlayerController extends Controller
 {
     /**
      * Lists all Player entities.
-     *
      */
     public function indexAction()
     {
@@ -113,7 +111,6 @@ class PlayerController extends Controller
     public function editAction($id)
     {
         $player = $this->getPlayer($id);
-        $user = $player->getUser();
 
         $editForm = $this->createEditForm($player);
         $deleteForm = $this->createDeleteForm($id);

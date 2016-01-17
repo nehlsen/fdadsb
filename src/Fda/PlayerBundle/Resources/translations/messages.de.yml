@@ -15,3 +15,11 @@ player:
     won.count: 'Gewonnene Legs'
   turn:
     count: 'Gespielte Züge'
+  user:
+    none:
+      info: 'Dieser Spieler kann sich bisher nicht anmelden.'
+      invite: 'Spieler einladen'
+    invitation:
+      send: 'Einladung versandt an %email%'
+    invite_error:
+      user_exists: 'Dieser Spieler verfuegt bereits ueber anmeldeinformationen'

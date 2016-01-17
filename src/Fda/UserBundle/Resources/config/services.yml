@@ -1,0 +1,8 @@
+services:
+  fda_user.registration_subscriber:
+    class: Fda\UserBundle\EventListener\RegistrationSubscriber
+    calls:
+      - [setUrlGenerator,[@router]]
+      - [setEntityManager,[@doctrine.orm.default_entity_manager]]
+    tags:
+      - { name: kernel.event_subscriber }

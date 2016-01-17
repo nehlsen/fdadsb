@@ -1,0 +1,3 @@
+user_invite:
+  path:     /invite/{playerId}
+  defaults: { _controller: "FdaUserBundle:Invite:invite" }

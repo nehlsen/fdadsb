@@ -8,6 +8,7 @@ use Fda\TournamentBundle\Entity\Group;
 use Fda\TournamentBundle\Entity\Leg;
 use Fda\TournamentBundle\Entity\Tournament;
 use Fda\TournamentBundle\Entity\Turn;
+use Fda\UserBundle\Entity\Invitation;
 use Fda\UserBundle\Entity\User;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -53,7 +54,6 @@ class Player
 
     /**
      * @ORM\Column(type="datetime")
-     *
      * @var \DateTime
      */
     protected $updated;
@@ -111,6 +111,16 @@ class Player
      * @var User
      */
     protected $user;
+
+    /**
+     * @ORM\OneToOne(
+     *     targetEntity="Fda\UserBundle\Entity\Invitation",
+     *     mappedBy="player",
+     *     cascade={"persist"}
+     * )
+     * @var Invitation
+     */
+    protected $invitation;
 
     /**
      * Player constructor.
@@ -237,5 +247,25 @@ class Player
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return Invitation
+     */
+    public function getInvitation()
+    {
+        if (null === $this->invitation) {
+            $this->invitation = new Invitation($this);
+        }
+
+        return $this->invitation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasInvitation()
+    {
+        return null !== $this->invitation;
     }
 }

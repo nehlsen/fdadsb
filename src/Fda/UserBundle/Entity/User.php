@@ -20,7 +20,11 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Fda\PlayerBundle\Entity\Player", inversedBy="user")
+     * @ORM\OneToOne(
+     *     targetEntity="Fda\PlayerBundle\Entity\Player",
+     *     inversedBy="user",
+     *     cascade={"persist"}
+     * )
      * @var Player
      */
     protected $player;

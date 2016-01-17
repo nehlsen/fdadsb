@@ -3,5 +3,15 @@
 {% block content -%}
     <h1 class="page-header">{{ player_label(player) }} <small>{{'player.edit'|trans}}</small></h1>
 
+    {% if player.user is null %}
+        <div class="alert alert-warning">
+            {{'player.user.none.info'|trans}}
+            <br>
+            <a href="{{ path('user_invite',{playerId:player.id}) }}" class="btn btn-default">
+                {{'player.user.none.invite'|trans}}
+            </a>
+        </div>
+    {% endif %}
+
     {{ form(edit_form) }}
 {% endblock %}
