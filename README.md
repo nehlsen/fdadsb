@@ -12,8 +12,8 @@ Install
 composer install
 
 2)
-setfacl -Rm u:www-data:rwX app/cache app/logs
-setfacl -dRm u:www-data:rwX app/cache app/logs
+setfacl -Rm u:www-data:rwX app/cache app/logs app/spool
+setfacl -dRm u:www-data:rwX app/cache app/logs app/spool
 
 3)
 app/console mopa:bootstrap:symlink:less

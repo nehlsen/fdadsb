@@ -44,5 +44,8 @@ monolog:
 assetic:
     use_controller: true
 
-#swiftmailer:
+swiftmailer:
 #    delivery_address: me@example.com
+    spool:
+        type: file
+        path: '%kernel.root_dir%/spool'

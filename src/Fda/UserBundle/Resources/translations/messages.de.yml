@@ -5,3 +5,10 @@ user:
     menu: 'Profil'
     about: 'Profil anzeigen'
     edit: 'Profil bearbeiten'
+  invite.mail:
+    subject: 'Willkommen bei FDA-DSB!'
+    body: |
+      Hallo %name%!<br><br>
+      Du wurdest zu dem Darts-Scoreboard der Freiburger-Darts-Association eingeladen<br><br>
+      Klicke <a href="%url%">hier</a> um dein Benutzerkonto zu aktivieren.<br><br>
+      Viel Spass!

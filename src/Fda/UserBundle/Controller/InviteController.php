@@ -79,6 +79,22 @@ class InviteController extends Controller
         $em->persist($player);
         $em->flush();
 
-        // TODO send email
+        // TODO make configurable
+        $mailFrom = 'no-reply@fda-darts.de';
+        $mailSubject = $this->get('translator')->trans('user.invite.mail.subject');
+
+        $message = \Swift_Message::newInstance()
+            ->setSubject($mailSubject)
+            ->setFrom($mailFrom)
+            ->setTo($player->getInvitation()->getEmail())
+            ->setBody(
+                $this->renderView('FdaUserBundle:Invite:_inviteMail.html.twig', array(
+                        'player' => $player
+                    )
+                ),
+                'text/html'
+            )
+        ;
+        $this->get('mailer')->send($message);
     }
 }

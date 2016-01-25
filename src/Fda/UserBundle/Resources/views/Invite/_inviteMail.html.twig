@@ -1,0 +1,8 @@
+<h1>{{'user.invite.mail.subject'|trans}}</h1>
+
+<p>
+    {{'user.invite.mail.body'|trans({
+        '%name%':player.name,
+        '%url%':url('fos_user_registration_register',{token:player.invitation.token})
+    })|raw}}
+</p>
